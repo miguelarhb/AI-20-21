@@ -3,6 +3,7 @@ Projeto Ambientes Inteligentes 2020/2021
 
 Android App - Smart Medication Cabinet
 
+
 -> Manage Medication Expiration Date
 
 -> Manage Prescriptions Medication in Calendar
@@ -13,5 +14,7 @@ Android App - Smart Medication Cabinet
 
 -> 2 User Modes: Caretaker & Patient
 
+
 Server - NodeJS
+
 Android - Java
