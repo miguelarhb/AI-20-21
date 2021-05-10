@@ -63,21 +63,27 @@
         android:layout_marginStart="5dp">
 
         <TextView
-            android:id="@+id/addMedDateTxt"
+            android:id="@+id/textviewx"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.7"
+            android:layout_weight="0.35"
             android:text="Expiration Date" />
 
-        <Button
-            android:id="@+id/addMedDate"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+        <Spinner
+            android:id="@+id/addMedMonthSpinner"
+            android:layout_marginTop="2dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:text="Set date"
-            android:layout_weight="0.3" />
+            android:layout_weight="0.35" />
+
+        <EditText
+            android:id="@+id/addMedYear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:inputType="number" />
+
+
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

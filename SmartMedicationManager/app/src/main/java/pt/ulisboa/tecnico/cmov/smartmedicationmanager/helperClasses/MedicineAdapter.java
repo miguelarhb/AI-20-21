@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.MedicineListActivity;
@@ -52,7 +54,10 @@ public class MedicineAdapter extends ArrayAdapter<Medicine> {
         //image.setImageBitmap();
         name.setText(m.getName());
         qt.setText(m.getQuantity() + " box");
-        expDate.setText(m.getExpirationDate().toString());
+
+        DateFormat df = new SimpleDateFormat("MM/yyyy");
+        String dateString = df.format(m.getExpirationDate());
+        expDate.setText(dateString);
 
         editBt.setOnClickListener(v -> {
             AlertDialog alertDialog = new AlertDialog.Builder(context).create();

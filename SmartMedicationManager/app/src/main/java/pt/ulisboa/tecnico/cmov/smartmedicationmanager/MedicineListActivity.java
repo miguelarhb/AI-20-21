@@ -36,6 +36,7 @@ public class MedicineListActivity extends BaseActivity {
 
         fab.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddMedicineActivity.class);
+            intent.putExtra("mode", -1);
             startActivity(intent);
         });
     }
@@ -56,8 +57,9 @@ public class MedicineListActivity extends BaseActivity {
     }
 
     public void editMedicine(Medicine m) {
-        //TODO
+        int index = gd.getCurrentUser().getMedicines().indexOf(m);
         Intent intent = new Intent(this, AddMedicineActivity.class);
+        intent.putExtra("mode", index);
         startActivity(intent);
     }
 
