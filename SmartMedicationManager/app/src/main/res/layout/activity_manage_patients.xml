@@ -22,7 +22,8 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="20dp"
+        tools:listitem="@layout/patient_list_item"/>
 
     <Button
         android:id="@+id/btAddPatActiv"

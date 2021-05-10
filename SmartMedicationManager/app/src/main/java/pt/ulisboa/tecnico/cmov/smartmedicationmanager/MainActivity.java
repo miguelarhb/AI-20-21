@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -9,6 +10,7 @@ import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
 
 public class MainActivity extends BaseActivity {
     int activityLayout;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,8 @@ public class MainActivity extends BaseActivity {
                 historyBt.setEnabled(false);
             }
             medicineBt.setOnClickListener(v -> {
-                makeToast("Medicine");
+                intent = new Intent(this, MedicineListActivity.class);
+                startActivity(intent);
 
             });
             scheduleBt.setOnClickListener(v -> {

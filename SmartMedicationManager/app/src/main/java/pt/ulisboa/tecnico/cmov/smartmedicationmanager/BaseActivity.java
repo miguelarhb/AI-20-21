@@ -29,6 +29,7 @@ public class BaseActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     static String SHARED_PREFERENCES_FILE = "smcprefs";
+    static int CAMERA_PERMISSION_CODE=100;
 
     public int menu_layout = R.menu.mainmenu_patient;
 
@@ -74,6 +75,10 @@ public class BaseActivity extends AppCompatActivity {
         if (gd.getCurrentUser()==null){
             gd.setCurrentUser(new User("Paulo"));
         }
+        if (gd.getCurrentUser().getPatients().size()==0){
+            gd.getCurrentUser().addPatient(new User("someone"));
+            gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
+        }
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -91,8 +96,8 @@ public class BaseActivity extends AppCompatActivity {
             invalidateOptionsMenu();
         }
     }
-    public void makeToast(String s){
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    public void makeToast(Object s){
+        Toast.makeText(this, String.valueOf(s), Toast.LENGTH_SHORT).show();
     }
 
     public void logThis(Object s){

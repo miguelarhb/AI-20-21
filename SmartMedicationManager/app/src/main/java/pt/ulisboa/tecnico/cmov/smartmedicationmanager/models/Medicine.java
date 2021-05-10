@@ -19,6 +19,9 @@ public class Medicine {
         this.quantity = quantity;
     }
 
+    public Medicine() {
+    }
+
     public String getName() {
         return name;
     }

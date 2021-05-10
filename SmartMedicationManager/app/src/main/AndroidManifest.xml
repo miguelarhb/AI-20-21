@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pt.ulisboa.tecnico.cmov.smartmedicationmanager">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".helperClasses.GlobalData"
         android:allowBackup="true"
@@ -10,11 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartMedicationManager.NoActionBar">
-        <activity android:name=".ManagePatientsActivity"></activity>
+        <activity android:name=".AddMedicineActivity"></activity>
+        <activity android:name=".MedicineListActivity" />
+        <activity android:name=".ManagePatientsActivity" />
         <activity android:name=".AdvancedModeActivity" />
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" />
         <activity android:name=".AddPatientActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
