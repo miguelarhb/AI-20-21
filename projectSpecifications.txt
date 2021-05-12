@@ -1,0 +1,95 @@
+---------------------------
+03/05 specs
+
+Smart Medicine Cabinet /Medication Manager
+
+elderly, easy functions
+---------------------------
+Features
+
+Warns a user when it is time to take a medicine -notification alarms
+-pacient can issue alarms for help if needed
+Flexible solution that supports scheduling multiple medicines at multiples periods of the day. -calendar scheduling
+Generates alarm if an IMPORTANT medicine is not taken, and a care giver can be warned of the situation
+Medication history!
+
+verify that medicine has been taken can be just sensor for door opening
+	"Outra alternativa poderia
+ 	passar por o "medication cabinet" avisar quando detecta que porta
+ 	foi aberta (e assume que a pessoa tirou e tomou os comprimidos)
+ 	[vocês poderiam simular isto com um botão especial na interface,
+ 	existente para este fim e que não existiria numa solução final]"
+
+-caretaker
+	Gere a lista de medicamentos do patient, adicionando novos quando necessário e controlando a data de validade.	
+	gere o calendário de toma de medicamentos, regularidade, horas, número de comprimidos, etc. 
+	Recebe avisos dos patients associados se não tiverem confirmado que tomaram a medicação. 
+	-medication history
+	
+-pacient
+	tem acesso ao calendário de medicamentos próprio, 
+	e deve confirmar sempre que os toma, recebendo alarmes a hora determinada.
+	-medication history
+
+-location awareness in background when sending alarm to caretaker,
+
+----
+-//Possivelmente a aplicação gera para cada toma um tipo de código que pode ser lido por um leitor no 'Cabinet' para desbloquear os medicamentos necessários -sim ou nao? duziador?
+-//Read QR Code of Medicine Store Place? (readme)
+---------------------------
+Modelo de Dados
+
+User
+	unique username
+	password
+	
+	-list<user> pacients
+	-user caretaker
+	
+	-list<medicine> home medicine
+	-list<"take-medicine"> schedule
+
+Medicine 
+	-name
+	-quantity
+	-notes: special warnings
+	//-priority: if priority high, send alarm!
+	-expiration date
+	-barcode
+	//-image? way for pacient to correctly identify the medicine to take
+
+Take-medicine
+	-medicine
+	-quantity
+	-period
+	-start
+	-end
+	
+---------------------------
+Activities
+
+-login/"register" - username, password
+
+Pacient:
+-Medication schedule (monthly? weekly? days one by one?)
+-Medication history
+-Alarm activity - prob hard if within app, could be android alarm/calendar but..
+-Request help
+
+Caretaker:
+-List of pacients
+-Assign new pacient
+-Manage medicines, expiration date, quantity, images
+-Manage schedule
+-See alarms
+-Medication history
+
+"Services":
+-alarms
+-explicit call for help
+-medication not taken alarm warning (if high priority)
+-door opened ->medicien taken (just a button)
+---------------------------
+Servidor
+	-remoto
+	//-dados locais?
