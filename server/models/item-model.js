@@ -12,11 +12,7 @@ const itemSchema = new Schema({
         required: true,
         default: 0
     },
-    validity: {
-        type: Number,
-        required: true,
-        default: 0
-    },
+    validity: Number,
     barcode: String,
     notes: String
 })

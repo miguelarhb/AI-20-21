@@ -3,6 +3,10 @@ const Item = require('./item-model')
 const Schema = mongoose.Schema
 
 const prescriptionSchema = new Schema({
+    name: {
+        type: String,
+        require: true
+    },
     item: {
         type: mongoose.Types.ObjectId,
         ref: Item,
@@ -21,7 +25,8 @@ const prescriptionSchema = new Schema({
         type: Number,
         require: true
     },
-    end: Number
+    end: Number,
+    notes: String
 })
 
 const Prescription = mongoose.model('Prescription', prescriptionSchema);

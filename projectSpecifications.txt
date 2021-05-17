@@ -59,11 +59,13 @@ Medicine
 	//-image? way for pacient to correctly identify the medicine to take
 
 Take-medicine
+	-name
 	-medicine
 	-quantity
 	-period
 	-start
 	-end
+	-notes
 	
 ---------------------------
 Activities

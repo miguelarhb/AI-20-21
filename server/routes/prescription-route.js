@@ -4,18 +4,15 @@ const router = express.Router()
 const prescriptionController = require('../controllers/prescription-controller')
 
 // POST Adds prescription
-router.post('/add/', prescriptionController.addPrescription)
+router.post(':user/add', prescriptionController.addPrescription)
 
 // DELETE Delete prescription
-router.delete('/delete/', prescriptionController.deletePrescription)
-
-// PUT Edit prescription
-router.put('/update/', prescriptionController.editPrescription)
+router.delete(':user/delete', prescriptionController.deletePrescription)
 
 // GET All prescription
-router.get('/all', prescriptionController.allPrescription)
+router.get(':user/all', prescriptionController.allPrescription)
 
-// GET prescription
-router.get('/check', prescriptionController.checkPrescription)
+// PUT Edit prescription
+router.put(':user/edit/name:', prescriptionController.editPrescription)
 
 module.exports = router

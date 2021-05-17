@@ -3,19 +3,16 @@ const router = express.Router()
 
 const itemController = require('../controllers/item-controller')
 
-// POST Adds Item
-router.post('/add', itemController.addItem)
+// POST Add Item
+router.post('user:/add', itemController.addItem)
 
 // DELETE Delete Item
-router.delete('/delete', itemController.deleteItem)
+router.delete('user:/delete', itemController.deleteItem)
 
 // GET All Item
-router.get('/all', itemController.allItem)
-
-// GET Item
-router.get('/check', itemController.checkItem)
+router.get('user:/all', itemController.allItem)
 
 // PUT Edit Item
-router.put('/update', itemController.editItem)
+router.put('user:/edit/name:', itemController.editItem)
 
 module.exports = router
