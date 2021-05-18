@@ -50,7 +50,7 @@ User
 	-list<"take-medicine"> schedule
 
 Medicine 
-	-name
+	-name id
 	-quantity
 	-notes: special warnings
 	//-priority: if priority high, send alarm!
@@ -58,8 +58,8 @@ Medicine
 	-barcode
 	//-image? way for pacient to correctly identify the medicine to take
 
-Take-medicine
-	-name
+Prescription
+	-name id
 	-medicine
 	-quantity
 	-period
