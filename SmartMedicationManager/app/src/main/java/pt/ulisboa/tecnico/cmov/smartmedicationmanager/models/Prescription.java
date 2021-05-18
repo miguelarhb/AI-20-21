@@ -1,6 +1,6 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager.models;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Prescription {
 
@@ -10,15 +10,18 @@ public class Prescription {
 
     private String periodicity;
 
-    private Date startDate;
+    private LocalDateTime startDate;
 
-    private Date endDate;
+    private LocalDateTime endDate;
 
-    public Prescription(Medicine medicine, int quantity, String periodicity, Date startDate) {
+    public Prescription(Medicine medicine, int quantity, String periodicity, LocalDateTime startDate) {
         this.medicine = medicine;
         this.quantity = quantity;
         this.periodicity = periodicity;
         this.startDate = startDate;
+    }
+
+    public Prescription() {
     }
 
     public Medicine getMedicine() {
@@ -45,19 +48,23 @@ public class Prescription {
         this.periodicity = periodicity;
     }
 
-    public Date getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    public String getNextDate() {
+        return "";
     }
 }

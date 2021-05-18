@@ -50,10 +50,6 @@ public class MainActivity extends BaseActivity {
             ImageButton alarmsBt = findViewById(R.id.btAlarms);
             ImageButton historyBt = findViewById(R.id.btHistory);
             if (gd.userHasPatients()){
-                logThis(gd.getCurrentUser().getUsername());
-                logThis(gd.getCurrentUser().getPatients().size());
-                logThis(gd.getCurrentUser().getPatients().get(0).getUsername());
-                logThis(gd.getActivePatient());
                 welcome.setText("Active Patient: "+gd.getActivePatient().getUsername() +"\n\nWelcome "+gd.getCurrentUser().getUsername());
 
             }
@@ -70,7 +66,8 @@ public class MainActivity extends BaseActivity {
 
             });
             scheduleBt.setOnClickListener(v -> {
-                makeToast("Schedule");
+                intent = new Intent(this, ScheduleListActivity.class);
+                startActivity(intent);
 
             });
             alarmsBt.setOnClickListener(v -> {

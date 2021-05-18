@@ -61,4 +61,9 @@ public class Medicine {
     public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

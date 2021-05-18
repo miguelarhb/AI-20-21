@@ -16,10 +16,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.GlobalData;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
 
 public class BaseActivity extends AppCompatActivity {
@@ -78,6 +81,17 @@ public class BaseActivity extends AppCompatActivity {
         if (gd.getCurrentUser().getPatients().size()==0){
             gd.getCurrentUser().addPatient(new User("someone"));
             gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
+            gd.getCurrentUser().addPatient(new User("second"));
+        }
+        if (gd.userHasPatients()){
+            if (gd.getActivePatient().getMedicines().size()==0){
+                Medicine med = new Medicine();
+                med.setName("med1");
+                med.setQuantity(1);
+                med.setExpirationDate(new Date());
+                med.setNotes("notes");
+                gd.getActivePatient().addMedicine(med);
+            }
         }
 
         toolbar = findViewById(R.id.toolbar);
@@ -113,5 +127,13 @@ public class BaseActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences(SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE);
         Boolean b = sharedPref.getBoolean(key, false);
         return b;
+    }
+
+    public String friendlyDateTimeFormat(LocalDateTime dateTime){
+        return dateTime.getDayOfMonth()
+                + "-" + dateTime.getMonth().getValue()
+                + "-" + dateTime.getYear()
+                + " " + dateTime.getHour()
+                + ":" + dateTime.getMinute();
     }
 }

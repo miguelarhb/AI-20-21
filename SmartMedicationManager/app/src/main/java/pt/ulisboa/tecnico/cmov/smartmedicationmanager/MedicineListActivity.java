@@ -28,7 +28,7 @@ public class MedicineListActivity extends BaseActivity {
 
         FloatingActionButton fab = findViewById(R.id.fabAddItem);
 
-        items.addAll(gd.getCurrentUser().getMedicines());
+        items.addAll(gd.getActivePatient().getMedicines());
 
         adapter=new MedicineAdapter(this, R.layout.medicine_list_item, items);
         listView.setAdapter(adapter);
@@ -43,7 +43,7 @@ public class MedicineListActivity extends BaseActivity {
 
     public void refreshList() {
         items.clear();
-        items.addAll(gd.getCurrentUser().getMedicines());
+        items.addAll(gd.getActivePatient().getMedicines());
         adapter.notifyDataSetChanged();
 
     }
@@ -57,14 +57,14 @@ public class MedicineListActivity extends BaseActivity {
     }
 
     public void editMedicine(Medicine m) {
-        int index = gd.getCurrentUser().getMedicines().indexOf(m);
+        int index = gd.getActivePatient().getMedicines().indexOf(m);
         Intent intent = new Intent(this, AddMedicineActivity.class);
         intent.putExtra("mode", index);
         startActivity(intent);
     }
 
     public void deleteMedicine(Medicine m) {
-        gd.getCurrentUser().getMedicines().remove(m);
+        gd.getActivePatient().getMedicines().remove(m);
         refreshList();
     }
 }

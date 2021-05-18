@@ -69,7 +69,7 @@ public class AddMedicineActivity extends BaseActivity {
             yearTxt.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
         }
         else{
-            med = gd.getCurrentUser().getMedicines().get(mode);
+            med = gd.getActivePatient().getMedicines().get(mode);
             nameTxt.setText(med.getName());
             quantityTxt.setText(String.valueOf(med.getQuantity()));
             Calendar cal = Calendar.getInstance();
@@ -94,10 +94,10 @@ public class AddMedicineActivity extends BaseActivity {
             med.setExpirationDate(date);
             med.setNotes(notesTxt.getText().toString());
             if (mode==-1){
-                gd.getCurrentUser().addMedicine(med);
+                gd.getActivePatient().addMedicine(med);
             }
             else{
-                gd.getCurrentUser().getMedicines().set(mode, med);
+                gd.getActivePatient().getMedicines().set(mode, med);
             }
             this.finish();
 
@@ -118,12 +118,6 @@ public class AddMedicineActivity extends BaseActivity {
                 new IntentIntegrator(this).initiateScan();
             }
         });
-
-//        getDateBt.setOnClickListener(v -> {
-//            DialogFragment newFragment = new DatePickerFragment();
-//            newFragment.show(getSupportFragmentManager(), "datePicker");
-//
-//        });
 
 
     }
@@ -169,31 +163,6 @@ public class AddMedicineActivity extends BaseActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
-//    public static class DatePickerFragment extends DialogFragment
-//            implements DatePickerDialog.OnDateSetListener {
-//
-//        @Override
-//        public Dialog onCreateDialog(Bundle savedInstanceState) {
-//            // Use the current date as the default date in the picker
-//            final Calendar c = Calendar.getInstance();
-//            int year = c.get(Calendar.YEAR);
-//            int month = c.get(Calendar.MONTH);
-//            int day = c.get(Calendar.DAY_OF_MONTH);
-//
-//            // Create a new instance of DatePickerDialog and return it
-//            return new DatePickerDialog(getActivity(), this, year, month, day);
-//        }
-//
-//        public void onDateSet(DatePicker view, int year, int month, int day) {
-//            // Do something with the date chosen by the user
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.set(year, month, day);
-//            Date x = calendar.getTime();
-//            expDateTxt.setText(x.toString());
-//            finalDate=x;
-//        }
-//    }
 
 
 }
