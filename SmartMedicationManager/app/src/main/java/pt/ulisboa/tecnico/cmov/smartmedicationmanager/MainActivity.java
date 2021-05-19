@@ -22,16 +22,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         loadActivity();
     }
+
     public void loadActivity(){
-        if (gd==null){
-            gd = (GlobalData) getApplicationContext();
-        }
-        if (gd.getCurrentUser()==null){
-            gd.setCurrentUser(new User("Paulo"));
-        }
 
         activityLayout = R.layout.activity_main_patient;
         if (getSharedPreference("MODE")){
@@ -42,8 +36,6 @@ public class MainActivity extends BaseActivity {
         loadToolbar();
 
         TextView welcome = findViewById(R.id.welcome);
-
-
 
         if (getSharedPreference("MODE")){
             ImageButton medicineBt = findViewById(R.id.btMedicine);

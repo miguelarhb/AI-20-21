@@ -1,17 +1,17 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import java.util.HashMap;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.UserApi;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.GlobalData;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,6 +19,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
     private UserApi userApi;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,28 +35,23 @@ public class LoginActivity extends BaseActivity {
         EditText usernameTxt = (EditText) findViewById(R.id.usernameTxt);
         EditText passwordTxt = (EditText) findViewById(R.id.passwordTxt);
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                HashMap<String, String> map = new HashMap<>();
+        loginBtn.setOnClickListener(view -> {
+            HashMap<String, String> map = new HashMap<>();
 
-                map.put("username", usernameTxt.getText().toString());
-                map.put("password", passwordTxt.getText().toString());
+            username = usernameTxt.getText().toString();
+            map.put("username", username);
+            map.put("password", passwordTxt.getText().toString());
 
-                loginUser(map);
-            }
+            loginUser(map);
         });
 
-        createBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                HashMap<String, String> map = new HashMap<>();
+        createBtn.setOnClickListener(view -> {
+            HashMap<String, String> map = new HashMap<>();
 
-                map.put("username", usernameTxt.getText().toString());
-                map.put("password", passwordTxt.getText().toString());
+            map.put("username", usernameTxt.getText().toString());
+            map.put("password", passwordTxt.getText().toString());
 
-                createUser(map);
-            }
+            createUser(map);
         });
     }
 
@@ -65,9 +61,14 @@ public class LoginActivity extends BaseActivity {
 
         call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if (response.code() == 200) {
-                    Toast.makeText(LoginActivity.this, "Login User Successfully", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Welcome " + username, Toast.LENGTH_LONG).show();
+                    gd = (GlobalData) getApplicationContext();
+                    gd.setCurrentUser(new User(username));
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else if (response.code() == 404) {
                     Toast.makeText(LoginActivity.this, "No User Found", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 400) {
@@ -76,7 +77,7 @@ public class LoginActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(@NonNull Call<User> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -88,7 +89,7 @@ public class LoginActivity extends BaseActivity {
 
         call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.code() == 201) {
                     Toast.makeText(LoginActivity.this, "User Created Successfully", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 400) {
@@ -97,7 +98,7 @@ public class LoginActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/usernameTxt"
         android:layout_centerHorizontal="true"
-        android:text="@string/welcome"
+        android:text="@string/smart_medication_manager"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginBottom="30dp"

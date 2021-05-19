@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 //MongoDB database
-const dbURL = 'mongodb://localhost:27017/shopISTdb';
+const dbURL = 'mongodb://localhost:27017/medDB';
 
 //Logger - Middleware
 const logger = require('./middleware/logger');

@@ -90,10 +90,12 @@ public class BaseActivity extends AppCompatActivity {
         if (gd==null){
             gd = (GlobalData) getApplicationContext();
         }
-
+    /*
         if (gd.getCurrentUser()==null){
             gd.setCurrentUser(new User("Paulo"));
         }
+
+     */
         if (gd.getCurrentUser().getPatients().size()==0){
             gd.getCurrentUser().addPatient(new User("someone"));
             gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));

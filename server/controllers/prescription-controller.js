@@ -33,7 +33,7 @@ const deletePrescription = (req, res) => {
             .then((result) => {
                 if (result.name == deletePrescriptionName) {
                     Prescription.findByIdAndDelete(prescriptionID)
-                    break
+                        //TODO break
                 }
             })
             .catch((err) => {
@@ -57,7 +57,7 @@ const editPrescription = (req, res) => {
                     result.start = req.body.start
                     result.end = req.body.end
                     result.notes = req.body.notes
-                    break
+                        //TODO break
                 }
             })
             .catch((err) => {

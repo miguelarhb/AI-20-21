@@ -30,7 +30,7 @@ const deleteItem = (req, res) => {
             .then((result) => {
                 if (result.name == deleteItemName) {
                     Item.findByIdAndDelete(itemID)
-                    break
+                        // TODO break
                 }
             })
             .catch((err) => {
@@ -68,7 +68,7 @@ const editItem = (req, res) => {
                     result.validity = req.body.validity
                     result.barcode = req.body.barcode
                     result.notes = req.body.notes
-                    break
+                        //TODO break
                 }
             })
             .catch((err) => {
