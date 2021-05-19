@@ -1,26 +1,43 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.PowerManager;
 
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.AlarmActivity;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.BaseActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
+    public static final String ALARM_ACTION_INTENT = "smc.alarms";
+    static int ALARM_CODE=300;
+    BaseActivity activity;
+
+    public BaseActivity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(BaseActivity activity) {
+        this.activity = activity;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        BaseActivity.createNotification(context);
+        setUpNextAlarm(context);
 
-        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "smc:alarm");
-        wl.acquire(10*60*1000L /*10 minutes*/);
 
-        Intent subIntent = new Intent(context, AlarmActivity.class);
-        subIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(subIntent);
 
-        wl.release();
+    }
+    public void setUpNextAlarm(Context context){
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
+        Intent myIntent = new Intent(context, AlarmReceiver.class);
+        myIntent.setAction(ALARM_ACTION_INTENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, ALARM_CODE, myIntent, 0);
+
+        long firstTime = System.currentTimeMillis()+1000*5;
+
+        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, firstTime, pendingIntent);
     }
 }

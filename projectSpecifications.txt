@@ -95,6 +95,7 @@ Caretaker:
 Servidor
 	-remoto
 	//-dados locais?
+	- node ./app.js
 -----------------------------
 Notes:
 	-call for help - phone number?
