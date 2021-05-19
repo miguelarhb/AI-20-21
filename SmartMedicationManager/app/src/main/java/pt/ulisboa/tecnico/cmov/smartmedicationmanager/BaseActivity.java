@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,12 +19,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.AlarmReceiver;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.GlobalData;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -42,6 +47,8 @@ public class BaseActivity extends AppCompatActivity {
 
     static String SHARED_PREFERENCES_FILE = "smcprefs";
     static int CAMERA_PERMISSION_CODE=100;
+    public static final String ALARM_ACTION_INTENT = "smc.alarms";
+    static int ALARM_CODE=300;
 
     public int menu_layout = R.menu.mainmenu_patient;
 
@@ -139,10 +146,20 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public String friendlyDateTimeFormat(LocalDateTime dateTime){
-        return dateTime.getDayOfMonth()
-                + "-" + dateTime.getMonth().getValue()
-                + "-" + dateTime.getYear()
-                + " " + dateTime.getHour()
-                + ":" + dateTime.getMinute();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        return dateTime.format(formatter);
+    }
+
+    public void createAlarm(Prescription p) {
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent myIntent = new Intent(BaseActivity.this, AlarmReceiver.class);
+        myIntent.setAction(ALARM_ACTION_INTENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(BaseActivity.this, ALARM_CODE, myIntent, 0);
+
+        long firstTime = System.currentTimeMillis();
+        long interval = 1000*5;
+        //1000*60*10 = 10minutes
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, firstTime, interval, pendingIntent);
     }
 }

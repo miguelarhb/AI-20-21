@@ -6,6 +6,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.GlobalData;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
 
 public class MainActivity extends BaseActivity {
@@ -84,8 +85,16 @@ public class MainActivity extends BaseActivity {
             ImageButton scheduleBt = findViewById(R.id.buttonSchedule);
             ImageButton helpBt = findViewById(R.id.buttonHelp);
 
+            gd.getCurrentUser().setCaretaker(new User("a tua mae"));
+
             if (gd.userHasCaretaker()){
                 welcome.setText("Assigned caretaker: "+gd.getCurrentUser().getCaretaker().getUsername()+"\n\nWelcome "+gd.getCurrentUser().getUsername());
+
+                createAlarm(new Prescription());
+                makeToast(gd.getCurrentUser().getSchedule().size() + "created alarm");
+                for (Prescription p : gd.getCurrentUser().getSchedule()){
+                    createAlarm(p);
+                }
             }
             else{
                 welcome.setText("No assigned caretaker. Ask someone to assign you or switch to advanced mode.\n\nWelcome "+gd.getCurrentUser().getUsername());
