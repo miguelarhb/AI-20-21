@@ -1,8 +1,11 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager.models;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class Prescription {
+
+    private String id;
 
     private Medicine medicine;
 
@@ -13,6 +16,8 @@ public class Prescription {
     private LocalDateTime startDate;
 
     private LocalDateTime endDate;
+
+    private String notes;
 
     public Prescription(Medicine medicine, int quantity, String periodicity, LocalDateTime startDate) {
         this.medicine = medicine;
@@ -64,7 +69,23 @@ public class Prescription {
         this.endDate = endDate;
     }
 
-    public String getNextDate() {
-        return "";
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void generateId(){
+        this.id = UUID.randomUUID().toString();
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

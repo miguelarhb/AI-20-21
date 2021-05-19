@@ -95,3 +95,9 @@ Caretaker:
 Servidor
 	-remoto
 	//-dados locais?
+-----------------------------
+Notes:
+	-call for help - phone number?
+	-barcode lookup is not really doable..-report
+	-confirm add patient
+	-fix date format, minutes

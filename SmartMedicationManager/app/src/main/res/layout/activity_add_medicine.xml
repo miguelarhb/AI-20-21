@@ -28,6 +28,7 @@
 
         <EditText
             android:id="@+id/addMedName"
+            android:hint="Medicine Name (Unique)"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
@@ -106,6 +107,7 @@
 
         <EditText
             android:id="@+id/addMedNotes"
+            android:hint="Important Notes"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="8dp"

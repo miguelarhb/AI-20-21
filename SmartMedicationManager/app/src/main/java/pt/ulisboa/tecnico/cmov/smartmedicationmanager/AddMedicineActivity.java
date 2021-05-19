@@ -77,11 +77,21 @@ public class AddMedicineActivity extends BaseActivity {
             monthSpinner.setSelection(cal.get(Calendar.MONTH));
             yearTxt.setText(String.valueOf(cal.get(Calendar.YEAR)));
             notesTxt.setText(med.getNotes());
-            barcodeTxt.setText(med.getBarcode());
+            barcode=med.getBarcode();
+            barcodeTxt.setText("Barcode: " + barcode);
         }
 
         submitBt.setOnClickListener(v -> {
-            med.setName(nameTxt.getText().toString());
+            String newName = nameTxt.getText().toString();
+            Medicine matchingObject = gd.getActivePatient().getMedicines().stream().
+                    filter(p -> p.getName().equals(newName)).
+                    findAny().orElse(null);
+            if (matchingObject!=null && matchingObject!=med){
+                makeToast("Medicine name not unique");
+                return;
+            }
+            med.setName(newName);
+            med.setBarcode(barcode);
             med.setQuantity(Integer.parseInt(quantityTxt.getText().toString()));
             String s = monthSpinner.getSelectedItem().toString()+", "+yearTxt.getText().toString();
             DateFormat format = new SimpleDateFormat("MMMM, yyyy", Locale.ENGLISH);
@@ -155,8 +165,6 @@ public class AddMedicineActivity extends BaseActivity {
                 barcode = result.getContents();
 
                 barcodeTxt.setText("Barcode: " + barcode);
-
-                med.setBarcode(barcode);
 
             }
         } else {

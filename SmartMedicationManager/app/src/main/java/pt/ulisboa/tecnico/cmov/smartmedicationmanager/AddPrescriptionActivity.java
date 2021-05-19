@@ -56,6 +56,7 @@ public class AddPrescriptionActivity extends BaseActivity {
         Button endDate = findViewById(R.id.endDate);
         EditText periodNumber = findViewById(R.id.periodicityNumber);
         Spinner periodSpinner = findViewById(R.id.periodicitySpinner);
+        EditText notes = findViewById(R.id.addPrescNotes);
         submitBt = findViewById(R.id.addMedSubmit);
         Button cancelBt = findViewById(R.id.addMedCancel);
 
@@ -75,9 +76,13 @@ public class AddPrescriptionActivity extends BaseActivity {
         int mode = intent.getIntExtra("mode", -1);
         if (mode==-1){
             p = new Prescription();
+            p.generateId();
             quantityTxt.setText("1");
             periodNumber.setText("1");
-            submitBt.setEnabled(false);
+            start = LocalDateTime.now();
+            end  = start.plusDays(30);
+            startDatetv.setText(friendlyDateTimeFormat(start));
+            endDatetv.setText(friendlyDateTimeFormat(end));
         }
         else{
             p = gd.getActivePatient().getSchedule().get(mode);
@@ -85,10 +90,9 @@ public class AddPrescriptionActivity extends BaseActivity {
             quantityTxt.setText(String.valueOf(p.getQuantity()));
             start = p.getStartDate();
             startDatetv.setText(friendlyDateTimeFormat(p.getStartDate()));
-            if (p.getEndDate()!=null){
-                end = p.getEndDate();
-                endDatetv.setText(friendlyDateTimeFormat(p.getEndDate()));
-            }
+            end = p.getEndDate();
+            endDatetv.setText(friendlyDateTimeFormat(p.getEndDate()));
+
             periodNumber.setText(p.getPeriodicity().split("-")[0]);
             if (p.getPeriodicity().split("-")[1].equals("Hours")){
                 periodSpinner.setSelection(0);
@@ -96,6 +100,7 @@ public class AddPrescriptionActivity extends BaseActivity {
             else{
                 periodSpinner.setSelection(1);
             }
+            notes.setText(p.getNotes());
 
 
         }
@@ -116,8 +121,8 @@ public class AddPrescriptionActivity extends BaseActivity {
             p.setStartDate(start);
             p.setEndDate(end);
             p.setPeriodicity(periodNumber.getText().toString()+"-"+periodSpinner.getSelectedItem().toString());
+            p.setNotes(notes.getText().toString());
             if (mode==-1){
-
                 gd.getActivePatient().addPrescription(p);
             }
             else{
@@ -180,7 +185,7 @@ public class AddPrescriptionActivity extends BaseActivity {
                         else{
                             end = LocalDateTime.of(mYear, mMonth, mDay, mHour, mMinute);
                         }
-                        submitBt.setEnabled(true);
+
                     }
                 }, mHour, mMinute, false);
         timePickerDialog.show();

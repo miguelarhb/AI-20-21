@@ -46,15 +46,16 @@ public class PrescriptionAdapter extends ArrayAdapter<Prescription> {
         ImageView image = view.findViewById(R.id.iconitem);
         TextView name = view.findViewById(R.id.medicineName);
         TextView qt = view.findViewById(R.id.quantity);
-        TextView nextDate = view.findViewById(R.id.nextPrescDate);
+        TextView until = view.findViewById(R.id.untilEndDate);
         TextView periodicity = view.findViewById(R.id.periodicity);
         ImageButton editBt = view.findViewById(R.id.editPrescButton);
 
         //image.setImageBitmap();
         name.setText(p.getMedicine().getName());
         qt.setText(p.getQuantity() + " pills");
-        nextDate.setText("Next "+p.getNextDate());
         periodicity.setText("Every "+p.getPeriodicity());
+        until.setText("Until "+ activity.friendlyDateTimeFormat(p.getEndDate()));
+
 
         editBt.setOnClickListener(v -> {
             AlertDialog alertDialog = new AlertDialog.Builder(context).create();

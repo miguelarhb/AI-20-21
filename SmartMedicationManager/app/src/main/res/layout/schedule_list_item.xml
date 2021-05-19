@@ -52,12 +52,12 @@
             android:text="Quantity" />
 
         <TextView
-            android:id="@+id/nextPrescDate"
+            android:id="@+id/untilEndDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/periodicity"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="9dp"
             android:layout_toEndOf="@+id/quantity"
             android:text="Next taking" />
 
@@ -65,9 +65,9 @@
             android:id="@+id/periodicity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/nextPrescDate"
+            android:layout_alignParentTop="true"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="15dp"
             android:layout_toEndOf="@+id/quantity"
             android:text="Period" />
 
