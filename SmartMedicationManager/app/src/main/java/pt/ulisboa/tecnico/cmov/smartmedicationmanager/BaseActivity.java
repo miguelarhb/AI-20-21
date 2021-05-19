@@ -24,12 +24,21 @@ import java.util.concurrent.Executors;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.GlobalData;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BaseActivity extends AppCompatActivity {
 
     GlobalData gd;
 
     Toolbar toolbar;
+
+    String BASE_URL = "http://192.168.1.52:3000/";
+
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
 
     static String SHARED_PREFERENCES_FILE = "smcprefs";
     static int CAMERA_PERMISSION_CODE=100;
