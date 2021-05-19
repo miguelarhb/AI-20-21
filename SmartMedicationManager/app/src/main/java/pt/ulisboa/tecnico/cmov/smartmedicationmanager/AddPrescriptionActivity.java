@@ -25,7 +25,6 @@ public class AddPrescriptionActivity extends BaseActivity {
 
     Prescription p;
 
-    String date_time = "";
     int mYear;
     int mMonth;
     int mDay;
@@ -155,8 +154,6 @@ public class AddPrescriptionActivity extends BaseActivity {
                         mMonth = monthOfYear+1;
                         mDay = dayOfMonth;
 
-                        date_time = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                        //*************Call Time Picker Here ********************
                         timePicker(dateTv, date);
                     }
                 }, mYear, mMonth, mDay);
@@ -178,12 +175,13 @@ public class AddPrescriptionActivity extends BaseActivity {
                         mHour = hourOfDay;
                         mMinute = minute;
 
-                        dateTv.setText(date_time+" "+hourOfDay + ":" + minute);
                         if (date==0){
                             start = LocalDateTime.of(mYear, mMonth, mDay, mHour, mMinute);
+                            dateTv.setText(friendlyDateTimeFormat(start));
                         }
                         else{
                             end = LocalDateTime.of(mYear, mMonth, mDay, mHour, mMinute);
+                            dateTv.setText(friendlyDateTimeFormat(end));
                         }
 
                     }
