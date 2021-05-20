@@ -103,7 +103,7 @@
 
         <TextView
             android:id="@+id/txtAlarm"
-            android:text="@string/schedule"
+            android:text="@string/alarms"
             style="@style/textProperties"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

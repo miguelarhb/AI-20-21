@@ -40,9 +40,7 @@
     <string name="off">Off</string>
     <string name="manage_patients">Manage Patients</string>
     <string name="logout_description">Exit or Switch from Account</string>
-    <string name="name">Name</string>
     <string name="medicine_name_unique">Medicine Name (Unique)</string>
-    <string name="quantity">Quantity</string>
     <string name="expiration_date">Expiration Date</string>
     <string name="notes">Notes:</string>
     <string name="important_notes">Important Notes</string>
@@ -51,4 +49,10 @@
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
     <string name="quantity_number">Quantity (Number)</string>
+    <string name="add_new_patient">Add new patient</string>
+    <string name="manage_myself">Manage myself</string>
+    <string name="date">Date</string>
+    <string name="name">Name</string>
+    <string name="quantity">Quantity</string>
+    <string name="alarms">Alarms</string>
 </resources>
