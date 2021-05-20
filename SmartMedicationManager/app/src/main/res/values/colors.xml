@@ -7,4 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="dark_grey">#161616</color>
+    <color name="nord_white">#eceff4</color>
+    <color name="nord_dark_white">#d8dee9</color>
+    <color name="nord_night_dark">#2e3440</color>
+    <color name="nord_night_clear">#3b4252</color>
+    <color name="nord_yellow">#ebcb8b</color>
+    <color name="nord_purple">#b48ead</color>
+    <color name="nord_red">#bf616a</color>
+    <color name="nord_orange">#d08770</color>
+    <color name="nord_green">#a3be8c</color>
+
 </resources>

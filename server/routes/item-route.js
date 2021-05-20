@@ -7,7 +7,7 @@ const itemController = require('../controllers/item-controller')
 router.post('user:/add', itemController.addItem)
 
 // DELETE Delete Item
-router.delete('user:/delete', itemController.deleteItem)
+router.delete('user:/delete/name:', itemController.deleteItem)
 
 // GET All Item
 router.get('user:/all', itemController.allItem)
