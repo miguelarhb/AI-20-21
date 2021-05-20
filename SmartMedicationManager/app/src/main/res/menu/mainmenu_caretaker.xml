@@ -4,16 +4,16 @@
 
     <item
         android:id="@+id/menuManagePatients"
-        android:title="Manage Patients"
+        android:title="@string/manage_patients"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/menuAdvancedMode"
-        android:title="Advanced Mode"
+        android:title="@string/managing_mode"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/menuSettings"
-        android:title="Settings"
+        android:title="Logout"
         app:showAsAction="never" />
 </menu>

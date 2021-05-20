@@ -34,4 +34,10 @@
     <string name="medicine">Medicine</string>
     <string name="schedule">Schedule</string>
     <string name="history">History</string>
+    <string name="managing_mode">Managing Mode</string>
+    <string name="logout">Logout</string>
+    <string name="managing_mode_description">This setting unlocks new functions which are meant to be used by caretakers or self-responsible people.</string>
+    <string name="off">Off</string>
+    <string name="manage_patients">Manage Patients</string>
+    <string name="logout_description">Exit or Switch from Account</string>
 </resources>
