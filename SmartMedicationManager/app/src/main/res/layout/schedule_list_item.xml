@@ -10,79 +10,71 @@
     <RelativeLayout
         android:id="@+id/card"
         android:layout_width="match_parent"
-        android:layout_height="77dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/nord_dark_white"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
 
         <ImageView
             android:id="@+id/iconitem"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="9dp"
-            android:background="#B7AAAA"
-            android:padding="5dp" />
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:background="@color/nord_night_clear" />
 
-        <TextView
-            android:id="@+id/medicineName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="25dp"
+        <LinearLayout
+            android:layout_toStartOf="@id/editPrescButton"
             android:layout_toEndOf="@+id/iconitem"
-            android:layout_toRightOf="@+id/iconitem"
-            android:padding="2dp"
-            android:text="Name" />
-
-        <TextView
-            android:id="@+id/quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="25dp"
-            android:layout_toEndOf="@+id/medicineName"
-            android:layout_toRightOf="@+id/medicineName"
-            android:text="Quantity" />
+            android:padding="10dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/untilEndDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/periodicity"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="9dp"
-            android:layout_toEndOf="@+id/quantity"
-            android:text="Next taking" />
+            <TextView
+                android:id="@+id/medicineName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/textProperties"
+                android:text="@string/med_name" />
 
-        <TextView
-            android:id="@+id/periodicity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_toEndOf="@+id/quantity"
-            android:text="Period" />
+            <TextView
+                android:id="@+id/quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/textProperties"
+                android:text="@string/quantity" />
+
+            <TextView
+                android:id="@+id/periodicity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/textProperties"
+                android:text="@string/period" />
+
+            <TextView
+                android:id="@+id/untilEndDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/textProperties"
+                android:text="@string/next_taking" />
+        </LinearLayout>
+
 
         <ImageButton
             android:id="@+id/editPrescButton"
-            android:layout_width="43dp"
-            android:layout_height="41dp"
+            android:background="@color/nord_dark_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="66dp"
-            android:layout_marginLeft="66dp"
-            android:layout_marginEnd="19dp"
-            android:layout_marginRight="19dp"
-            android:layout_marginBottom="19dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:padding="10dp"
             app:srcCompat="@android:drawable/ic_menu_edit" />
 
 

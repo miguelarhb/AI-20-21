@@ -26,40 +26,37 @@
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
             android:padding="10dp"
-            android:background="@color/nord_night_dark" />
+            android:background="@color/nord_night_clear" />
 
         <LinearLayout
                 android:layout_toEndOf="@+id/iconitem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:orientation="vertical">
+
             <TextView
                 android:id="@+id/medicineName"
                 style="@style/textProperties"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:text="@string/name" />
+
+            <TextView
+                android:id="@+id/quantity"
+                style="@style/textProperties"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/quantity" />
 
             <TextView
                 android:id="@+id/expirationDate"
                 style="@style/textProperties"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:text="@string/date" />
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/quantity"
-            style="@style/textProperties"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_margin="10dp"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/editMedicineButton"
-            android:text="@string/quantity" />
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/editMedicineButton"

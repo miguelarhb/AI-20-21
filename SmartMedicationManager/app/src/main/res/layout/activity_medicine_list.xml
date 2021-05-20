@@ -36,7 +36,6 @@
         android:focusable="true"
         android:src="@android:drawable/ic_input_add"
         app:backgroundTint="@color/nord_yellow"
-        android:tint="@color/nord_night_dark"
         app:backgroundTintMode="add" />
 
 </RelativeLayout>

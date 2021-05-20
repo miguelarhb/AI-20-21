@@ -22,6 +22,7 @@
 
         <TextView
             android:layout_width="0dp"
+            style="@style/textProperties"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:text="Medicine" />
@@ -41,6 +42,7 @@
         android:layout_marginStart="5dp">
 
         <TextView
+            style="@style/textProperties"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
@@ -62,6 +64,7 @@
         android:layout_marginStart="5dp">
 
         <TextView
+            style="@style/textProperties"
             android:id="@+id/startDatetv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -88,6 +91,7 @@
         android:layout_marginStart="5dp">
 
         <TextView
+            style="@style/textProperties"
             android:id="@+id/endDatetv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -114,6 +118,7 @@
         android:layout_marginStart="5dp">
 
         <TextView
+            style="@style/textProperties"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.35"
@@ -143,6 +148,7 @@
         android:orientation="horizontal">
 
         <TextView
+            style="@style/textProperties"
             android:id="@+id/tvnotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
