@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 public class Medicine {
@@ -10,6 +12,7 @@ public class Medicine {
 
     private String notes;
 
+    @SerializedName("validity")
     private Date expirationDate;
 
     private String barcode;

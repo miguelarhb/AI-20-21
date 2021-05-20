@@ -1,20 +1,26 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Prescription {
 
+    @SerializedName("name")
     private String id;
 
+    @SerializedName("item")
     private Medicine medicine;
 
     private int quantity;
 
     private String periodicity;
 
+    @SerializedName("start")
     private LocalDateTime startDate;
 
+    @SerializedName("end")
     private LocalDateTime endDate;
 
     private String notes;
