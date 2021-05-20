@@ -64,7 +64,7 @@ public class ScheduleListActivity extends BaseActivity {
     }
 
     public void deletePrescription(Prescription p) {
-        gd.getActivePatient().getSchedule().remove(p);
+        gd.getActivePatient().deletePrescription(p, getApplicationContext());
         refreshList();
     }
 }

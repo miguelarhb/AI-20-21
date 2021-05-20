@@ -122,10 +122,10 @@ public class AddPrescriptionActivity extends BaseActivity {
             p.setPeriodicity(periodNumber.getText().toString()+"-"+periodSpinner.getSelectedItem().toString());
             p.setNotes(notes.getText().toString());
             if (mode==-1){
-                gd.getActivePatient().addPrescription(p);
+                gd.getActivePatient().addPrescription(p, getApplicationContext());
             }
             else{
-                gd.getActivePatient().getSchedule().set(mode, p);
+                gd.getActivePatient().updatePrescription(mode, p, getApplicationContext());
             }
             this.finish();
 

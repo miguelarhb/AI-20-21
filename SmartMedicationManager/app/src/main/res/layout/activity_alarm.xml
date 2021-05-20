@@ -22,7 +22,43 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:text="ALAAAAAAAAAAAAARM"
+        android:text="AlarmID"
         android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/alarm"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="157dp"
+        android:layout_marginTop="95dp"
+        android:layout_marginEnd="160dp"
+        android:text="STOP" />
+
+    <Button
+        android:id="@+id/btDismiss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btStop"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="159dp"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="158dp"
+        android:text="Dismiss" />
+
+    <TextView
+        android:id="@+id/textViewDoor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="67dp"
+        android:layout_marginBottom="49dp"
+        android:text="Door: " />
 
 </RelativeLayout>
