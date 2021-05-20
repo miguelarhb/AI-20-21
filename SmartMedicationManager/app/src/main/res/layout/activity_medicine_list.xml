@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MedicineListActivity">
+    tools:context=".MedicineListActivity"
+    android:background="@color/nord_white">
 
     <include
         android:id="@+id/include"
@@ -18,8 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/include"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_centerHorizontal="true"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         tools:listitem="@layout/medicine_list_item"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -27,15 +29,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="22dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginBottom="30dp"
         android:clickable="true"
         android:focusable="true"
         android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/teal_200"
+        app:backgroundTint="@color/nord_yellow"
+        android:tint="@color/nord_night_dark"
         app:backgroundTintMode="add" />
 
 </RelativeLayout>

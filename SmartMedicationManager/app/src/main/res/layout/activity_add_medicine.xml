@@ -11,24 +11,23 @@
         android:id="@+id/include"
         layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp">
+        android:layout_margin="20dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:text="Name" />
+            android:layout_weight="0.3"
+            android:text="@string/name"
+            style="@style/textProperties"/>
 
         <EditText
             android:id="@+id/addMedName"
-            android:hint="Medicine Name (Unique)"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
@@ -39,20 +38,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp">
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:text="Quantity" />
+            android:layout_weight="0.3"
+            android:text="@string/quantity"
+            style="@style/textProperties"/>
 
         <EditText
             android:id="@+id/addMedQuantity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.75"
+            android:layout_weight="0.8"
             android:inputType="number" />
     </LinearLayout>
 
@@ -60,21 +60,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp">
+        android:layout_margin="20dp">
 
         <TextView
             android:id="@+id/textviewx"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.35"
-            android:text="Expiration Date" />
+            android:layout_weight="0.5"
+            android:text="@string/expiration_date"
+            style="@style/textProperties"/>
 
         <Spinner
             android:id="@+id/addMedMonthSpinner"
-            android:layout_marginTop="2dp"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="match_parent"
             android:layout_weight="0.35" />
 
         <EditText
@@ -84,104 +84,88 @@
             android:layout_weight="0.3"
             android:inputType="number" />
 
-
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
 
         <TextView
             android:id="@+id/tvnotes"
+            style="@style/textProperties"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Notes: "
+            android:text="@string/notes"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/addMedNotes"
-            android:hint="Important Notes"
+            android:hint="@string/important_notes"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="8dp"
             android:gravity="top"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:inputType="text|textMultiLine"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvnotes" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center">
 
         <TextView
             android:id="@+id/addMedBarcodeView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="28dp"
-            android:text="Barcode: "
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addMedNotes" />
+            android:layout_centerVertical="true"
+            android:text="@string/barcode"
+            style="@style/textProperties"/>
 
         <Button
             android:id="@+id/addMedBarcodeBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/addMedBarcodeView"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:text="SCAN BARCODE"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addMedBarcodeView" />
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:text="@string/scan_barcode" />
 
-        <Button
-            android:id="@+id/addMedSubmit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="76dp"
-            android:layout_marginLeft="76dp"
-            android:layout_marginBottom="64dp"
-            android:text="Submit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/addMedCancel"
-            app:layout_constraintHorizontal_bias="0.012"
-            app:layout_constraintStart_toStartOf="parent" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="20dp"
+        android:layout_gravity="center">
 
         <Button
             android:id="@+id/addMedCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:layout_alignParentStart="true"
+            android:paddingHorizontal="40dp"
+            />
+
+        <Button
+            android:id="@+id/addMedSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="76dp"
-            android:layout_marginRight="76dp"
-            android:layout_marginBottom="64dp"
-            android:text="Cancel"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:paddingHorizontal="40dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-
+    </RelativeLayout>
 
 </LinearLayout>

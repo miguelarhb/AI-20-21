@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,72 +10,67 @@
     <RelativeLayout
         android:id="@+id/card"
         android:layout_width="match_parent"
-        android:layout_height="77dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/nord_dark_white"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
 
         <ImageView
             android:id="@+id/iconitem"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="9dp"
-            android:background="#B7AAAA"
-            android:padding="5dp" />
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:background="@color/nord_night_dark" />
 
-        <TextView
-            android:id="@+id/medicineName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="25dp"
-            android:layout_toEndOf="@+id/iconitem"
-            android:layout_toRightOf="@+id/iconitem"
-            android:padding="2dp"
-            android:text="Name" />
+        <LinearLayout
+                android:layout_toEndOf="@+id/iconitem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <TextView
+                android:id="@+id/medicineName"
+                style="@style/textProperties"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/name" />
+
+            <TextView
+                android:id="@+id/expirationDate"
+                style="@style/textProperties"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/date" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/quantity"
+            style="@style/textProperties"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="25dp"
-            android:layout_toEndOf="@+id/medicineName"
-            android:layout_toRightOf="@+id/medicineName"
-            android:text="Quantity" />
-
-        <TextView
-            android:id="@+id/expirationDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="25dp"
-            android:layout_toEndOf="@+id/quantity"
-            android:text="Date" />
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/editMedicineButton"
+            android:text="@string/quantity" />
 
         <ImageButton
             android:id="@+id/editMedicineButton"
-            android:layout_width="43dp"
-            android:layout_height="41dp"
+            android:background="@color/nord_dark_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="66dp"
-            android:layout_marginLeft="66dp"
-            android:layout_marginEnd="19dp"
-            android:layout_marginRight="19dp"
-            android:layout_marginBottom="19dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:padding="10dp"
             app:srcCompat="@android:drawable/ic_menu_edit" />
 
-
-
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ManagePatientsActivity">
+    tools:context=".ManagePatientsActivity"
+    android:background="@color/nord_white">
 
     <include
         android:id="@+id/include"
@@ -16,37 +17,34 @@
         android:id="@+id/patientList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btAssignSelf"
         android:layout_below="@+id/include"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginBottom="20dp"
+        android:layout_above="@id/btAddPatActiv"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_marginTop="10dp"
         tools:listitem="@layout/patient_list_item"/>
 
-    <Button
-        android:id="@+id/btAddPatActiv"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginBottom="20dp"
-        android:text="Add new patient" />
+        <Button
+            android:id="@+id/btAddPatActiv"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/add_new_patient" />
 
-    <Button
-        android:id="@+id/btAssignSelf"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="60dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginBottom="20dp"
-        android:text="Assign myself as patient" />
+        <Button
+            android:id="@+id/btAssignSelf"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:padding="10dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/manage_myself" />
 
 </RelativeLayout>

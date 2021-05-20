@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import com.google.gson.annotations.SerializedName;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -13,16 +14,20 @@ import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.AlarmReceive
 
 public class Prescription {
 
+    @SerializedName("name")
     private String id;
 
+    @SerializedName("item")
     private Medicine medicine;
 
     private int quantity;
 
     private String periodicity;
 
+    @SerializedName("start")
     private LocalDateTime startDate;
 
+    @SerializedName("end")
     private LocalDateTime endDate;
 
     private String notes;
