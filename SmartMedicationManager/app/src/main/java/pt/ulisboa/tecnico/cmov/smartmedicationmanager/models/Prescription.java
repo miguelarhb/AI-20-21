@@ -1,9 +1,16 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager.models;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.UUID;
+
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.AlarmReceiver;
 
 public class Prescription {
 
@@ -93,5 +100,52 @@ public class Prescription {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public void setAlarm(Context context, int alarm_id) {
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        Intent myIntent = new Intent(context, AlarmReceiver.class);
+        myIntent.putExtra("id", this.id);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm_id, myIntent, 0);
+
+        long alarmStart = this.startDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+
+        // if alarm time has already passed, increment by interval
+        while (alarmStart <= System.currentTimeMillis()) {
+            alarmStart += getInterval();
+        }
+
+        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmStart, pendingIntent);
+    }
+
+    public void cancelAlarm(Context context){
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        //TODO
+        //ALARM_CODE = p.getId();
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, 300, intent, 0);
+        alarmManager.cancel(alarmPendingIntent);
+
+    }
+
+    public long getInterval(){
+        long interval;
+        if (this.periodicity.equals("test")){
+            interval = 5 * 1000;
+        }
+        else{
+            String[] fields = this.periodicity.split("-");
+            int nr = Integer.parseInt(fields[0]);
+            String type = fields[1];
+            if (type.equals("Hours")){
+                interval = 1000 * 60 * 60 * nr;
+            }
+            else{
+                interval = 1000 * 60 * 60 * 24 * nr;
+            }
+        }
+        return interval;
     }
 }

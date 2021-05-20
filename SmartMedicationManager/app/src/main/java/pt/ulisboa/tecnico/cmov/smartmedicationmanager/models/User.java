@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager.models;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +81,18 @@ public class User {
         this.schedule = schedule;
     }
 
-    public void addPrescription(Prescription prescription) {
+    public void addPrescription(Prescription prescription, Context context) {
         this.schedule.add(prescription);
+        prescription.setAlarm(context, this.schedule.indexOf(prescription));
+    }
+
+    public void deletePrescription(Prescription prescription, Context context){
+        //prescription.cancelAlarm();
+        this.schedule.remove(prescription);
+    }
+
+    public void updatePrescription(int index, Prescription prescription, Context context){
+        //prescription.setAlarm();
+        this.schedule.set(index, prescription);
     }
 }

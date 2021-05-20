@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.time.LocalDateTime;
+
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 
 public class MainActivity extends BaseActivity {
@@ -77,12 +80,12 @@ public class MainActivity extends BaseActivity {
 
             if (gd.userHasCaretaker()){
                 welcome.setText("Assigned caretaker: "+gd.getCurrentUser().getCaretaker().getUsername()+"\n\nWelcome "+gd.getCurrentUser().getUsername());
-
-                //TODO CHANGE
-                createAlarm(new Prescription());
-                makeToast(gd.getCurrentUser().getSchedule().size() + "created alarm");
+                //todo ask data from server and create alarms
                 for (Prescription p : gd.getCurrentUser().getSchedule()){
-                    createAlarm(p);
+                    if (!p.getPeriodicity().equals("test")){
+                        //makeToast("updating alarm");
+                        //p.setAlarm(getApplicationContext(), gd.getCurrentUser().getSchedule().indexOf(p));
+                    }
                 }
             }
             else{
@@ -95,6 +98,19 @@ public class MainActivity extends BaseActivity {
 
             scheduleBt.setOnClickListener(v -> {
                 makeToast("Schedule");
+                //TODO remove later (test data)
+                if (gd.getCurrentUser().getSchedule().size()==0){
+                    Prescription p = new Prescription();
+                    p.generateId();
+                    p.setMedicine(new Medicine("Good med", 20));
+                    p.setQuantity(1);
+                    p.setStartDate(LocalDateTime.now());
+                    p.setEndDate(LocalDateTime.now().plusSeconds(30));
+                    p.setPeriodicity("test");
+                    p.setNotes("");
+                    gd.getCurrentUser().addPrescription(p, getApplicationContext());
+                    makeToast("created test alarm");
+                }
 
             });
 
