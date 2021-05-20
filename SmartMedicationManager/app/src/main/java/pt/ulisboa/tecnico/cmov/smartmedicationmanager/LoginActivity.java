@@ -35,6 +35,10 @@ public class LoginActivity extends BaseActivity {
         EditText usernameTxt = (EditText) findViewById(R.id.usernameTxt);
         EditText passwordTxt = (EditText) findViewById(R.id.passwordTxt);
 
+        // TODO remove later (na entrega)
+        usernameTxt.setText("Paulo");
+        passwordTxt.setText("123456");
+
         loginBtn.setOnClickListener(view -> {
             HashMap<String, String> map = new HashMap<>();
 
@@ -63,22 +67,22 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if (response.code() == 200) {
-                    Toast.makeText(LoginActivity.this, "Welcome " + username, Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Welcome " + username, Toast.LENGTH_SHORT).show();
                     gd = (GlobalData) getApplicationContext();
                     gd.setCurrentUser(new User(username));
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 } else if (response.code() == 404) {
-                    Toast.makeText(LoginActivity.this, "No User Found", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "No User Found", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 400) {
-                    Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<User> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -91,15 +95,15 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.code() == 201) {
-                    Toast.makeText(LoginActivity.this, "User Created Successfully", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "User Created Successfully", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 400) {
-                    Toast.makeText(LoginActivity.this, "User Creation Failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "User Creation Failed", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

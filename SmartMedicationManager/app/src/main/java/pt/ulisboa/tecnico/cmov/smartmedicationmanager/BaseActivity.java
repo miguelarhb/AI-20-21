@@ -1,10 +1,17 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,7 +46,8 @@ public class BaseActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    String BASE_URL = "http://192.168.1.52:3000/";
+    //static final String BASE_URL = "http://192.168.1.52:3000/";
+    static final String BASE_URL = "http://192.168.1.11:3000/";
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -90,16 +99,12 @@ public class BaseActivity extends AppCompatActivity {
         if (gd==null){
             gd = (GlobalData) getApplicationContext();
         }
-    /*
-        if (gd.getCurrentUser()==null){
-            gd.setCurrentUser(new User("Paulo"));
-        }
 
-     */
+        //TODO remove later (test data)
         if (gd.getCurrentUser().getPatients().size()==0){
-            gd.getCurrentUser().addPatient(new User("someone"));
+            gd.getCurrentUser().addPatient(new User("José"));
             gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
-            gd.getCurrentUser().addPatient(new User("second"));
+            gd.getCurrentUser().addPatient(new User("Ricardo"));
         }
         if (gd.userHasPatients()){
             if (gd.getActivePatient().getMedicines().size()==0){
@@ -110,6 +115,10 @@ public class BaseActivity extends AppCompatActivity {
                 med.setNotes("notes");
                 gd.getActivePatient().addMedicine(med);
             }
+        }
+
+        if (!gd.userHasCaretaker()){
+            gd.getCurrentUser().setCaretaker(new User("Pedro"));
         }
 
         toolbar = findViewById(R.id.toolbar);
@@ -153,15 +162,66 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void createAlarm(Prescription p) {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        Intent myIntent = new Intent(BaseActivity.this, AlarmReceiver.class);
-        myIntent.setAction(ALARM_ACTION_INTENT);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(BaseActivity.this, ALARM_CODE, myIntent, 0);
+        AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
 
-        long firstTime = System.currentTimeMillis();
-        long interval = 1000*5;
-        //1000*60*10 = 10minutes
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, firstTime, interval, pendingIntent);
+        long firstTime = System.currentTimeMillis()+1000*5;
+
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+
+        PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        am.set(AlarmManager.RTC_WAKEUP, firstTime, sender);
+        AlarmReceiver alarmReceiver = new AlarmReceiver();
+        alarmReceiver.setActivity(BaseActivity.this);
+        alarmReceiver.setUpNextAlarm(BaseActivity.this);
+    }
+    public static void createNotification(Context x){
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(x, "notify_001");
+        Intent ii = new Intent(x, AlarmActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(x, 0, ii, 0);
+
+        NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
+        bigText.bigText("xd");
+        bigText.setBigContentTitle("Today's Bible Verse");
+        bigText.setSummaryText("Text in detail");
+
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        mBuilder.setSound(alarmSound);
+
+        mBuilder.setContentIntent(pendingIntent);
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
+        mBuilder.setContentTitle("Your Title");
+        mBuilder.setContentText("Your text");
+        mBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        mBuilder.setFullScreenIntent(pendingIntent, true);
+        mBuilder.setStyle(bigText);
+
+        NotificationManager mNotificationManager = (NotificationManager) x.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel notificationChannel = new NotificationChannel("mychannelid", "NOTIFICATION_CHANNEL_NAME", importance);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.enableVibration(true);
+            notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+
+            if(alarmSound != null){
+                AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .setUsage(AudioAttributes.USAGE_ALARM)
+                        .build();
+                notificationChannel.setSound(alarmSound,audioAttributes);
+            }
+
+            assert mNotificationManager != null;
+            mBuilder.setChannelId("mychannelid");
+            mNotificationManager.createNotificationChannel(notificationChannel);
+        }
+
+        mNotificationManager.notify(0, mBuilder.build());
     }
 }

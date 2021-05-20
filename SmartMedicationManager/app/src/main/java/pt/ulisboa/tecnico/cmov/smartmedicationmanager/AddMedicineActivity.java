@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -146,10 +145,7 @@ public class AddMedicineActivity extends BaseActivity {
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 new IntentIntegrator(this).initiateScan();
             } else {
-                Toast.makeText(AddMedicineActivity.this,
-                        "Camera Permission Denied",
-                        Toast.LENGTH_SHORT)
-                        .show();
+                makeToast("Camera Permission Denied");
             }
         }
     }
@@ -159,7 +155,7 @@ public class AddMedicineActivity extends BaseActivity {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if (result.getContents() == null) {
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+                makeToast("Cancelled");
             } else {
                 makeToast("Barcode Scanned successfully");
                 barcode = result.getContents();
