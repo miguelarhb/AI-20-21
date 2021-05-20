@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
             ImageButton alarmsBt = findViewById(R.id.btAlarms);
             ImageButton historyBt = findViewById(R.id.btHistory);
             if (gd.userHasPatients()){
-                welcome.setText("Active Patient: "+gd.getActivePatient().getUsername() +"\n\nWelcome "+gd.getCurrentUser().getUsername());
+                welcome.setText("Managing Patient "+gd.getActivePatient().getUsername());
 
             }
             else{

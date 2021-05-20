@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/nord_white">
 
     <include
         android:id="@+id/include"
@@ -14,88 +15,128 @@
 
     <TextView
         android:id="@+id/welcome"
+        android:background="@color/nord_dark_white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/include"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
+        android:padding="20dp"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:text="Welcome"
-        android:textSize="18sp" />
+        android:text="@string/caretaker_mode"
+        android:textSize="24sp" />
 
-    <ImageButton
-        android:id="@+id/btSchedule"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        app:srcCompat="@drawable/calendar"
+    <RelativeLayout
+        android:id="@+id/aboveRow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/welcome"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="135dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginBottom="212dp"
-        app:layout_constraintBottom_toTopOf="@+id/btAlarms"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp">
 
-    <ImageButton
-        android:id="@+id/btHistory"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        app:srcCompat="@drawable/history"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="108dp"
-        android:layout_marginLeft="108dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginBottom="170dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageButton
+            android:id="@+id/btMedicine"
+            android:background="@color/nord_yellow"
+            android:layout_margin="20dp"
+            android:padding="20dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="centerInside"
+            android:elevation="5dp"
+            app:srcCompat="@drawable/medicine"
+            />
 
-    <ImageButton
-        android:id="@+id/btAlarms"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        app:srcCompat="@drawable/bell"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginBottom="170dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.284"
-        app:layout_constraintStart_toEndOf="@+id/btHistory" />
+        <TextView
+            android:id="@+id/txtMedicine"
+            android:text="@string/medicine"
+            style="@style/textProperties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btMedicine"
+            android:layout_alignEnd="@+id/btMedicine"
+            android:layout_alignStart="@+id/btMedicine"
+            android:gravity="center_horizontal"
+            />
 
-    <ImageButton
-        android:id="@+id/btMedicine"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        app:srcCompat="@drawable/medicine"
-        android:layout_below="@+id/welcome"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="135dp"
-        android:layout_marginBottom="216dp"
-        app:layout_constraintBottom_toTopOf="@+id/btHistory"
-        app:layout_constraintEnd_toStartOf="@+id/btSchedule"
-        app:layout_constraintHorizontal_bias="0.394"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageButton
+            android:id="@+id/btSchedule"
+            android:background="@color/nord_purple"
+            android:layout_margin="20dp"
+            android:padding="20dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="centerInside"
+            android:elevation="5dp"
+            app:srcCompat="@drawable/calendar"
+            android:layout_toEndOf="@id/btMedicine"/>
+
+        <TextView
+            android:id="@+id/txtSchedule"
+            android:text="@string/schedule"
+            style="@style/textProperties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btSchedule"
+            android:layout_alignEnd="@+id/btSchedule"
+            android:layout_alignStart="@+id/btSchedule"
+            android:gravity="center_horizontal"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/aboveRow">
+
+        <ImageButton
+            android:id="@+id/btAlarms"
+            android:background="@color/nord_red"
+            android:padding="20dp"
+            android:layout_margin="20dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="centerInside"
+            android:elevation="5dp"
+            app:srcCompat="@drawable/bell" />
+
+        <TextView
+            android:id="@+id/txtAlarm"
+            android:text="@string/schedule"
+            style="@style/textProperties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btAlarms"
+            android:layout_alignEnd="@+id/btAlarms"
+            android:layout_alignStart="@+id/btAlarms"
+            android:gravity="center_horizontal"
+            />
+
+        <ImageButton
+            android:id="@+id/btHistory"
+            android:background="@color/nord_green"
+            android:layout_margin="20dp"
+            android:padding="20dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="centerInside"
+            android:elevation="5dp"
+            app:srcCompat="@drawable/history"
+            android:layout_toEndOf="@+id/btAlarms"/>
+
+        <TextView
+            android:id="@+id/txtHistory"
+            android:text="@string/history"
+            style="@style/textProperties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btHistory"
+            android:layout_alignEnd="@+id/btHistory"
+            android:layout_alignStart="@+id/btHistory"
+            android:gravity="center_horizontal"
+            />
+
+    </RelativeLayout>
 
 </RelativeLayout>

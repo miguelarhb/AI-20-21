@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SMC</string>
+    <string name="app_name">MEDIFY</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -30,4 +30,8 @@
     <string name="password_hint">Password</string>
     <string name="username_hint">Username</string>
     <string name="smart_medication_manager">Smart Medication Manager</string>
+    <string name="caretaker_mode">Caretaker Mode</string>
+    <string name="medicine">Medicine</string>
+    <string name="schedule">Schedule</string>
+    <string name="history">History</string>
 </resources>
