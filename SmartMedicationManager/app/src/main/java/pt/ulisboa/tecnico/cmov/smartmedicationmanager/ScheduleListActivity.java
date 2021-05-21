@@ -9,7 +9,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.PrescriptionAdapter;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters.PrescriptionAdapter;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 
 public class ScheduleListActivity extends BaseActivity {

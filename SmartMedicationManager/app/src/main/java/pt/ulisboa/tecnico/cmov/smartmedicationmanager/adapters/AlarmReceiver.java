@@ -1,10 +1,13 @@
-package pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses;
+package pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.services.AlarmService;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.services.RescheduleAlarmService;
 
 public class AlarmReceiver extends BroadcastReceiver {
 

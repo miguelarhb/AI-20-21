@@ -9,7 +9,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.MedicineAdapter;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters.MedicineAdapter;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 
 public class MedicineListActivity extends BaseActivity {

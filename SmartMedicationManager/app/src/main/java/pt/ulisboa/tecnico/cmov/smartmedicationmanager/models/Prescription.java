@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.UUID;
 
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.AlarmReceiver;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters.AlarmReceiver;
 
 public class Prescription {
 

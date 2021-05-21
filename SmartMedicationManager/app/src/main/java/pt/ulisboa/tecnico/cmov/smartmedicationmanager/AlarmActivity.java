@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import java.time.LocalDateTime;
 
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.AlarmService;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.services.AlarmService;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 

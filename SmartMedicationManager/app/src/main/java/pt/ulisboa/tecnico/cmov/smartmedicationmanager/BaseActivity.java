@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.GlobalData;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.data.GlobalData;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
 import retrofit2.Retrofit;

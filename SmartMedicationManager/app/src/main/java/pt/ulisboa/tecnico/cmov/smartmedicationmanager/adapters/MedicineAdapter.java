@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses;
+package pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,25 +11,27 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.MedicineListActivity;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.R;
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.ScheduleListActivity;
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 
-public class PrescriptionAdapter extends ArrayAdapter<Prescription> {
+public class MedicineAdapter extends ArrayAdapter<Medicine> {
 
     private final Context context;
-    private List<Prescription> schedule;
+    private List<Medicine> medicines;
     private int resource;
-    private ScheduleListActivity activity;
+    private MedicineListActivity activity;
 
-    public PrescriptionAdapter(Context context, int resource, List<Prescription> schedule) {
-        super(context, resource, schedule);
-        this.schedule = schedule;
+    public MedicineAdapter(Context context, int resource, List<Medicine> medicine) {
+        super(context, resource, medicine);
+        this.medicines = medicine;
         this.context = context;
         this.resource = resource;
-        this.activity = ((ScheduleListActivity) context);
+        this.activity = ((MedicineListActivity) context);
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -41,21 +43,21 @@ public class PrescriptionAdapter extends ArrayAdapter<Prescription> {
             view = inflater.inflate(resource, null);
         }
 
-        Prescription p = getItem(position);
+        Medicine m = getItem(position);
 
         ImageView image = view.findViewById(R.id.iconitem);
         TextView name = view.findViewById(R.id.medicineName);
         TextView qt = view.findViewById(R.id.quantity);
-        TextView until = view.findViewById(R.id.untilEndDate);
-        TextView periodicity = view.findViewById(R.id.periodicity);
-        ImageButton editBt = view.findViewById(R.id.editPrescButton);
+        TextView expDate = view.findViewById(R.id.expirationDate);
+        ImageButton editBt = view.findViewById(R.id.editMedicineButton);
 
         //image.setImageBitmap();
-        name.setText(p.getMedicine().getName());
-        qt.setText(p.getQuantity() + " pills");
-        periodicity.setText("Every "+p.getPeriodicity());
-        until.setText("Until "+ activity.friendlyDateTimeFormat(p.getEndDate()));
+        name.setText(m.getName());
+        qt.setText(m.getQuantity() + " box");
 
+        DateFormat df = new SimpleDateFormat("MM/yyyy");
+        String dateString = df.format(m.getExpirationDate());
+        expDate.setText(dateString);
 
         editBt.setOnClickListener(v -> {
             AlertDialog alertDialog = new AlertDialog.Builder(context).create();
@@ -64,14 +66,14 @@ public class PrescriptionAdapter extends ArrayAdapter<Prescription> {
 
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "EDIT",
                     (dialog, which) -> {
-                        activity.editPrescription(p);
+                        activity.editMedicine(m);
                         dialog.dismiss();
                     });
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
                     (dialog, which) -> dialog.cancel());
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "DELETE",
                     (dialog, which) -> {
-                        activity.deletePrescription(p);
+                        activity.deleteMedicine(m);
                         dialog.dismiss();
                     });
 

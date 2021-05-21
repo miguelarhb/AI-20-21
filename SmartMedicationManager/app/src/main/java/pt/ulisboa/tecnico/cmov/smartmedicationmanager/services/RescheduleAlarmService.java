@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses;
+package pt.ulisboa.tecnico.cmov.smartmedicationmanager.services;
 
 import android.app.Service;
 import android.content.Intent;

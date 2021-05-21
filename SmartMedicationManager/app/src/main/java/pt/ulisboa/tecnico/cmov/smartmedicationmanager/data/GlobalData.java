@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses;
+package pt.ulisboa.tecnico.cmov.smartmedicationmanager.data;
 
 import android.app.Application;
 import android.app.NotificationChannel;

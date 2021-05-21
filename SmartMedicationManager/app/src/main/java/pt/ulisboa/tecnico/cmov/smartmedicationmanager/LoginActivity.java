@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import java.util.HashMap;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.UserApi;
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.GlobalData;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.data.GlobalData;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses;
+package pt.ulisboa.tecnico.cmov.smartmedicationmanager.services;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -18,7 +17,7 @@ import androidx.core.app.NotificationCompat;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.AlarmActivity;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.R;
 
-import static pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.GlobalData.CHANNEL_ID;
+import static pt.ulisboa.tecnico.cmov.smartmedicationmanager.data.GlobalData.CHANNEL_ID;
 
 public class AlarmService extends Service {
 

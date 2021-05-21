@@ -10,7 +10,7 @@ import androidx.appcompat.app.AlertDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses.PatientListAdapter;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters.PatientListAdapter;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
 
 public class ManagePatientsActivity extends BaseActivity {

@@ -17,7 +17,7 @@
 
 
     <application
-        android:name=".helperClasses.GlobalData"
+        android:name=".data.GlobalData"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -43,7 +43,7 @@
         </activity>
 
         <receiver
-            android:name=".helperClasses.AlarmReceiver"
+            android:name=".adapters.AlarmReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -52,11 +52,11 @@
         </receiver>
 
         <service
-            android:name=".helperClasses.AlarmService"
+            android:name=".services.AlarmService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".helperClasses.RescheduleAlarmService"
+            android:name=".services.RescheduleAlarmService"
             android:enabled="true"
             android:exported="true" />
     </application>

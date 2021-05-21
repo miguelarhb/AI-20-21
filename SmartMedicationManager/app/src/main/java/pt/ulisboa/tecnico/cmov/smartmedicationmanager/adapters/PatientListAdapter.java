@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmov.smartmedicationmanager.helperClasses;
+package pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.ManagePatientsActivity;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.R;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.data.GlobalData;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
 
 public class PatientListAdapter extends ArrayAdapter<User> {
