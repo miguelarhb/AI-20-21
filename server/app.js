@@ -1,9 +1,6 @@
 const express = require('express');
 const http = require('http');
 const mongoose = require('mongoose');
-const https = require('https');
-const path = require('path');
-const fs = require('fs');
 
 //Express App
 const app = express();
@@ -29,7 +26,7 @@ app.use('/item', require('./routes/item-route'));
 
 const server = http.createServer(app)
 
-//MongoDB Connect & Run SSL Server
+//MongoDB Connect
 const db = mongoose.connect(dbURL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -38,7 +35,6 @@ const db = mongoose.connect(dbURL, {
     })
     .then((result) => {
         console.log('Connection to DB Successful');
-        //Run SSL Server
         server.listen(PORT, (err) => {
             if (err)
                 console.error('Something went wrong', err);

@@ -79,7 +79,7 @@ public class MainActivity extends BaseActivity {
             ImageButton helpBt = findViewById(R.id.buttonHelp);
 
             if (gd.userHasCaretaker()){
-                welcome.setText("Assigned caretaker: "+gd.getCurrentUser().getCaretaker().getUsername()+"\n\nWelcome "+gd.getCurrentUser().getUsername());
+                welcome.setText("Assigned caretaker: "+gd.getCurrentUser().getCaretaker().getUsername());
                 //todo ask data from server and create alarms
                 for (Prescription p : gd.getCurrentUser().getSchedule()){
                     if (!p.getPeriodicity().equals("test")){
@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
             else{
-                welcome.setText("No assigned caretaker. Ask someone to assign you or switch to advanced mode.\n\nWelcome "+gd.getCurrentUser().getUsername());
+                welcome.setText("No assigned caretaker. Ask someone to assign you or switch to advanced mode.");
                 scheduleBt.setEnabled(false);
                 helpBt.setEnabled(false);
 
