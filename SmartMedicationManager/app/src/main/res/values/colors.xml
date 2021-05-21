@@ -17,5 +17,7 @@
     <color name="nord_red">#bf616a</color>
     <color name="nord_orange">#d08770</color>
     <color name="nord_green">#a3be8c</color>
+    <color name="nord_blue_light">#88c0d0</color>
+    <color name="nord_blue_dark">#5e81ac</color>
 
 </resources>

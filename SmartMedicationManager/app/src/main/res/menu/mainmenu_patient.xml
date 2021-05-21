@@ -3,11 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menuAdvancedMode"
-        android:title="@string/managing_mode"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/settings"
+        android:iconTint="@color/nord_white"
+        android:iconTintMode="src_in"/>
 
-    <item
-        android:id="@+id/menuSettings"
-        android:title="@string/logout"
-        app:showAsAction="never" />
 </menu>

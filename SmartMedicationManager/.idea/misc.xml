@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/drawable/backgroud_rectangle.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/drawable/ic_baseline_group_24.xml" value="0.403125" />
+        <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.403125" />
         <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/activity_add_medicine.xml" value="0.37817028985507245" />
         <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/activity_add_patient.xml" value="0.37817028985507245" />
         <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/activity_add_prescription.xml" value="0.37817028985507245" />

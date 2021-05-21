@@ -34,8 +34,8 @@ public class BaseActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    //static final String BASE_URL = "http://192.168.1.52:3000/";
-    static final String BASE_URL = "http://192.168.1.11:3000/";
+    static final String BASE_URL = "http://192.168.1.52:3000/";
+    //static final String BASE_URL = "http://192.168.1.11:3000/";
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -76,8 +76,6 @@ public class BaseActivity extends AppCompatActivity {
             case R.id.menuManagePatients:
                 intent = new Intent(this, ManagePatientsActivity.class);
                 startActivity(intent);
-                return true;
-            case R.id.menuSettings:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

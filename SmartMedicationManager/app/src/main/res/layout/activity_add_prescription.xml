@@ -17,15 +17,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp">
+        android:layout_margin="20dp">
 
         <TextView
             android:layout_width="0dp"
             style="@style/textProperties"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:text="Medicine" />
+            android:text="@string/medicine" />
 
         <Spinner
             android:id="@+id/medSpinner"
@@ -38,21 +37,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp">
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <TextView
             style="@style/textProperties"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:text="Quantity" />
+            android:layout_weight="0.3"
+            android:text="@string/quantity" />
 
         <EditText
             android:id="@+id/addPrescQt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.75"
+            android:layout_weight="0.8"
             android:inputType="number" />
     </LinearLayout>
 
@@ -60,8 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp">
+        android:layout_margin="20dp">
 
         <TextView
             style="@style/textProperties"
@@ -69,13 +67,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.7"
-            android:text="Start Date" />
+            android:text="@string/start_date" />
 
         <Button
             android:id="@+id/startDate"
-            android:text="Pick"
+            android:text="@string/pick"
             android:layout_marginTop="2dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.3" />
@@ -87,8 +85,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp">
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <TextView
             style="@style/textProperties"
@@ -96,13 +94,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.7"
-            android:text="End Date" />
+            android:text="@string/end_date" />
 
         <Button
             android:id="@+id/endDate"
-            android:text="Pick"
+            android:text="@string/pick"
             android:layout_marginTop="2dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.3" />
@@ -114,22 +112,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp">
+        android:layout_margin="20dp">
 
         <TextView
             style="@style/textProperties"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.35"
-            android:text="Periodicity: every" />
+            android:text="@string/repeat_every" />
 
         <EditText
             android:id="@+id/periodicityNumber"
-            android:layout_marginTop="2dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.35"
+            android:layout_weight="0.3"
             android:inputType="number"/>
 
         <Spinner
@@ -145,20 +143,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <TextView
             style="@style/textProperties"
             android:id="@+id/tvnotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="5dp"
-            android:text="Notes: "
+            android:text="@string/notes"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -167,18 +161,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_margin="20dp"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/addPrescNotes"
-            android:hint="Important Notes"
+            android:hint="@string/important_notes"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginTop="8dp"
             android:gravity="top"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:inputType="text|textMultiLine"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvnotes" />
@@ -194,12 +185,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="76dp"
-            android:layout_marginLeft="76dp"
             android:layout_marginBottom="64dp"
-            android:text="Submit"
+            android:text="@string/submit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/addMedCancel"
             app:layout_constraintHorizontal_bias="0.012"
@@ -210,21 +199,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="76dp"
-            android:layout_marginRight="76dp"
             android:layout_marginBottom="64dp"
-            android:text="Cancel"
+            android:text="@string/cancel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-
 
 </LinearLayout>
