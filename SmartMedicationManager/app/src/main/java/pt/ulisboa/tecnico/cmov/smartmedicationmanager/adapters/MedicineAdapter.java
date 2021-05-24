@@ -59,28 +59,29 @@ public class MedicineAdapter extends ArrayAdapter<Medicine> {
         String dateString = df.format(m.getExpirationDate());
         expDate.setText(dateString);
 
-        editBt.setOnClickListener(v -> {
-            AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-            alertDialog.setTitle("Edit Medicine");
-            alertDialog.setMessage("Edit Or Delete?");
+        if (this.resource==R.layout.medicine_list_item){
+            editBt.setOnClickListener(v -> {
+                AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                alertDialog.setTitle("Edit Medicine");
+                alertDialog.setMessage("Edit Or Delete?");
 
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "EDIT",
-                    (dialog, which) -> {
-                        activity.editMedicine(m);
-                        dialog.dismiss();
-                    });
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
-                    (dialog, which) -> dialog.cancel());
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "DELETE",
-                    (dialog, which) -> {
-                        activity.deleteMedicine(m);
-                        dialog.dismiss();
-                    });
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "EDIT",
+                        (dialog, which) -> {
+                            activity.editMedicine(m);
+                            dialog.dismiss();
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                        (dialog, which) -> dialog.cancel());
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "DELETE",
+                        (dialog, which) -> {
+                            activity.deleteMedicine(m);
+                            dialog.dismiss();
+                        });
 
-            alertDialog.show();
+                alertDialog.show();
 
-        });
-
+            });
+        }
 
         return view;
 

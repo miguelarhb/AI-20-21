@@ -14,7 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.R;
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.ScheduleListActivity;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.PrescriptionListActivity;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 
 public class PrescriptionAdapter extends ArrayAdapter<Prescription> {
@@ -22,14 +22,14 @@ public class PrescriptionAdapter extends ArrayAdapter<Prescription> {
     private final Context context;
     private List<Prescription> schedule;
     private int resource;
-    private ScheduleListActivity activity;
+    private PrescriptionListActivity activity;
 
     public PrescriptionAdapter(Context context, int resource, List<Prescription> schedule) {
         super(context, resource, schedule);
         this.schedule = schedule;
         this.context = context;
         this.resource = resource;
-        this.activity = ((ScheduleListActivity) context);
+        this.activity = ((PrescriptionListActivity) context);
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {

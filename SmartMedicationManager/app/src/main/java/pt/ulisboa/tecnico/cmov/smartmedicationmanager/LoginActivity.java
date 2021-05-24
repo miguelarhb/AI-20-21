@@ -24,6 +24,18 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        gd = (GlobalData) getApplicationContext();
+
+        String loggedInUser = getSharedPreferenceString("username");
+        if (!loggedInUser.equals("")) {
+            gd.setCurrentUser(new User(loggedInUser));
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            makeToast("Welcome back " + loggedInUser);
+            startActivity(intent);
+            finish();
+        }
+
         setContentView(R.layout.activity_login);
 
         userApi = retrofit.create(UserApi.class);
@@ -68,8 +80,8 @@ public class LoginActivity extends BaseActivity {
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if (response.code() == 200) {
                     Toast.makeText(LoginActivity.this, "Welcome " + username, Toast.LENGTH_SHORT).show();
-                    gd = (GlobalData) getApplicationContext();
                     gd.setCurrentUser(new User(username));
+                    writeSharedPreferencesString("username", username);
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();

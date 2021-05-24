@@ -12,7 +12,7 @@ import java.util.List;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters.PrescriptionAdapter;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 
-public class ScheduleListActivity extends BaseActivity {
+public class PrescriptionListActivity extends BaseActivity {
 
     List<Prescription> schedule= new ArrayList<>();
     PrescriptionAdapter adapter;

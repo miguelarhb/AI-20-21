@@ -18,8 +18,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             startRescheduleAlarmsService(context);
         }
         else {
-            Log.d("fds", "Alarm Received");
-            Log.d("fds", intent.getStringExtra("id"));
+            Log.d("fds", "Alarm Received -> "+ intent.getStringExtra("id") + "---" + intent.getLongExtra("time", -1));
             startAlarmService(context, intent);
         }
     }
@@ -27,6 +26,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     private void startAlarmService(Context context, Intent intent) {
         Intent intentService = new Intent(context, AlarmService.class);
         intentService.putExtra("id", intent.getStringExtra("id"));
+        intentService.putExtra("time", intent.getLongExtra("time", -1));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(intentService);
         } else {

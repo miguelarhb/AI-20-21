@@ -87,8 +87,16 @@ public class BaseActivity extends AppCompatActivity {
             gd = (GlobalData) getApplicationContext();
         }
 
-        if (gd.getCurrentUser()==null){
-            gd.setCurrentUser(new User("Paulo"));
+        String loggedInUser = getSharedPreferenceString("username");
+        if (loggedInUser.equals("")){
+            gd.setCurrentUser(null);
+            Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
+        else{
+            if (gd.getCurrentUser()==null) {
+                gd.setCurrentUser(new User(loggedInUser));
+            }
         }
 
         //TODO remove later (test data)
@@ -135,7 +143,7 @@ public class BaseActivity extends AppCompatActivity {
             }
         });
 
-        if (getSharedPreference("MODE")){
+        if (getSharedPreferenceBoolean("MODE")){
             menu_layout = R.menu.mainmenu_caretaker;
         }
         else{
@@ -151,15 +159,26 @@ public class BaseActivity extends AppCompatActivity {
         Log.d("fds", String.valueOf(s));
     }
 
-    public void writeSharedPreferences(String key, Boolean value) {
+    public void writeSharedPreferencesBoolean(String key, Boolean value) {
         SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFERENCES_FILE,Context.MODE_PRIVATE).edit();
         editor.putBoolean(key, value);
         editor.apply();
     }
-    public Boolean getSharedPreference(String key){
+    public Boolean getSharedPreferenceBoolean(String key){
         SharedPreferences sharedPref = getSharedPreferences(SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE);
         Boolean b = sharedPref.getBoolean(key, false);
         return b;
+    }
+
+    public void writeSharedPreferencesString(String key, String value) {
+        SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFERENCES_FILE,Context.MODE_PRIVATE).edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+    public String getSharedPreferenceString(String key){
+        SharedPreferences sharedPref = getSharedPreferences(SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE);
+        String v = sharedPref.getString(key, "");
+        return v;
     }
 
     public String friendlyDateTimeFormat(LocalDateTime dateTime){

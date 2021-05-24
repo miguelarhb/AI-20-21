@@ -14,7 +14,6 @@ import android.os.Vibrator;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.AlarmActivity;
@@ -44,8 +43,8 @@ public class AlarmService extends Service {
     private void YourTask(Intent i) {
         Intent intent = new Intent(this, AlarmActivity.class);
         intent.putExtra("id", i.getStringExtra("id"));
-        long time = Calendar.getInstance().getTimeInMillis();
-        intent.putExtra("time", time);
+        intent.putExtra("time", i.getLongExtra("time", -1));
+
         int genId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, genId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 

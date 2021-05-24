@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,19 +19,34 @@ public class MedicineListActivity extends BaseActivity {
     MedicineAdapter adapter;
     ListView listView;
 
+    boolean patient;
+    int medicine_list_item_layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_list);
         loadToolbar();
 
+        patient = getIntent().getBooleanExtra("patient", false);
+
         listView = findViewById(R.id.medicineList);
 
         FloatingActionButton fab = findViewById(R.id.fabAddItem);
 
-        items.addAll(gd.getActivePatient().getMedicines());
+        if (patient){
+            items.addAll(gd.getCurrentUser().getMedicines());
+            fab.setVisibility(View.GONE);
+            medicine_list_item_layout=R.layout.medicine_list_item_patient;
+        }
+        else{
+            items.addAll(gd.getActivePatient().getMedicines());
+            medicine_list_item_layout=R.layout.medicine_list_item;
+        }
 
-        adapter=new MedicineAdapter(this, R.layout.medicine_list_item, items);
+
+
+        adapter=new MedicineAdapter(this, medicine_list_item_layout, items);
         listView.setAdapter(adapter);
 
 

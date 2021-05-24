@@ -144,6 +144,16 @@
                 android:text="@string/requests" />
         </RelativeLayout>
 
+        <Button
+            android:id="@+id/btTestAlarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="33dp"
+            android:layout_marginBottom="23dp"
+            android:text="Test alarm" />
+
     </RelativeLayout>
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ public class MainActivity extends BaseActivity {
     public void loadActivity(){
 
         activityLayout = R.layout.activity_main_patient;
-        if (getSharedPreference("MODE")){
+        if (getSharedPreferenceBoolean("MODE")){
             activityLayout = R.layout.activity_main_caretaker;
         }
 
@@ -39,7 +40,7 @@ public class MainActivity extends BaseActivity {
 
         TextView welcome = findViewById(R.id.welcome);
 
-        if (getSharedPreference("MODE")){
+        if (getSharedPreferenceBoolean("MODE")){
             ImageButton medicineBt = findViewById(R.id.btMedicine);
             ImageButton scheduleBt = findViewById(R.id.btSchedule);
             ImageButton alarmsBt = findViewById(R.id.btAlarms);
@@ -61,16 +62,17 @@ public class MainActivity extends BaseActivity {
 
             });
             scheduleBt.setOnClickListener(v -> {
-                intent = new Intent(this, ScheduleListActivity.class);
+                intent = new Intent(this, PrescriptionListActivity.class);
                 startActivity(intent);
 
             });
             alarmsBt.setOnClickListener(v -> {
-                makeToast("Alarms");
+                intent = new Intent(this, CaretakerAlarmsActivity.class);
+                startActivity(intent);
 
             });
             historyBt.setOnClickListener(v -> {
-                makeToast("History");
+                makeToast("Schedule");
 
             });
 
@@ -80,6 +82,7 @@ public class MainActivity extends BaseActivity {
             ImageButton helpBt = findViewById(R.id.buttonHelp);
             ImageButton medicationBt = findViewById(R.id.btnMedication);
             ImageButton requestsBt = findViewById(R.id.btnRequests);
+            Button testAlarmBt = findViewById(R.id.btTestAlarm);
 
             if (gd.getCurrentUser().getSchedule().size()>1){
                 for (Alarm alarm: gd.getCurrentUser().getSchedule().get(1).getAlarms()){
@@ -102,13 +105,34 @@ public class MainActivity extends BaseActivity {
                 welcome.setText("No assigned caretaker. Ask someone to assign you or switch to advanced mode.");
                 scheduleBt.setEnabled(false);
                 helpBt.setEnabled(false);
+                medicationBt.setEnabled(false);
+                testAlarmBt.setEnabled(false);
 
             }
 
-
             scheduleBt.setOnClickListener(v -> {
                 makeToast("Schedule");
-                //TODO remove later (test data)
+
+            });
+
+            helpBt.setOnClickListener(v -> {
+                makeToast("Help");
+
+            });
+
+            medicationBt.setOnClickListener(v -> {
+                intent = new Intent(this, MedicineListActivity.class);
+                intent.putExtra("patient",true);
+                startActivity(intent);
+
+            });
+
+            requestsBt.setOnClickListener(v -> {
+                makeToast("Requests");
+
+            });
+
+            testAlarmBt.setOnClickListener(v -> {
                 if (true){
                     Prescription p = new Prescription();
                     p.generateId();
@@ -133,21 +157,6 @@ public class MainActivity extends BaseActivity {
                         logThis(alarm.getDateTime().toString() + alarm.isTaken());
                     }
                 }
-
-            });
-
-            helpBt.setOnClickListener(v -> {
-                makeToast("Help");
-
-            });
-
-            medicationBt.setOnClickListener(v -> {
-                makeToast("Medication");
-
-            });
-
-            requestsBt.setOnClickListener(v -> {
-                makeToast("Requests");
 
             });
 
