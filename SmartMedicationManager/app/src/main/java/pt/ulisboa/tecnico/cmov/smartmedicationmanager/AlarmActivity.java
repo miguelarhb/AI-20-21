@@ -7,14 +7,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Alarm;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.services.AlarmService;
 
 public class AlarmActivity extends BaseActivity {
     String id;
+    Alarm a = null;
+    String periodicity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +31,14 @@ public class AlarmActivity extends BaseActivity {
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
-        String times = intent.getStringExtra("time");
+        long timeMs = intent.getLongExtra("time", 0);
+        String hm = new SimpleDateFormat("HH:mm").format(new Date(timeMs));
+        Instant instant = Instant.ofEpochMilli(timeMs);
+        LocalDateTime date = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+        logThis(date.toString());
 
         //TODO remove later, call server
-        if (gd.getCurrentUser().getSchedule().size()==0){
+        if (gd.getCurrentUser().getSchedule().size() == 0) {
             logThis("created fake past prescription");
             Prescription p = new Prescription();
             p.setId(id);
@@ -43,6 +54,16 @@ public class AlarmActivity extends BaseActivity {
         Prescription p = gd.getCurrentUser().getSchedule().stream().
                 filter(o -> o.getId().equals(id)).
                 findAny().orElse(null);
+        periodicity = p.getPeriodicity();
+
+        for (Alarm alarm : p.getAlarms()) {
+            long ms = alarm.getDateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            if (almostEqualDates(ms, timeMs)) {
+                a = alarm;
+                break;
+            }
+        }
+        a.setTaken(false);
 
         TextView alarm = findViewById(R.id.alarmID);
         TextView time = findViewById(R.id.time);
@@ -55,7 +76,7 @@ public class AlarmActivity extends BaseActivity {
         Button btDismiss = findViewById(R.id.btDismiss);
 
         alarm.setText(id);
-        time.setText(times);
+        time.setText(hm);
         //image.setImageBitmap();
         name.setText(p.getMedicine().getName());
         quantity.setText(String.valueOf(p.getQuantity()));
@@ -72,16 +93,11 @@ public class AlarmActivity extends BaseActivity {
             tvDoor.setText("Door: open");
             tvDoor.setTextColor(Color.GREEN);
             btDismiss.setEnabled(true);
+            a.setTaken(true);
         });
 
         btDismiss.setOnClickListener(v -> {
-
-            //todo if end date not yet
-            if (true){
-                p.setAlarm(getApplicationContext(), gd.getCurrentUser().getSchedule().indexOf(p));
-                makeToast("repeat alarm");
-            }
-
+            p.setAlarm(getApplicationContext());
             finish();
         });
 
@@ -114,5 +130,17 @@ public class AlarmActivity extends BaseActivity {
 //            finish();
 //
 //        });
+    }
+
+    private boolean almostEqualDates(long alarmTime, long notifTime) {
+        long exceededTime = notifTime - alarmTime;
+        long maxThreshold = 10000;
+        if (periodicity.equals("test")) {
+            maxThreshold = 4900;
+        }
+        if (exceededTime > 0 && exceededTime < maxThreshold) {
+            return true;
+        }
+        return false;
     }
 }

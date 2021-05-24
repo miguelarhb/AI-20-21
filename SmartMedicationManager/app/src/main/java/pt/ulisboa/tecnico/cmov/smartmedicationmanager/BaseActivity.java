@@ -24,6 +24,7 @@ import java.util.concurrent.Executors;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.data.GlobalData;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -105,6 +106,18 @@ public class BaseActivity extends AppCompatActivity {
                 med.setNotes("notes");
                 gd.getActivePatient().addMedicine(med);
             }
+        }
+
+        if (gd.getCurrentUser().getSchedule().size()==0){
+            Prescription p = new Prescription();
+            p.generateId();
+            p.setMedicine(new Medicine("Medicine1", 20));
+            p.setQuantity(1);
+            p.setStartDate(LocalDateTime.now());
+            p.setEndDate(LocalDateTime.now().plusDays(8));
+            p.setPeriodicity("1-Days");
+            p.setNotes("Most not die");
+            gd.getCurrentUser().addPrescription(p, getApplicationContext());
         }
 
         if (!gd.userHasCaretaker()){

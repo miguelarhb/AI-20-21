@@ -4,10 +4,15 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters.AlarmReceiver;
@@ -31,6 +36,8 @@ public class Prescription {
     private LocalDateTime endDate;
 
     private String notes;
+
+    private List<Alarm> alarms = new ArrayList<>();
 
     public Prescription(Medicine medicine, int quantity, String periodicity, LocalDateTime startDate) {
         this.medicine = medicine;
@@ -102,7 +109,35 @@ public class Prescription {
         this.notes = notes;
     }
 
-    public void setAlarm(Context context, int alarm_id) {
+    public List<Alarm> getAlarms() {
+        return alarms;
+    }
+
+    public void setAlarms(List<Alarm> alarms) {
+        this.alarms = alarms;
+    }
+
+    //
+
+    public void generateAlarms(){
+        this.alarms.clear();
+        long firstAlarm = this.startDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long lastThreshold = this.endDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long nextAlarm = firstAlarm;
+        long interval = getInterval();
+
+        while (nextAlarm <= lastThreshold) {
+            Instant instant = Instant.ofEpochMilli(nextAlarm);
+            LocalDateTime date = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+            this.alarms.add(new Alarm(date, false));
+            nextAlarm += interval;
+        }
+    }
+
+    //
+
+    public void setAlarm(Context context) {
+        int alarm_id = this.getId().hashCode();
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent myIntent = new Intent(context, AlarmReceiver.class);
@@ -110,14 +145,12 @@ public class Prescription {
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm_id, myIntent, 0);
 
-        long alarmStart = this.startDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-
-        // if alarm time has already passed, increment by interval
-        while (alarmStart <= System.currentTimeMillis()) {
-            alarmStart += getInterval();
+        long nextAlarm = getNextAlarm();
+        if (nextAlarm==0){
+            return;
         }
 
-        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmStart, pendingIntent);
+        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, nextAlarm, pendingIntent);
     }
 
     public void cancelAlarm(Context context){
@@ -147,5 +180,22 @@ public class Prescription {
             }
         }
         return interval;
+    }
+
+    private long getNextAlarm() {
+        if (this.alarms.size()==0){
+            generateAlarms();
+        }
+        long ms;
+        for (Alarm alarm: this.alarms){
+            ms = alarm.getDateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            if ( ms >= System.currentTimeMillis()){
+                Log.d("fds", "scheduling "+alarm.getDateTime().toString());
+                return ms;
+            }
+        }
+        ms=0;
+        return ms;
+
     }
 }

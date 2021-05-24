@@ -14,7 +14,6 @@ import android.os.Vibrator;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -46,8 +45,7 @@ public class AlarmService extends Service {
         Intent intent = new Intent(this, AlarmActivity.class);
         intent.putExtra("id", i.getStringExtra("id"));
         long time = Calendar.getInstance().getTimeInMillis();
-        String hm=new SimpleDateFormat("HH:mm").format(new Date(time));
-        intent.putExtra("time", hm);
+        intent.putExtra("time", time);
         int genId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, genId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 

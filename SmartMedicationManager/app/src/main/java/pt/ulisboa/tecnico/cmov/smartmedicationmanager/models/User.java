@@ -83,16 +83,20 @@ public class User {
 
     public void addPrescription(Prescription prescription, Context context) {
         this.schedule.add(prescription);
-        prescription.setAlarm(context, this.schedule.indexOf(prescription));
+        prescription.generateAlarms();
+        prescription.setAlarm(context);
+
     }
 
     public void deletePrescription(Prescription prescription, Context context){
         //prescription.cancelAlarm();
         this.schedule.remove(prescription);
+        prescription.getAlarms().clear();
     }
 
     public void updatePrescription(int index, Prescription prescription, Context context){
-        //prescription.setAlarm();
         this.schedule.set(index, prescription);
+        prescription.generateAlarms();
+        //prescription.setAlarm();
     }
 }

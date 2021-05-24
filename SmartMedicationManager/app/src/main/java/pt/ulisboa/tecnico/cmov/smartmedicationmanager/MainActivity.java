@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import java.time.LocalDateTime;
 
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Alarm;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 
@@ -77,6 +78,15 @@ public class MainActivity extends BaseActivity {
         else{
             ImageButton scheduleBt = findViewById(R.id.buttonSchedule);
             ImageButton helpBt = findViewById(R.id.buttonHelp);
+            ImageButton medicationBt = findViewById(R.id.btnMedication);
+            ImageButton requestsBt = findViewById(R.id.btnRequests);
+
+            if (gd.getCurrentUser().getSchedule().size()>1){
+                for (Alarm alarm: gd.getCurrentUser().getSchedule().get(1).getAlarms()){
+                    logThis(alarm.getDateTime().toString() + alarm.isTaken());
+                }
+            }
+
 
             if (gd.userHasCaretaker()){
                 welcome.setText("Assigned caretaker: "+gd.getCurrentUser().getCaretaker().getUsername());
@@ -99,32 +109,45 @@ public class MainActivity extends BaseActivity {
             scheduleBt.setOnClickListener(v -> {
                 makeToast("Schedule");
                 //TODO remove later (test data)
-                if (gd.getCurrentUser().getSchedule().size()==0){
+                if (true){
                     Prescription p = new Prescription();
                     p.generateId();
                     p.setMedicine(new Medicine("Good med", 20));
                     p.setQuantity(1);
-                    p.setStartDate(LocalDateTime.now());
+                    p.setStartDate(LocalDateTime.now().plusSeconds(5));
                     p.setEndDate(LocalDateTime.now().plusSeconds(30));
                     p.setPeriodicity("test");
                     p.setNotes("");
                     gd.getCurrentUser().addPrescription(p, getApplicationContext());
                     makeToast("created test alarm");
-                    Prescription p2 = new Prescription();
-                    p2.generateId();
-                    p2.setMedicine(new Medicine("Great med", 20));
-                    p2.setQuantity(2);
-                    p2.setStartDate(LocalDateTime.now().plusSeconds(5));
-                    p2.setEndDate(LocalDateTime.now().plusSeconds(30));
-                    p2.setPeriodicity("test");
-                    p2.setNotes("");
-                    gd.getCurrentUser().addPrescription(p2, getApplicationContext());
+//                    Prescription p2 = new Prescription();
+//                    p2.generateId();
+//                    p2.setMedicine(new Medicine("Great med", 20));
+//                    p2.setQuantity(2);
+//                    p2.setStartDate(LocalDateTime.now().plusSeconds(10));
+//                    p2.setEndDate(LocalDateTime.now().plusSeconds(30));
+//                    p2.setPeriodicity("test");
+//                    p2.setNotes("");
+//                    gd.getCurrentUser().addPrescription(p2, getApplicationContext());
+                    for (Alarm alarm: p.getAlarms()){
+                        logThis(alarm.getDateTime().toString() + alarm.isTaken());
+                    }
                 }
 
             });
 
             helpBt.setOnClickListener(v -> {
                 makeToast("Help");
+
+            });
+
+            medicationBt.setOnClickListener(v -> {
+                makeToast("Medication");
+
+            });
+
+            requestsBt.setOnClickListener(v -> {
+                makeToast("Requests");
 
             });
 
