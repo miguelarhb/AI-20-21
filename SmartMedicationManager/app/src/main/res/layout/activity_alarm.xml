@@ -13,42 +13,29 @@
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/alarm"
+        android:id="@+id/alarmID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/include"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:gravity="center"
         android:text="AlarmID"
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/btStop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/alarm"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="157dp"
-        android:layout_marginTop="95dp"
-        android:layout_marginEnd="160dp"
-        android:text="STOP" />
-
-    <Button
         android:id="@+id/btDismiss"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btStop"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="158dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginEnd="161dp"
+        android:layout_marginBottom="50dp"
         android:text="Dismiss" />
 
     <TextView
@@ -57,8 +44,63 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="67dp"
-        android:layout_marginBottom="49dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="19dp"
         android:text="Door: " />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="79dp"
+        android:layout_marginTop="46dp"
+        android:text="name" />
+
+    <TextView
+        android:id="@+id/quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="49dp"
+        android:layout_marginEnd="81dp"
+        android:text="quant" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/alarmID"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="190dp"
+        android:layout_marginTop="28dp"
+        android:text="time" />
+
+    <TextView
+        android:id="@+id/notes"
+        android:layout_width="302dp"
+        android:layout_height="200dp"
+        android:layout_above="@+id/btDismiss"
+        android:layout_below="@+id/name"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="61dp"
+        android:layout_marginBottom="30dp"
+        android:text="notes" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="109dp"
+        android:layout_height="103dp"
+        android:layout_below="@+id/time"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="155dp"
+        app:srcCompat="@drawable/ic_pill" />
 
 </RelativeLayout>

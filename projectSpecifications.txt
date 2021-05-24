@@ -99,6 +99,6 @@ Servidor
 -----------------------------
 Notes:
 	-call for help - phone number?
-	-barcode lookup is not really doable..-report
-	-confirm add patient
 	-multiple medicines in 'prescription'
+	-manter logged in user in shared preferences like in cmu
+	-caretaker/patient requests
