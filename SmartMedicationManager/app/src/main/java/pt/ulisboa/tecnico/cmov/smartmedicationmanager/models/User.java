@@ -19,6 +19,10 @@ public class User {
 
     private List<Prescription> schedule = new ArrayList<>();
 
+    private List<User> requests = new ArrayList<>();
+
+    private List<User> temporaryPatients = new ArrayList<>();
+
     //
 
     public User(String username) {
@@ -81,6 +85,24 @@ public class User {
         this.schedule = schedule;
     }
 
+    public List<User> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(List<User> requests) {
+        this.requests = requests;
+    }
+
+    public List<User> getTemporaryPatients() {
+        return temporaryPatients;
+    }
+
+    public void setTemporaryPatients(List<User> temporaryPatients) {
+        this.temporaryPatients = temporaryPatients;
+    }
+
+    //
+
     public void addPrescription(Prescription prescription, Context context) {
         this.schedule.add(prescription);
         prescription.generateAlarms();
@@ -89,7 +111,7 @@ public class User {
     }
 
     public void deletePrescription(Prescription prescription, Context context){
-        //prescription.cancelAlarm();
+        prescription.cancelAlarm(context);
         this.schedule.remove(prescription);
         prescription.getAlarms().clear();
     }
@@ -97,6 +119,6 @@ public class User {
     public void updatePrescription(int index, Prescription prescription, Context context){
         this.schedule.set(index, prescription);
         prescription.generateAlarms();
-        //prescription.setAlarm();
+        prescription.setAlarm(context);
     }
 }

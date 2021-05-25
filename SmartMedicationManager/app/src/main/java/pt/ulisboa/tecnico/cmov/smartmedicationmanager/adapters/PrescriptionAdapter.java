@@ -52,7 +52,7 @@ public class PrescriptionAdapter extends ArrayAdapter<Prescription> {
 
         //image.setImageBitmap();
         name.setText(p.getMedicine().getName());
-        qt.setText(p.getQuantity() + " pills");
+        qt.setText(p.getQuantity() + " units");
         periodicity.setText("Every "+p.getPeriodicity());
         until.setText("Until "+ activity.friendlyDateTimeFormat(p.getEndDate()));
 

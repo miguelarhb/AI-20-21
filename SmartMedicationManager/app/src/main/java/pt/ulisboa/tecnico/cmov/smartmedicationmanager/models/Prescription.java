@@ -159,9 +159,8 @@ public class Prescription {
     public void cancelAlarm(Context context){
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
-        //TODO
-        //ALARM_CODE = p.getId();
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, 300, intent, 0);
+        int alarm_id = this.getId().hashCode();
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, alarm_id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.cancel(alarmPendingIntent);
 
     }

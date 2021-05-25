@@ -53,7 +53,7 @@ public class MedicineAdapter extends ArrayAdapter<Medicine> {
 
         //image.setImageBitmap();
         name.setText(m.getName());
-        qt.setText(m.getQuantity() + " box");
+        qt.setText(m.getQuantity() + " units");
 
         DateFormat df = new SimpleDateFormat("MM/yyyy");
         String dateString = df.format(m.getExpirationDate());

@@ -90,6 +90,7 @@ public class AlarmActivity extends BaseActivity {
             tvDoor.setTextColor(Color.GREEN);
             btDismiss.setEnabled(true);
             a.setTaken(true);
+            p.getMedicine().setQuantity(p.getMedicine().getQuantity()-1);
         });
 
         btDismiss.setOnClickListener(v -> {

@@ -23,7 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartMedicationManager.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CaretakerAlarmsActivity"></activity>
+        <activity android:name=".RequestsActivity" />
+        <activity android:name=".ScheduleActivity" />
+        <activity android:name=".CaretakerAlarmsActivity" />
         <activity android:name=".AlarmActivity" />
         <activity android:name=".AddPrescriptionActivity" />
         <activity android:name=".PrescriptionListActivity" />

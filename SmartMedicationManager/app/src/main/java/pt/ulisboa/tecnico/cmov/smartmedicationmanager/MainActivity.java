@@ -42,9 +42,9 @@ public class MainActivity extends BaseActivity {
 
         if (getSharedPreferenceBoolean("MODE")){
             ImageButton medicineBt = findViewById(R.id.btMedicine);
-            ImageButton scheduleBt = findViewById(R.id.btSchedule);
+            ImageButton prescriptionsBt = findViewById(R.id.btPrescriptions);
             ImageButton alarmsBt = findViewById(R.id.btAlarms);
-            ImageButton historyBt = findViewById(R.id.btHistory);
+            ImageButton scheduleBt = findViewById(R.id.btSchedule);
             if (gd.userHasPatients()){
                 welcome.setText("Managing Patient "+gd.getActivePatient().getUsername());
 
@@ -54,14 +54,14 @@ public class MainActivity extends BaseActivity {
                 medicineBt.setEnabled(false);
                 scheduleBt.setEnabled(false);
                 alarmsBt.setEnabled(false);
-                historyBt.setEnabled(false);
+                prescriptionsBt.setEnabled(false);
             }
             medicineBt.setOnClickListener(v -> {
                 intent = new Intent(this, MedicineListActivity.class);
                 startActivity(intent);
 
             });
-            scheduleBt.setOnClickListener(v -> {
+            prescriptionsBt.setOnClickListener(v -> {
                 intent = new Intent(this, PrescriptionListActivity.class);
                 startActivity(intent);
 
@@ -71,8 +71,9 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
 
             });
-            historyBt.setOnClickListener(v -> {
-                makeToast("Schedule");
+            scheduleBt.setOnClickListener(v -> {
+                intent = new Intent(this, ScheduleActivity.class);
+                startActivity(intent);
 
             });
 
@@ -111,7 +112,9 @@ public class MainActivity extends BaseActivity {
             }
 
             scheduleBt.setOnClickListener(v -> {
-                makeToast("Schedule");
+                intent = new Intent(this, ScheduleActivity.class);
+                intent.putExtra("patient",true);
+                startActivity(intent);
 
             });
 
@@ -128,7 +131,8 @@ public class MainActivity extends BaseActivity {
             });
 
             requestsBt.setOnClickListener(v -> {
-                makeToast("Requests");
+                intent = new Intent(this, RequestsActivity.class);
+                startActivity(intent);
 
             });
 
