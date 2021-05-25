@@ -4,15 +4,15 @@ const router = express.Router()
 const itemController = require('../controllers/item-controller')
 
 // POST Add Item
-router.post('user:/add', itemController.addItem)
+router.post('/add*', itemController.addItem)
 
 // DELETE Delete Item
-router.delete('user:/delete/name:', itemController.deleteItem)
+router.delete('/delete*', itemController.deleteItem)
 
 // GET All Item
-router.get('user:/all', itemController.allItem)
+router.get('/all*', itemController.allItem)
 
 // PUT Edit Item
-router.put('user:/edit/name:', itemController.editItem)
+router.put('/edit*', itemController.editItem)
 
 module.exports = router

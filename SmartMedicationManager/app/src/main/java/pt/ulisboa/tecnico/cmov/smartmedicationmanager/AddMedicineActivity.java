@@ -25,10 +25,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.MedicineApi;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class AddMedicineActivity extends BaseActivity {
+    private MedicineApi medicineApi;
     TextView barcodeTxt;
     String barcode;
     Medicine med;
@@ -42,26 +47,28 @@ public class AddMedicineActivity extends BaseActivity {
         setContentView(R.layout.activity_add_medicine);
         loadToolbar();
 
+        medicineApi = retrofit.create(MedicineApi.class);
+
+        // UI handle
         EditText nameTxt = findViewById(R.id.addMedName);
         EditText quantityTxt = findViewById(R.id.addMedQuantity);
         Spinner monthSpinner = findViewById(R.id.addMedMonthSpinner);
         EditText yearTxt = findViewById(R.id.addMedYear);
         EditText notesTxt = findViewById(R.id.addMedNotes);
-
         barcodeTxt = findViewById(R.id.addMedBarcodeView);
-
         Button barcodeScanBt = findViewById(R.id.addMedBarcodeBt);
         Button submitBt = findViewById(R.id.addMedSubmit);
         Button cancelBt = findViewById(R.id.addMedCancel);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, months);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         monthSpinner.setAdapter(adapter);
 
+
         Intent intent = getIntent();
         int mode = intent.getIntExtra("mode", -1);
-        if (mode==-1){
+        if (mode == -1){
             med = new Medicine();
             quantityTxt.setText("1");
             monthSpinner.setSelection(Calendar.getInstance().get(Calendar.MONTH));
@@ -77,39 +84,53 @@ public class AddMedicineActivity extends BaseActivity {
             yearTxt.setText(String.valueOf(cal.get(Calendar.YEAR)));
             notesTxt.setText(med.getNotes());
             barcode=med.getBarcode();
-            barcodeTxt.setText("Barcode: " + barcode);
+            barcodeTxt.setText(String.format("%s%s", getString(R.string.barcode_2point), barcode));
         }
 
+
         submitBt.setOnClickListener(v -> {
+
             String newName = nameTxt.getText().toString();
+            int newQuantity = Integer.parseInt(quantityTxt.getText().toString());
+            String newNotes = notesTxt.getText().toString();
+
+
             Medicine matchingObject = gd.getActivePatient().getMedicines().stream().
                     filter(p -> p.getName().equals(newName)).
                     findAny().orElse(null);
+
             if (matchingObject!=null && matchingObject!=med){
                 makeToast("Medicine name not unique");
                 return;
             }
-            med.setName(newName);
-            med.setBarcode(barcode);
-            med.setQuantity(Integer.parseInt(quantityTxt.getText().toString()));
+
             String s = monthSpinner.getSelectedItem().toString()+", "+yearTxt.getText().toString();
+
             DateFormat format = new SimpleDateFormat("MMMM, yyyy", Locale.ENGLISH);
+
             Date date = null;
+
             try {
                 date = format.parse(s);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
+            med.setName(newName);
+            med.setBarcode(barcode);
+            med.setQuantity(newQuantity);
             med.setExpirationDate(date);
-            med.setNotes(notesTxt.getText().toString());
-            if (mode==-1){
-                gd.getActivePatient().addMedicine(med);
+            med.setNotes(newNotes);
+
+            if (mode == -1){
+                addMedicine();
+
             }
             else{
                 gd.getActivePatient().getMedicines().set(mode, med);
             }
-            this.finish();
 
+            finish();
         });
 
 
@@ -130,6 +151,50 @@ public class AddMedicineActivity extends BaseActivity {
 
 
     }
+
+    private void addMedicine() {
+        String patient = gd.getActivePatient().getUsername();
+        Call<Void> call = medicineApi.createMedicine(patient, med);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.code() == 200) {
+                    makeToast("New Medicine Added");
+                } else if (response.code() == 400) {
+                    makeToast("Failed Add Medicine");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+    }
+
+    private void editMedicine() {
+        String patient = gd.getActivePatient().getUsername();
+        Call<Medicine> call = medicineApi.editMedicine(patient, "med" , med);
+        // TODO get old med name
+
+        call.enqueue(new Callback<Medicine>() {
+            @Override
+            public void onResponse(@NonNull Call<Medicine> call, @NonNull Response<Medicine> response) {
+                if(response.code() == 200) {
+                    makeToast("Medicine Edited");
+                } else if (response.code() == 400) {
+                    makeToast("Failed Editing Medicine");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Medicine> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -160,7 +225,7 @@ public class AddMedicineActivity extends BaseActivity {
                 makeToast("Barcode Scanned successfully");
                 barcode = result.getContents();
 
-                barcodeTxt.setText("Barcode: " + barcode);
+                barcodeTxt.setText(String.format("%s%s", getString(R.string.barcode_2point), barcode));
 
             }
         } else {

@@ -53,7 +53,6 @@ public class MedicineListActivity extends BaseActivity {
         super.onResume();
 
         refreshList();
-
     }
 
     public void editMedicine(Medicine m) {

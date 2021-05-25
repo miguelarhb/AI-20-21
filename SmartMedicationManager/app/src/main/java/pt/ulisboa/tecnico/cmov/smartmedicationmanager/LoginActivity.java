@@ -29,11 +29,11 @@ public class LoginActivity extends BaseActivity {
         userApi = retrofit.create(UserApi.class);
 
         // UI handle
-        Button loginBtn = (Button) findViewById(R.id.loginBtn);
-        Button createBtn = (Button) findViewById(R.id.createBtn);
+        Button loginBtn = findViewById(R.id.loginBtn);
+        Button createBtn = findViewById(R.id.createBtn);
 
-        EditText usernameTxt = (EditText) findViewById(R.id.usernameTxt);
-        EditText passwordTxt = (EditText) findViewById(R.id.passwordTxt);
+        EditText usernameTxt = findViewById(R.id.usernameTxt);
+        EditText passwordTxt = findViewById(R.id.passwordTxt);
 
         // TODO remove later (na entrega)
         usernameTxt.setText("Paulo");
@@ -42,8 +42,7 @@ public class LoginActivity extends BaseActivity {
         loginBtn.setOnClickListener(view -> {
             HashMap<String, String> map = new HashMap<>();
 
-            username = usernameTxt.getText().toString();
-            map.put("username", username);
+            map.put("username", usernameTxt.getText().toString());
             map.put("password", passwordTxt.getText().toString());
 
             loginUser(map);

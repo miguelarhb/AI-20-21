@@ -12,7 +12,7 @@ const itemSchema = new Schema({
         required: true,
         default: 0
     },
-    validity: Number,
+    validity: String,
     barcode: String,
     notes: String
 })

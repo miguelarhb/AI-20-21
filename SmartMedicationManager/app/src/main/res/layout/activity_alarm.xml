@@ -14,29 +14,24 @@
 
     <TextView
         android:id="@+id/alarmID"
+        style="@style/textTitleProperties"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/include"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="15dp"
         android:gravity="center"
-        android:text="AlarmID"
-        android:textSize="18sp" />
+        android:text="@string/alarmid" />
 
     <Button
         android:id="@+id/btDismiss"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="156dp"
-        android:layout_marginEnd="161dp"
         android:layout_marginBottom="50dp"
-        android:text="Dismiss" />
+        android:text="@string/dismiss" />
 
     <TextView
         android:id="@+id/textViewDoor"
@@ -44,53 +39,54 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="17dp"
-        android:layout_marginBottom="19dp"
-        android:text="Door: " />
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/door" />
 
     <TextView
         android:id="@+id/name"
+        style="@style/textProperties"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="79dp"
-        android:layout_marginTop="46dp"
-        android:text="name" />
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/name" />
 
     <TextView
         android:id="@+id/quantity"
+        style="@style/textProperties"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="49dp"
-        android:layout_marginEnd="81dp"
-        android:text="quant" />
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="75dp"
+        android:text="@string/quantity" />
 
     <TextView
         android:id="@+id/time"
+        style="@style/textProperties"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/alarmID"
-        android:layout_alignParentStart="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="190dp"
         android:layout_marginTop="28dp"
-        android:text="time" />
+        android:text="@string/time" />
 
     <TextView
         android:id="@+id/notes"
+        style="@style/textProperties"
         android:layout_width="302dp"
         android:layout_height="200dp"
         android:layout_above="@+id/btDismiss"
         android:layout_below="@+id/name"
-        android:layout_alignParentStart="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="48dp"
         android:layout_marginTop="61dp"
         android:layout_marginBottom="30dp"
-        android:text="notes" />
+        android:text="@string/notes" />
 
     <ImageView
         android:id="@+id/imageView"

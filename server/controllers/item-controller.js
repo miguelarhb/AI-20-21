@@ -9,17 +9,28 @@ const addItem = (req, res) => {
         barcode: req.body.barcode,
         notes: req.body.notes
     })
-    newItem.save((item) => {
-            const user = findUser(req)
-            user.items.push(item.id)
-        })
-        .then(() => {
-            res.status(200).send('Item added')
+
+    const query = { username: req.query.user }
+    User.findOne(query)
+        .exec()
+        .then((result) => {
+            newItem.save((err, item) => {
+                const list = result.items
+                list.push(item.id)
+                result.items = list
+                result.save()
+                    .catch((err) => {
+                        res.status(400).send()
+                        console.log('Item - No User error: ' + err)
+                    })
+                return new Promise(() => {})
+            })
         })
         .catch((err) => {
-            res.status(400).send('Item add error')
-            console.log('Item error: ' + err)
+            res.status(400).send()
+            console.log('Item - No User error: ' + err)
         })
+    res.status(200).send()
 }
 
 const deleteItem = (req, res) => {
@@ -76,18 +87,6 @@ const editItem = (req, res) => {
                 console.log('Item error: ' + err)
             })
     })
-}
-
-function findUser(req) {
-    const query = { username: req.params.user }
-    User.findOne(query)
-        .then((result) => {
-            return result
-        })
-        .catch((err) => {
-            res.status(400).send('Item - No User error')
-            console.log('Item - No User error: ' + err)
-        })
 }
 
 module.exports = {

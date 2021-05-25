@@ -1,8 +1,16 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager.models;
 
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Medicine {
 
@@ -13,7 +21,7 @@ public class Medicine {
     private String notes;
 
     @SerializedName("validity")
-    private Date expirationDate;
+    private String expirationDate;
 
     private String barcode;
 
@@ -50,11 +58,19 @@ public class Medicine {
     }
 
     public Date getExpirationDate() {
-        return expirationDate;
+        DateFormat format = new SimpleDateFormat("MMMM, yyyy", Locale.ENGLISH);
+        Date date = null;
+        try {
+            date = format.parse(expirationDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
     public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
+        DateFormat format = new SimpleDateFormat("MMMM, yyyy", Locale.ENGLISH);
+        this.expirationDate = format.format(expirationDate);
     }
 
     public String getBarcode() {
@@ -65,6 +81,7 @@ public class Medicine {
         this.barcode = barcode;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return this.name;

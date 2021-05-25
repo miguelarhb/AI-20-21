@@ -14,12 +14,10 @@ const userSchema = new Schema({
         required: true
     },
     items: [{
-        type: mongoose.Types.ObjectId,
-        ref: Item
+        type: String
     }],
     schedule: [{
-        type: mongoose.Types.ObjectId,
-        ref: Prescription
+        type: String
     }],
     patient: [String],
     caretaker: String
