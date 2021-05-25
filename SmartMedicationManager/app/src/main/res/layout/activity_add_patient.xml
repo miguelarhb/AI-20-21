@@ -16,7 +16,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/include">
+        android:layout_below="@id/include"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp">
 
         <LinearLayout
             android:id="@+id/patientCheck"
@@ -55,8 +59,22 @@
             android:id="@+id/addPatientSubmitBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_below="@+id/addPatientTextViewCheck"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
             android:text="@string/submit" />
+
+        <ListView
+            android:id="@+id/sentRequestsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addPatientSubmitBt"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            tools:listitem="@layout/pending_patient_request" />
 
     </RelativeLayout>
 </RelativeLayout>

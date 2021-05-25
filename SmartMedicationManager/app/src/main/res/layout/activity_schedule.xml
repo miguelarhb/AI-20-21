@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScheduleListActivity"
+    tools:context=".ScheduleActivity"
     android:background="@color/nord_white">
 
     <include
@@ -15,6 +15,7 @@
 
     <ListView
         android:id="@+id/scheduleList"
+        android:layout_marginBottom="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/include"
@@ -22,20 +23,26 @@
         android:layout_centerHorizontal="true"
         android:divider="@null"
         android:dividerHeight="0dp"
-        tools:listitem="@layout/schedule_list_item"/>
+        tools:listitem="@layout/caretaker_alarm_list_item"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddPrescription"
+    <ImageButton
+        android:id="@+id/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="22dp"
-        android:layout_marginBottom="30dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/nord_purple"
-        app:backgroundTintMode="add" />
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="25dp"
+        app:srcCompat="@android:drawable/ic_media_next" />
+
+    <ImageButton
+        android:id="@+id/previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="25dp"
+        app:srcCompat="@android:drawable/ic_media_previous" />
 
 </RelativeLayout>

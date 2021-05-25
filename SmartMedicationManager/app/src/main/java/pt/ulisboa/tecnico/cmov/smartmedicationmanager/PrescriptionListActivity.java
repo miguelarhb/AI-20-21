@@ -12,7 +12,7 @@ import java.util.List;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters.PrescriptionAdapter;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 
-public class ScheduleListActivity extends BaseActivity {
+public class PrescriptionListActivity extends BaseActivity {
 
     List<Prescription> schedule= new ArrayList<>();
     PrescriptionAdapter adapter;
@@ -21,7 +21,7 @@ public class ScheduleListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule_list);
+        setContentView(R.layout.activity_prescription_list);
         loadToolbar();
 
         listView = findViewById(R.id.scheduleList);
@@ -30,7 +30,7 @@ public class ScheduleListActivity extends BaseActivity {
 
         schedule.addAll(gd.getActivePatient().getSchedule());
 
-        adapter=new PrescriptionAdapter(this, R.layout.schedule_list_item, schedule);
+        adapter=new PrescriptionAdapter(this, R.layout.prescription_list_item, schedule);
         listView.setAdapter(adapter);
 
 

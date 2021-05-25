@@ -4,8 +4,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters.PendingPatientAdapter;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
 
 public class AddPatientActivity extends BaseActivity {
@@ -15,6 +20,10 @@ public class AddPatientActivity extends BaseActivity {
     Button submitBt;
 
     String username;
+
+    ListView pendingRequestsList;
+    PendingPatientAdapter adapter;
+    List<User> pendingRequests = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +42,13 @@ public class AddPatientActivity extends BaseActivity {
         serverCheck = findViewById(R.id.addPatientTextViewCheck);
         checkBt = findViewById(R.id.addPatientCheckBt);
         submitBt = findViewById(R.id.addPatientSubmitBt);
+
+        pendingRequestsList = findViewById(R.id.sentRequestsList);
+
+        pendingRequests.addAll(gd.getCurrentUser().getTemporaryPatients());
+        adapter = new PendingPatientAdapter(this, R.layout.pending_patient_request, pendingRequests);
+
+        pendingRequestsList.setAdapter(adapter);
 
         submitBt.setEnabled(false);
 
@@ -58,5 +74,25 @@ public class AddPatientActivity extends BaseActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        refreshList();
+
+
+    }
+
+    public void refreshList() {
+        pendingRequests.clear();
+        pendingRequests.addAll(gd.getCurrentUser().getTemporaryPatients());
+        adapter.notifyDataSetChanged();
+    }
+
+    public void remove(User u) {
+        gd.getCurrentUser().getTemporaryPatients().remove(u);
+        refreshList();
     }
 }

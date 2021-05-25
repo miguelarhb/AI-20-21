@@ -1,7 +1,9 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
@@ -16,8 +18,9 @@ public class AdvancedModeActivity extends BaseActivity {
         loadToolbar();
 
         switchCompat = findViewById(R.id.advancedModeSwitch);
+        TextView logoutTxt = findViewById(R.id.logoutTxt);
 
-        if (getSharedPreference("MODE")){
+        if (getSharedPreferenceBoolean("MODE")){
             switchCompat.setChecked(true);
             switchCompat.setText("On");
         }
@@ -33,22 +36,29 @@ public class AdvancedModeActivity extends BaseActivity {
                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
                             (dialog, which) -> {
                                 switchCompat.setText("On");
-                                writeSharedPreferences("MODE", true);
+                                writeSharedPreferencesBoolean("MODE", true);
                             });
                     alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
                             (dialog, which) -> {
                                 switchCompat.setText("Off");
                                 switchCompat.setChecked(false);
-                                writeSharedPreferences("MODE",false);
+                                writeSharedPreferencesBoolean("MODE",false);
                                 dialog.cancel();
                             });
 
                     alertDialog.show();
                 } else {
                     switchCompat.setText("Off");
-                    writeSharedPreferences("MODE",false);
+                    writeSharedPreferencesBoolean("MODE",false);
                 }
             }
+        });
+
+        logoutTxt.setOnClickListener(v -> {
+            gd.setCurrentUser(null);
+            writeSharedPreferencesString("username","");
+            Intent intent = new Intent(AdvancedModeActivity.this, LoginActivity.class);
+            startActivity(intent);
         });
     }
 }

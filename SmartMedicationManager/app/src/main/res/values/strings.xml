@@ -68,9 +68,10 @@
     <string name="help">Help</string>
     <string name="repeat_every">Repeat Every:</string>
     <string name="requests">Requests</string>
-    <string name="alarmid">AlarmID</string>
+    <string name="alarm_id">AlarmID</string>
     <string name="dismiss">Dismiss</string>
     <string name="door">Door:</string>
     <string name="time">Time</string>
     <string name="barcode_2point">\"Barcode: \"</string>
+    <string name="prescriptions">Prescriptions</string>
 </resources>

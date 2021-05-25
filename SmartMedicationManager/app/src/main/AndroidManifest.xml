@@ -12,9 +12,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
 
     <application
         android:name=".data.GlobalData"
@@ -25,10 +23,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartMedicationManager.NoActionBar"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".RequestsActivity" />
+        <activity android:name=".ScheduleActivity" />
+        <activity android:name=".CaretakerAlarmsActivity" />
         <activity android:name=".AlarmActivity" />
         <activity android:name=".AddPrescriptionActivity" />
-        <activity android:name=".ScheduleListActivity" />
+        <activity android:name=".PrescriptionListActivity" />
         <activity android:name=".AddMedicineActivity" />
         <activity android:name=".MedicineListActivity" />
         <activity android:name=".ManagePatientsActivity" />
@@ -38,6 +38,7 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

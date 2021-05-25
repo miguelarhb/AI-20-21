@@ -35,7 +35,6 @@ public class AlarmActivity extends BaseActivity {
         String hm = new SimpleDateFormat("HH:mm").format(new Date(timeMs));
         Instant instant = Instant.ofEpochMilli(timeMs);
         LocalDateTime date = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
-        logThis(date.toString());
 
         //TODO remove later, call server
         if (gd.getCurrentUser().getSchedule().size() == 0) {
@@ -56,13 +55,10 @@ public class AlarmActivity extends BaseActivity {
                 findAny().orElse(null);
         periodicity = p.getPeriodicity();
 
-        for (Alarm alarm : p.getAlarms()) {
-            long ms = alarm.getDateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-            if (almostEqualDates(ms, timeMs)) {
-                a = alarm;
-                break;
-            }
-        }
+        a = p.getAlarms().stream().
+                filter(o -> o.getDateTime().isEqual(date)).
+                findAny().orElse(null);
+
         a.setTaken(false);
 
         TextView alarm = findViewById(R.id.alarmID);
@@ -94,6 +90,7 @@ public class AlarmActivity extends BaseActivity {
             tvDoor.setTextColor(Color.GREEN);
             btDismiss.setEnabled(true);
             a.setTaken(true);
+            p.getMedicine().setQuantity(p.getMedicine().getQuantity()-1);
         });
 
         btDismiss.setOnClickListener(v -> {
@@ -130,17 +127,5 @@ public class AlarmActivity extends BaseActivity {
 //            finish();
 //
 //        });
-    }
-
-    private boolean almostEqualDates(long alarmTime, long notifTime) {
-        long exceededTime = notifTime - alarmTime;
-        long maxThreshold = 10000;
-        if (periodicity.equals("test")) {
-            maxThreshold = 4900;
-        }
-        if (exceededTime > 0 && exceededTime < maxThreshold) {
-            return true;
-        }
-        return false;
     }
 }

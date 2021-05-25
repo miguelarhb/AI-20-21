@@ -137,18 +137,21 @@ public class Prescription {
     //
 
     public void setAlarm(Context context) {
-        int alarm_id = this.getId().hashCode();
-        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        Intent myIntent = new Intent(context, AlarmReceiver.class);
-        myIntent.putExtra("id", this.id);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm_id, myIntent, 0);
 
         long nextAlarm = getNextAlarm();
         if (nextAlarm==0){
             return;
         }
+
+        int alarm_id = this.getId().hashCode();
+
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent myIntent = new Intent(context, AlarmReceiver.class);
+
+        myIntent.putExtra("id", this.id);
+        myIntent.putExtra("time", nextAlarm);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm_id, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, nextAlarm, pendingIntent);
     }
@@ -156,9 +159,8 @@ public class Prescription {
     public void cancelAlarm(Context context){
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
-        //TODO
-        //ALARM_CODE = p.getId();
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, 300, intent, 0);
+        int alarm_id = this.getId().hashCode();
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, alarm_id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.cancel(alarmPendingIntent);
 
     }
