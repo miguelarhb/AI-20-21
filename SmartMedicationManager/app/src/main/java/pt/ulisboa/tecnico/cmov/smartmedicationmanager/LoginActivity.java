@@ -53,8 +53,8 @@ public class LoginActivity extends BaseActivity {
 
         loginBtn.setOnClickListener(view -> {
             HashMap<String, String> map = new HashMap<>();
-
-            map.put("username", usernameTxt.getText().toString());
+            username = usernameTxt.getText().toString();
+            map.put("username", username);
             map.put("password", passwordTxt.getText().toString());
 
             loginUser(map);
