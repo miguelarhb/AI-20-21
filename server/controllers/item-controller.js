@@ -13,16 +13,20 @@ const addItem = (req, res) => {
     const query = { username: req.query.user }
     User.findOne(query)
         .then((userFound) => {
-            newItem.save((err, item) => {
+            newItem.save()
+                .then((item) => {
                     const list = userFound.items
                     list.push(item.id)
                     userFound.items = list
                     userFound.save()
+                        .then(() => {
+                            res.status(200).send()
+                            console.log('Item Saved')
+                        })
                         .catch((err) => {
                             res.status(400).send()
                             console.log('Item - Save Failure in User error: ' + err)
                         })
-                    return new Promise(() => {})
                 })
                 .catch((err) => {
                     res.status(400).send()
@@ -33,7 +37,6 @@ const addItem = (req, res) => {
             res.status(400).send()
             console.log('Item - No User error: ' + err)
         })
-    res.status(200).send()
 }
 
 const deleteItem = (req, res) => {
@@ -47,7 +50,7 @@ const deleteItem = (req, res) => {
                     .then((itemFound) => {
                         if (itemFound.name == deleteItemName) {
                             Item.findByIdAndDelete(itemID)
-                            var filtered = userFound.items[i].filter(function(value, i, arr) {
+                            var filtered = userFound.items.filter((value) => {
                                 return value != itemID;
                             })
                             userFound.items = filtered
@@ -81,6 +84,7 @@ const allItem = (req, res) => {
                         items.push(itemFound)
                         if (items.length == userFound.items.length) {
                             res.status(200).send(items)
+                            console.log('Sent Items')
                         }
                     })
                     .catch((err) => {

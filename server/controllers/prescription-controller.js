@@ -15,23 +15,21 @@ const addPrescription = (req, res) => {
 
     const query = { username: req.query.user }
     User.findOne(query)
-        .then((userFound) => {})
+        .then((userFound) => {
+            newPrescription.save((prescription) => {
+                    user.schedule.push(prescription.id)
+                })
+                .then(() => {
+                    res.status(200).send('Prescription added')
+                })
+                .catch((err) => {
+                    res.status(400).send('Prescription add error')
+                    console.log('Prescription add error: ' + err)
+                })
+        })
         .catch((err) => {
             res.status(400).send()
             console.log('Prescription - No User error: ' + err)
-        })
-
-
-
-    newPrescription.save((prescription) => {
-            user.schedule.push(prescription.id)
-        })
-        .then(() => {
-            res.status(200).send('Prescription added')
-        })
-        .catch((err) => {
-            res.status(400).send('Prescription add error')
-            console.log('Prescription add error: ' + err)
         })
 }
 
