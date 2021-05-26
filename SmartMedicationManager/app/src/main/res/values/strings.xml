@@ -72,6 +72,6 @@
     <string name="dismiss">Dismiss</string>
     <string name="door">Door:</string>
     <string name="time">Time</string>
-    <string name="barcode_2point">\"Barcode: \"</string>
+    <string name="barcode_2point">Barcode: </string>
     <string name="prescriptions">Prescriptions</string>
 </resources>

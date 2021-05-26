@@ -39,8 +39,6 @@ public class MedicineListActivity extends BaseActivity {
 
         FloatingActionButton fab = findViewById(R.id.fabAddItem);
 
-
-
         if (patient){
             Call<ArrayList<Medicine>> call = medicineApi.getAllMedicine(gd.getCurrentUser().getUsername());
 
@@ -48,8 +46,10 @@ public class MedicineListActivity extends BaseActivity {
                 @Override
                 public void onResponse(@NonNull Call<ArrayList<Medicine>> call, @NonNull Response<ArrayList<Medicine>> response) {
                     if(response.code() == 200) {
-                        ArrayList<Medicine> medicines = response.body();
-                        items.addAll(medicines);
+                        items.clear();
+                        items.addAll(response.body());
+                        adapter.notifyDataSetChanged();
+                        gd.getCurrentUser().setMedicines(response.body());
                     } else if (response.code() == 400) {
                         makeToast("Fail Getting Medicine");
                     }
@@ -71,9 +71,10 @@ public class MedicineListActivity extends BaseActivity {
                 @Override
                 public void onResponse(@NonNull Call<ArrayList<Medicine>> call, @NonNull Response<ArrayList<Medicine>> response) {
                     if(response.code() == 200) {
-                        ArrayList<Medicine> medicines = response.body();
-                        items.addAll(medicines);
-                        logThis(items.size());
+                        items.clear();
+                        items.addAll(response.body());
+                        adapter.notifyDataSetChanged();
+                        gd.getActivePatient().setMedicines(response.body());
                     } else if (response.code() == 400) {
                         makeToast("Fail Getting Medicine");
                     }
@@ -89,7 +90,6 @@ public class MedicineListActivity extends BaseActivity {
 
         adapter=new MedicineAdapter(this, medicine_list_item_layout, items);
         listView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
         fab.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddMedicineActivity.class);
@@ -100,7 +100,13 @@ public class MedicineListActivity extends BaseActivity {
 
     public void refreshList() {
         items.clear();
-        items.addAll(gd.getActivePatient().getMedicines());
+        if (patient){
+            items.addAll(gd.getCurrentUser().getMedicines());
+        }
+        else{
+            items.addAll(gd.getActivePatient().getMedicines());
+        }
+
         adapter.notifyDataSetChanged();
 
     }

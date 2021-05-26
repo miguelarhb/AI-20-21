@@ -94,17 +94,17 @@ public class BaseActivity extends AppCompatActivity {
             gd = (GlobalData) getApplicationContext();
         }
 
-        String loggedInUser = getSharedPreferenceString("username");
-        if (loggedInUser.equals("")){
-            gd.setCurrentUser(null);
-            Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
-            startActivity(intent);
-        }
-        else{
-            if (gd.getCurrentUser()==null) {
-                gd.setCurrentUser(new User(loggedInUser));
-            }
-        }
+//        String loggedInUser = getSharedPreferenceString("username");
+//        if (loggedInUser.equals("")){
+//            gd.setCurrentUser(null);
+//            Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
+//            startActivity(intent);
+//        }
+//        else{
+//            if (gd.getCurrentUser()==null) {
+//                gd.setCurrentUser(new User(loggedInUser));
+//            }
+//        }
 
         //TODO remove later (test data)
         if (getSharedPreferenceBoolean("MODE")){
@@ -119,7 +119,7 @@ public class BaseActivity extends AppCompatActivity {
                 med.setQuantity(1);
                 med.setExpirationDate(new Date());
                 med.setNotes("notes");
-                gd.getActivePatient().addMedicine(med);
+                //gd.getActivePatient().addMedicine(med);
 
                 Prescription p = new Prescription();
                 p.generateId();
@@ -155,7 +155,7 @@ public class BaseActivity extends AppCompatActivity {
                 med.setQuantity(1);
                 med.setExpirationDate(new Date());
                 med.setNotes("notes");
-                gd.getCurrentUser().addMedicine(med);
+                //gd.getCurrentUser().addMedicine(med);
 
                 Prescription p = new Prescription();
                 p.generateId();

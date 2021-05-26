@@ -25,7 +25,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.MedicineApi;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +36,8 @@ public class AddMedicineActivity extends BaseActivity {
     TextView barcodeTxt;
     String barcode;
     Medicine med;
+    int mode;
+    String oldMedName;
 
     String[] months = { "January", "February", "March", "April", "May", "June", "July",
             "August", "September", "October", "November", "December" };
@@ -65,7 +66,7 @@ public class AddMedicineActivity extends BaseActivity {
 
 
         Intent intent = getIntent();
-        int mode = intent.getIntExtra("mode", -1);
+        mode = intent.getIntExtra("mode", -1);
         if (mode == -1){
             med = new Medicine();
             quantityTxt.setText("1");
@@ -74,7 +75,8 @@ public class AddMedicineActivity extends BaseActivity {
         }
         else{
             med = gd.getActivePatient().getMedicines().get(mode);
-            nameTxt.setText(med.getName());
+            oldMedName= med.getName();
+            nameTxt.setText(oldMedName);
             quantityTxt.setText(String.valueOf(med.getQuantity()));
             Calendar cal = Calendar.getInstance();
             cal.setTime(med.getExpirationDate());
@@ -121,12 +123,11 @@ public class AddMedicineActivity extends BaseActivity {
             med.setNotes(newNotes);
 
             if (mode == -1){
-                gd.getActivePatient().addMedicine(med);
                 addMedicine();
 
             }
             else{
-                gd.getActivePatient().getMedicines().set(mode, med);
+                editMedicine();
             }
 
             finish();
@@ -160,6 +161,7 @@ public class AddMedicineActivity extends BaseActivity {
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if(response.code() == 200) {
                     makeToast("New Medicine Added");
+                    gd.getActivePatient().addMedicine(med);
                 } else if (response.code() == 400) {
                     makeToast("Failed Add Medicine");
                 }
@@ -174,21 +176,21 @@ public class AddMedicineActivity extends BaseActivity {
 
     private void editMedicine() {
         String patient = gd.getActivePatient().getUsername();
-        Call<Medicine> call = medicineApi.editMedicine(patient, "med" , med);
-        // TODO get old med name
+        Call<Void> call = medicineApi.editMedicine(patient, oldMedName , med);
 
-        call.enqueue(new Callback<Medicine>() {
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(@NonNull Call<Medicine> call, @NonNull Response<Medicine> response) {
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if(response.code() == 200) {
                     makeToast("Medicine Edited");
+                    gd.getActivePatient().getMedicines().set(mode, med);
                 } else if (response.code() == 400) {
                     makeToast("Failed Editing Medicine");
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<Medicine> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 makeToast(t.getMessage());
             }
         });
@@ -224,7 +226,7 @@ public class AddMedicineActivity extends BaseActivity {
                 makeToast("Barcode Scanned successfully");
                 barcode = result.getContents();
 
-                barcodeTxt.setText(String.format("%s%s", getString(R.string.barcode_2point), barcode));
+                barcodeTxt.setText(String.format("%s %s", getString(R.string.barcode_2point), barcode));
 
             }
         } else {

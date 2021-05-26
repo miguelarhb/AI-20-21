@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 
 import java.util.HashMap;
 
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.UserApi;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.data.GlobalData;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
 import retrofit2.Call;
@@ -27,13 +26,14 @@ public class LoginActivity extends BaseActivity {
         gd = (GlobalData) getApplicationContext();
 
         String loggedInUser = getSharedPreferenceString("username");
-        if (!loggedInUser.equals("")) {
-            gd.setCurrentUser(new User(loggedInUser));
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            makeToast("Welcome back " + loggedInUser);
-            startActivity(intent);
-            finish();
-        }
+//        if (!loggedInUser.equals("")) {
+//
+//            gd.setCurrentUser(new User(loggedInUser));
+//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//            makeToast("Welcome back " + loggedInUser);
+//            startActivity(intent);
+//            finish();
+//        }
 
         setContentView(R.layout.activity_login);
 
