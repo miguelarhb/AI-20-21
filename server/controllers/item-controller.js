@@ -13,18 +13,22 @@ const addItem = (req, res) => {
     const query = { username: req.query.user }
     User.findOne(query)
         .exec()
-        .then((result) => {
+        .then((userFound) => {
             newItem.save((err, item) => {
-                const list = result.items
-                list.push(item.id)
-                result.items = list
-                result.save()
-                    .catch((err) => {
-                        res.status(400).send()
-                        console.log('Item - No User error: ' + err)
-                    })
-                return new Promise(() => {})
-            })
+                    const list = userFound.items
+                    list.push(item.id)
+                    userFound.items = list
+                    userFound.save()
+                        .catch((err) => {
+                            res.status(400).send()
+                            console.log('Item - Save Failure in User error: ' + err)
+                        })
+                    return new Promise(() => {})
+                })
+                .catch((err) => {
+                    res.status(400).send()
+                    console.log('Item - Save Failure error: ' + err)
+                })
         })
         .catch((err) => {
             res.status(400).send()
@@ -34,59 +38,96 @@ const addItem = (req, res) => {
 }
 
 const deleteItem = (req, res) => {
-    const deleteItemName = req.body.name
-    const user = findUser(req)
-    user.items.forEach((itemID) => {
-        Item.findById(itemID)
-            .then((result) => {
-                if (result.name == deleteItemName) {
-                    Item.findByIdAndDelete(itemID)
-                        // TODO break
-                }
+    //TODO testar
+    const deleteItemName = req.query.name
+    const query = { username: req.query.user }
+    var i = 0
+    User.findOne(query)
+        .exec()
+        .then((userFound) => {
+            userFound.items.forEach((itemID) => {
+                Item.findById(itemID)
+                    .then((itemFound) => {
+                        if (itemFound.name == deleteItemName) {
+                            Item.findByIdAndDelete(itemID)
+
+                            var filtered = userFound.items[i].filter(function(value, i, arr) {
+                                return value != itemID;
+                            })
+                            userFound.items = filtered
+                            userFound.save()
+                                .catch((err) => {
+                                    res.status(400).send()
+                                    console.log('Item - Save Failure in User error: ' + err)
+                                })
+                        }
+                    })
             })
-            .catch((err) => {
-                res.status(400).send('Item add error')
-                console.log('Item error: ' + err)
-            })
-    })
+        })
+        .catch((err) => {
+            res.status(400).send()
+            console.log('Item - No User error: ' + err)
+        })
 }
 
 const allItem = (req, res) => {
-    const user = findUser(req)
+    //TODO testar
     var items = []
-    user.items.forEach((itemID) => {
-        Item.findById(itemID)
-            .then((result) => {
-                items.push(result)
+    const query = { username: req.query.user }
+    User.findOne(query)
+        .exec()
+        .then((userFound) => {
+            userFound.items.forEach((itemID) => {
+                Item.findById(itemID)
+                    .then((itemFound) => {
+                        items.push(itemFound)
+                    })
+                    .catch((err) => {
+                        res.status(400).send()
+                        console.log('Item - Get All Failure - Item Not Found error: ' + err)
+                    })
             })
-            .catch((err) => {
-                res.status(400).send('Item add error')
-                console.log('Item error: ' + err)
-            })
-    })
-    res.status(200).send(items)
+            res.status(200).send(items)
+        })
+        .catch((err) => {
+            res.status(400).send()
+            console.log('Item - No User error: ' + err)
+        })
 }
 
 const editItem = (req, res) => {
-    const editItemName = req.params.name
-    const user = findUser(req)
-    user.items.forEach((itemID) => {
-        Item.findById(itemID)
-            .then((result) => {
-                if (result.name == editItemName) {
-                    result.name = req.body.name
-                    result.quantity = req.body.quantity
-                    result.validity = req.body.validity
-                    result.barcode = req.body.barcode
-                    result.notes = req.body.notes
-                        //TODO break
-                }
+    //TODO testar
+    const editItemName = req.query.name
+    const query = { username: req.query.user }
+    User.findOne(query)
+        .exec()
+        .then((userFound) => {
+            userFound.items.forEach((itemID) => {
+                Item.findById(itemID)
+                    .then((itemFound) => {
+                        if (itemFound.name == editItemName) {
+                            itemFound.name = req.body.name
+                            itemFound.quantity = req.body.quantity
+                            itemFound.validity = req.body.validity
+                            itemFound.barcode = req.body.barcode
+                            itemFound.notes = req.body.notes
+                            itemFound.save()
+                                .catch((err) => {
+                                    res.status(400).send()
+                                    console.log('Item - Edit Failure error: ' + err)
+                                })
+                        }
+                    })
+                    .catch((err) => {
+                        res.status(400).send()
+                        console.log('Item - Edit Failure - Item Not Found error: ' + err)
+                    })
             })
-            .catch((err) => {
-                res.status(400).send('Item add error')
-                console.log('Item error: ' + err)
-            })
-    })
+        })
+        .catch((err) => {
+            res.status(400).send()
+            console.log('Item - No User error: ' + err)
+        })
 }
 
 module.exports = {
