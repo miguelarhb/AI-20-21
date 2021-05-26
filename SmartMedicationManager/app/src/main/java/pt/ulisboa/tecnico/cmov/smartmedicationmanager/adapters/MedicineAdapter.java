@@ -1,6 +1,8 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.MedicineListActivity;
@@ -48,7 +52,7 @@ public class MedicineAdapter extends ArrayAdapter<Medicine> {
         ImageView image = view.findViewById(R.id.iconitem);
         TextView name = view.findViewById(R.id.medicineName);
         TextView qt = view.findViewById(R.id.quantity);
-        TextView expDate = view.findViewById(R.id.expirationDate);
+        TextView expDateTxt = view.findViewById(R.id.expirationDate);
         ImageButton editBt = view.findViewById(R.id.editMedicineButton);
 
         //image.setImageBitmap();
@@ -57,7 +61,21 @@ public class MedicineAdapter extends ArrayAdapter<Medicine> {
 
         DateFormat df = new SimpleDateFormat("MM/yyyy");
         String dateString = df.format(m.getExpirationDate());
-        expDate.setText(dateString);
+        expDateTxt.setText(dateString);
+
+        LocalDateTime expDate = m.getExpirationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        expDate = expDate.withDayOfMonth(28);
+        LocalDateTime now = LocalDateTime.now();
+        if (expDate.isBefore(now)){
+            expDateTxt.setTextColor(Color.RED);
+        }
+        else if (expDate.isBefore(now.plusMonths(1))){
+            Log.d("fds", expDate.toString());
+            expDateTxt.setTextColor(Color.YELLOW);
+        }
+        else {
+            expDateTxt.setTextColor(Color.GREEN);
+        }
 
         if (this.resource==R.layout.medicine_list_item){
             editBt.setOnClickListener(v -> {

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters.MedicineAdapter;
@@ -46,10 +47,8 @@ public class MedicineListActivity extends BaseActivity {
                 @Override
                 public void onResponse(@NonNull Call<ArrayList<Medicine>> call, @NonNull Response<ArrayList<Medicine>> response) {
                     if(response.code() == 200) {
-                        items.clear();
-                        items.addAll(response.body());
-                        adapter.notifyDataSetChanged();
                         gd.getCurrentUser().setMedicines(response.body());
+                        refreshList();
                     } else if (response.code() == 400) {
                         makeToast("Fail Getting Medicine");
                     }
@@ -71,10 +70,8 @@ public class MedicineListActivity extends BaseActivity {
                 @Override
                 public void onResponse(@NonNull Call<ArrayList<Medicine>> call, @NonNull Response<ArrayList<Medicine>> response) {
                     if(response.code() == 200) {
-                        items.clear();
-                        items.addAll(response.body());
-                        adapter.notifyDataSetChanged();
                         gd.getActivePatient().setMedicines(response.body());
+                        refreshList();
                     } else if (response.code() == 400) {
                         makeToast("Fail Getting Medicine");
                     }
@@ -106,7 +103,7 @@ public class MedicineListActivity extends BaseActivity {
         else{
             items.addAll(gd.getActivePatient().getMedicines());
         }
-
+        items.sort(Comparator.comparing(Medicine::getName));
         adapter.notifyDataSetChanged();
 
     }

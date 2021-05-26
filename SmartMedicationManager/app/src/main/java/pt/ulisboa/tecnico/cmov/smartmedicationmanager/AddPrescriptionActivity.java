@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
@@ -60,6 +61,7 @@ public class AddPrescriptionActivity extends BaseActivity {
         Button cancelBt = findViewById(R.id.addMedCancel);
 
         List<Medicine> medicineList = gd.getActivePatient().getMedicines();
+        medicineList.sort(Comparator.comparing(Medicine::getName));
 
         ArrayAdapter<Medicine> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, medicineList);
