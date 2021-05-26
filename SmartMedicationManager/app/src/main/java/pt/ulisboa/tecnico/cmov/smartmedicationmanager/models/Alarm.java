@@ -1,9 +1,12 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.time.LocalDateTime;
 
 public class Alarm {
 
+    @SerializedName("time")
     private LocalDateTime dateTime;
 
     private boolean taken;

@@ -123,7 +123,7 @@ const allPrescription = (req, res) => {
     User.findOne(query)
         .then((userFound) => {
             userFound.schedule.forEach(function(prescriptionID) {
-                Item.findById(prescriptionID)
+                Prescription.findById(prescriptionID)
                     .then((prescriptionFound) => {
                         prescriptions.push(prescriptionFound)
                         if (prescriptions.length == userFound.schedule.length) {

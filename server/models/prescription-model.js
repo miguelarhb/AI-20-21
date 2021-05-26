@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const Item = require('./item-model')
 const Schema = mongoose.Schema
 
 const prescriptionSchema = new Schema({
@@ -11,6 +10,9 @@ const prescriptionSchema = new Schema({
         type: String,
         require: true
     },
+    alarms: [{
+        type: String
+    }],
     quantity: {
         type: Number,
         require: true,
@@ -21,10 +23,10 @@ const prescriptionSchema = new Schema({
         require: true
     },
     start: {
-        type: Number,
+        type: String,
         require: true
     },
-    end: Number,
+    end: String,
     notes: String
 })
 
