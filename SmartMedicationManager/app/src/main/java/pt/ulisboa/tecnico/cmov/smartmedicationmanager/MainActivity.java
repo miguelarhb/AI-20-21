@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import java.time.LocalDateTime;
 
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Alarm;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 
@@ -85,17 +84,11 @@ public class MainActivity extends BaseActivity {
             ImageButton requestsBt = findViewById(R.id.btnRequests);
             Button testAlarmBt = findViewById(R.id.btTestAlarm);
 
-            if (gd.getCurrentUser().getSchedule().size()>1){
-                for (Alarm alarm: gd.getCurrentUser().getSchedule().get(1).getAlarms()){
-                    logThis(alarm.getDateTime().toString() + alarm.isTaken());
-                }
-            }
-
 
             if (gd.userHasCaretaker()){
                 welcome.setText("Assigned caretaker: "+gd.getCurrentUser().getCaretaker().getUsername());
                 //todo ask data from server and create alarms
-                for (Prescription p : gd.getCurrentUser().getSchedule()){
+                for (Prescription p : gd.getCurrentUser().getPrescriptions()){
                     if (!p.getPeriodicity().equals("test")){
                         //makeToast("updating alarm");
                         //p.setAlarm(getApplicationContext(), gd.getCurrentUser().getSchedule().indexOf(p));
@@ -148,18 +141,6 @@ public class MainActivity extends BaseActivity {
                     p.setNotes("");
                     gd.getCurrentUser().addPrescription(p, getApplicationContext());
                     makeToast("created test alarm");
-//                    Prescription p2 = new Prescription();
-//                    p2.generateId();
-//                    p2.setMedicine(new Medicine("Great med", 20));
-//                    p2.setQuantity(2);
-//                    p2.setStartDate(LocalDateTime.now().plusSeconds(10));
-//                    p2.setEndDate(LocalDateTime.now().plusSeconds(30));
-//                    p2.setPeriodicity("test");
-//                    p2.setNotes("");
-//                    gd.getCurrentUser().addPrescription(p2, getApplicationContext());
-                    for (Alarm alarm: p.getAlarms()){
-                        logThis(alarm.getDateTime().toString() + alarm.isTaken());
-                    }
                 }
 
             });

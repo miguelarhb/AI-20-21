@@ -1,12 +1,18 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,12 +27,17 @@ import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 public class ScheduleActivity extends BaseActivity {
 
     List<Alarm> shownAlarms = new ArrayList<>();
-    Map<Date, List<Alarm>> map = new TreeMap<>();
+    Map<String, List<Alarm>> map = new TreeMap<>();
     Map<Alarm,Prescription> prescriptionMap = new HashMap<>();
     ScheduleAdapter adapter;
     ListView listView;
-    int counter = 0;
+    int counter = -1;
     Date now;
+    TextView scheduleDate;
+    String pickedDate;
+    int mYear;
+    int mMonth;
+    int mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +47,7 @@ public class ScheduleActivity extends BaseActivity {
 
         now = new Date();
 
+        scheduleDate = findViewById(R.id.scheduleDate);
         listView = findViewById(R.id.scheduleList);
         ImageButton previous = findViewById(R.id.previous);
         ImageButton next = findViewById(R.id.next);
@@ -45,24 +57,24 @@ public class ScheduleActivity extends BaseActivity {
         List<Prescription> source;
 
         if (patient){
-            source = gd.getCurrentUser().getSchedule();
+            source = gd.getCurrentUser().getPrescriptions();
         }
         else{
-            source = gd.getActivePatient().getSchedule();
+            source = gd.getActivePatient().getPrescriptions();
         }
 
-        Date date;
+        String dateString;
         for (Prescription p: source){
             for (Alarm a : p.getAlarms()){
-                date = toDate(a.getDateTime());
-                if (map.get(date)==null){
+                dateString = toCalendarString(a.getDateTime());
+                if (map.get(dateString)==null){
                     List<Alarm> alarms = new ArrayList<>();
                     alarms.add(a);
                     prescriptionMap.put(a,p);
-                    map.put(date, alarms);
+                    map.put(dateString, alarms);
                 }
                 else{
-                    map.get(date).add(a);
+                    map.get(dateString).add(a);
                     prescriptionMap.put(a,p);
                 }
 
@@ -72,18 +84,25 @@ public class ScheduleActivity extends BaseActivity {
             l.sort(Comparator.comparing(Alarm::getDateTime));
         }
 
-        iterateMap();
-
-
         adapter = new ScheduleAdapter(this, R.layout.caretaker_alarm_list_item, shownAlarms, prescriptionMap);
         listView.setAdapter(adapter);
+
+        try {
+            iterateMap();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         previous.setOnClickListener(v -> {
             counter--;
             if (counter<0){
                 counter=map.size()-1;
             }
-            iterateMap();
+            try {
+                iterateMap();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         });
 
         next.setOnClickListener(v -> {
@@ -91,23 +110,38 @@ public class ScheduleActivity extends BaseActivity {
             if (counter>=map.size()){
                 counter=0;
             }
-            iterateMap();
+            try {
+                iterateMap();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+
+        scheduleDate.setOnClickListener(v -> {
+            datePicker();
         });
     }
 
-    private void iterateMap() {
+    private void iterateMap() throws ParseException {
         int i = 0;
-        for (Date day : map.keySet()){
-            if (counter==0){
-                if (day.after(now)){
-                    shownAlarms = map.get(day);
+        for (String day : map.keySet()){
+            if (counter==-1){
+                Date converted = toDate(day);
+                if (converted.after(now)){
+                    shownAlarms.clear();
+                    shownAlarms.addAll(map.get(day));
                     counter=i;
+                    scheduleDate.setText(day);
+                    refreshList();
                     return;
                 }
             }
             else{
                 if (i == counter){
-                    shownAlarms = map.get(day);
+                    shownAlarms.clear();
+                    shownAlarms.addAll(map.get(day));
+                    scheduleDate.setText(day);
+                    refreshList();
                     return;
                 }
             }
@@ -116,8 +150,17 @@ public class ScheduleActivity extends BaseActivity {
 
     }
 
+    private String toCalendarString(LocalDateTime day) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return day.format(formatter);
+    }
+
+    private Date toDate(String s) throws ParseException {
+        return new SimpleDateFormat("dd-MM-yyyy").parse(s);
+
+    }
+
     public void refreshList() {
-        //
         adapter.notifyDataSetChanged();
 
     }
@@ -130,8 +173,36 @@ public class ScheduleActivity extends BaseActivity {
 
     }
 
-    public Date toDate(LocalDateTime dateTime){
-        return Date.from(dateTime.atZone(ZoneId.systemDefault())
-                .toInstant());
+    private void datePicker(){
+
+        // Get Current Date
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                        mYear = year;
+                        mMonth = monthOfYear+1;
+                        mDay = dayOfMonth;
+
+                        pickedDate= toCalendarString(LocalDateTime.of(mYear,mMonth,mDay,0,0));
+                        if (map.containsKey(pickedDate)){
+                            shownAlarms.clear();
+                            shownAlarms.addAll(map.get(pickedDate));
+                            scheduleDate.setText(pickedDate);
+                            refreshList();
+                        }
+                        else{
+                            makeToast("No records found on that day");
+                        }
+                    }
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
     }
 }

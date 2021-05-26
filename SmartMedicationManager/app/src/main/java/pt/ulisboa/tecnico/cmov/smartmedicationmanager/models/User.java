@@ -17,7 +17,7 @@ public class User {
 
     private List<Medicine> medicines = new ArrayList<>();
 
-    private List<Prescription> schedule = new ArrayList<>();
+    private List<Prescription> prescriptions = new ArrayList<>();
 
     private List<User> requests = new ArrayList<>();
 
@@ -77,14 +77,6 @@ public class User {
         this.medicines.add(medicine);
     }
 
-    public List<Prescription> getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(List<Prescription> schedule) {
-        this.schedule = schedule;
-    }
-
     public List<User> getRequests() {
         return requests;
     }
@@ -101,10 +93,18 @@ public class User {
         this.temporaryPatients = temporaryPatients;
     }
 
+    public List<Prescription> getPrescriptions() {
+        return prescriptions;
+    }
+
+    public void setPrescriptions(List<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
+    }
+
     //
 
     public void addPrescription(Prescription prescription, Context context) {
-        this.schedule.add(prescription);
+        this.prescriptions.add(prescription);
         prescription.generateAlarms();
         prescription.setAlarm(context);
 
@@ -112,12 +112,12 @@ public class User {
 
     public void deletePrescription(Prescription prescription, Context context){
         prescription.cancelAlarm(context);
-        this.schedule.remove(prescription);
+        this.prescriptions.remove(prescription);
         prescription.getAlarms().clear();
     }
 
     public void updatePrescription(int index, Prescription prescription, Context context){
-        this.schedule.set(index, prescription);
+        this.prescriptions.set(index, prescription);
         prescription.generateAlarms();
         prescription.setAlarm(context);
     }

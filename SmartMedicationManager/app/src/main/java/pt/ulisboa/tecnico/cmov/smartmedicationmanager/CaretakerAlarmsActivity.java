@@ -31,7 +31,7 @@ public class CaretakerAlarmsActivity extends BaseActivity {
 
         listView = findViewById(R.id.caretakerAlarms);
 
-        for (Prescription p: gd.getActivePatient().getSchedule()){
+        for (Prescription p: gd.getActivePatient().getPrescriptions()){
             for (Alarm a : p.getAlarms()){
                 if (a.getDateTime().isBefore(now) && !a.isTaken()){
                     alarms.add(a);

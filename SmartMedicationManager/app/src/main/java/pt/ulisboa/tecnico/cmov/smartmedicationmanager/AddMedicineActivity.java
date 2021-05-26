@@ -121,6 +121,7 @@ public class AddMedicineActivity extends BaseActivity {
             med.setNotes(newNotes);
 
             if (mode == -1){
+                gd.getActivePatient().addMedicine(med);
                 addMedicine();
 
             }
