@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -12,6 +14,9 @@ import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters.MedicineAdapter;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MedicineListActivity extends BaseActivity {
 
@@ -34,21 +39,57 @@ public class MedicineListActivity extends BaseActivity {
 
         FloatingActionButton fab = findViewById(R.id.fabAddItem);
 
+
+
         if (patient){
-            items.addAll(gd.getCurrentUser().getMedicines());
+            Call<ArrayList<Medicine>> call = medicineApi.getAllMedicine(gd.getCurrentUser().getUsername());
+
+            call.enqueue(new Callback<ArrayList<Medicine>>() {
+                @Override
+                public void onResponse(@NonNull Call<ArrayList<Medicine>> call, @NonNull Response<ArrayList<Medicine>> response) {
+                    if(response.code() == 200) {
+                        ArrayList<Medicine> medicines = response.body();
+                        items.addAll(medicines);
+                    } else if (response.code() == 400) {
+                        makeToast("Fail Getting Medicine");
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ArrayList<Medicine>> call, @NonNull Throwable t) {
+                    makeToast(t.getMessage());
+                }
+            });
+
             fab.setVisibility(View.GONE);
             medicine_list_item_layout=R.layout.medicine_list_item_patient;
         }
         else{
-            items.addAll(gd.getActivePatient().getMedicines());
+            Call<ArrayList<Medicine>> call = medicineApi.getAllMedicine(gd.getActivePatient().getUsername());
+
+            call.enqueue(new Callback<ArrayList<Medicine>>() {
+                @Override
+                public void onResponse(@NonNull Call<ArrayList<Medicine>> call, @NonNull Response<ArrayList<Medicine>> response) {
+                    if(response.code() == 200) {
+                        ArrayList<Medicine> medicines = response.body();
+                        items.addAll(medicines);
+                        logThis(items.size());
+                    } else if (response.code() == 400) {
+                        makeToast("Fail Getting Medicine");
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ArrayList<Medicine>> call, @NonNull Throwable t) {
+                    makeToast(t.getMessage());
+                }
+            });
             medicine_list_item_layout=R.layout.medicine_list_item;
         }
 
-
-
         adapter=new MedicineAdapter(this, medicine_list_item_layout, items);
         listView.setAdapter(adapter);
-
+        adapter.notifyDataSetChanged();
 
         fab.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddMedicineActivity.class);
@@ -80,6 +121,24 @@ public class MedicineListActivity extends BaseActivity {
 
     public void deleteMedicine(Medicine m) {
         gd.getActivePatient().getMedicines().remove(m);
+        Call<Void> call = medicineApi.deleteMedicine(gd.getCurrentUser().getUsername(), m.getName());
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.code() == 200) {
+                    makeToast("Deleted Medicine");
+                } else if (response.code() == 400) {
+                    makeToast("Fail Delete Medicine");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+
         refreshList();
     }
 }

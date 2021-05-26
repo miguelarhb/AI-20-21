@@ -22,6 +22,9 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.MedicineApi;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.PrescriptionApi;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.UserApi;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.data.GlobalData;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
@@ -42,6 +45,10 @@ public class BaseActivity extends AppCompatActivity {
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
+
+    MedicineApi medicineApi = retrofit.create(MedicineApi.class);
+    PrescriptionApi prescriptionApi = retrofit.create(PrescriptionApi.class);
+    UserApi userApi = retrofit.create(UserApi.class);
 
     static String SHARED_PREFERENCES_FILE = "smcprefs";
     static int CAMERA_PERMISSION_CODE=100;

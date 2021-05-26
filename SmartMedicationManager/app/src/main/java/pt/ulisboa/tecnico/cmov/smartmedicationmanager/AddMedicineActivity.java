@@ -33,7 +33,7 @@ import retrofit2.Response;
 
 
 public class AddMedicineActivity extends BaseActivity {
-    private MedicineApi medicineApi;
+
     TextView barcodeTxt;
     String barcode;
     Medicine med;
@@ -46,8 +46,6 @@ public class AddMedicineActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_medicine);
         loadToolbar();
-
-        medicineApi = retrofit.create(MedicineApi.class);
 
         // UI handle
         EditText nameTxt = findViewById(R.id.addMedName);

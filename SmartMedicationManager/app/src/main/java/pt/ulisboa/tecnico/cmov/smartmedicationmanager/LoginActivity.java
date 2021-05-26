@@ -18,7 +18,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
-    private UserApi userApi;
     private String username;
 
     @Override
@@ -37,8 +36,6 @@ public class LoginActivity extends BaseActivity {
         }
 
         setContentView(R.layout.activity_login);
-
-        userApi = retrofit.create(UserApi.class);
 
         // UI handle
         Button loginBtn = findViewById(R.id.loginBtn);

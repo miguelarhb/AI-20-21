@@ -3,7 +3,6 @@ const User = require('../models/user-model')
 const Item = require('../models/item-model')
 
 const addPrescription = (req, res) => {
-    const user = findUser(req)
     const newPrescription = new Prescription({
         name: req.body.name,
         item: getItemID(req),
@@ -13,6 +12,17 @@ const addPrescription = (req, res) => {
         end: req.body.end,
         notes: req.body.notes
     })
+
+    const query = { username: req.query.user }
+    User.findOne(query)
+        .then((userFound) => {})
+        .catch((err) => {
+            res.status(400).send()
+            console.log('Prescription - No User error: ' + err)
+        })
+
+
+
     newPrescription.save((prescription) => {
             user.schedule.push(prescription.id)
         })
@@ -97,18 +107,6 @@ function getItemID(req) {
                 console.log('No Item error: ' + err)
             })
     })
-}
-
-function findUser(req) {
-    const query = { username: req.params.user }
-    User.findOne(query)
-        .then((result) => {
-            return result
-        })
-        .catch((err) => {
-            res.status(400).send('Item - No User error')
-            console.log('Item - No User error: ' + err)
-        })
 }
 
 module.exports = {
