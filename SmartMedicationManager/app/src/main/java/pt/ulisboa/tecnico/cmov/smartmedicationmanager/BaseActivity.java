@@ -100,47 +100,76 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         //TODO remove later (test data)
-        if (gd.getCurrentUser().getPatients().size()==0){
-            gd.getCurrentUser().addPatient(new User("José"));
-            gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
-            gd.getCurrentUser().addPatient(new User("Ricardo"));
-        }
-        if (gd.userHasPatients()){
-            if (gd.getActivePatient().getMedicines().size()==0){
+        if (getSharedPreferenceBoolean("MODE")){
+
+            if (gd.getCurrentUser().getPatients().size()==0){
+                gd.getCurrentUser().addPatient(new User("Pedro"));
+                gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
+                gd.getCurrentUser().addPatient(new User("Ricardo"));
+
                 Medicine med = new Medicine();
                 med.setName("med1");
                 med.setQuantity(1);
                 med.setExpirationDate(new Date());
                 med.setNotes("notes");
                 gd.getActivePatient().addMedicine(med);
-            }
-        }
-        logThis("ba" +gd.getCurrentUser().getPrescriptions().size());
-        if (gd.getCurrentUser().getPrescriptions().size()==0){
-            logThis("test prec");
-            Prescription p = new Prescription();
-            p.generateId();
-            p.setMedicine(new Medicine("Medicine1", 20));
-            p.setQuantity(1);
-            p.setStartDate(LocalDateTime.now().minusDays(1).plusHours(1));
-            p.setEndDate(LocalDateTime.now().plusDays(6));
-            p.setPeriodicity("1-Days");
-            p.setNotes("Must not die");
-            gd.getCurrentUser().addPrescription(p, getApplicationContext());
-            //
-            Prescription p2 = new Prescription();
-            p2.generateId();
-            p2.setMedicine(new Medicine("Medicine2", 5));
-            p2.setQuantity(2);
-            p2.setStartDate(LocalDateTime.now().minusDays(3).minusHours(1));
-            p2.setEndDate(LocalDateTime.now().plusDays(1));
-            p2.setPeriodicity("17-Hours");
-            p2.setNotes(":)");
-            gd.getCurrentUser().addPrescription(p2, getApplicationContext());
-        }
 
-        if (!gd.userHasCaretaker()){
-            gd.getCurrentUser().setCaretaker(new User("Pedro"));
+                Prescription p = new Prescription();
+                p.generateId();
+                p.setMedicine(new Medicine("Medicine1", 20));
+                p.setQuantity(1);
+                p.setStartDate(LocalDateTime.now().minusDays(1).plusHours(1));
+                p.setEndDate(LocalDateTime.now().plusDays(6));
+                p.setPeriodicity("1-Days");
+                p.setNotes("Must not die");
+                gd.getActivePatient().addPrescription(p, getApplicationContext());
+                //
+                Prescription p2 = new Prescription();
+                p2.generateId();
+                p2.setMedicine(new Medicine("Medicine2", 5));
+                p2.setQuantity(2);
+                p2.setStartDate(LocalDateTime.now().minusDays(3).minusHours(1));
+                p2.setEndDate(LocalDateTime.now().plusDays(1));
+                p2.setPeriodicity("17-Hours");
+                p2.setNotes(":)");
+                gd.getActivePatient().addPrescription(p2, getApplicationContext());
+
+
+            }
+
+        }
+        else{
+            //patient test data
+            if (!gd.userHasCaretaker()){
+                gd.getCurrentUser().setCaretaker(new User("Carlos"));
+
+                Medicine med = new Medicine();
+                med.setName("med1");
+                med.setQuantity(1);
+                med.setExpirationDate(new Date());
+                med.setNotes("notes");
+                gd.getCurrentUser().addMedicine(med);
+
+                Prescription p = new Prescription();
+                p.generateId();
+                p.setMedicine(new Medicine("Medicine1", 20));
+                p.setQuantity(1);
+                p.setStartDate(LocalDateTime.now().minusDays(1).plusHours(1));
+                p.setEndDate(LocalDateTime.now().plusDays(6));
+                p.setPeriodicity("1-Days");
+                p.setNotes("Must not die");
+                gd.getCurrentUser().addPrescription(p, getApplicationContext());
+                //
+                Prescription p2 = new Prescription();
+                p2.generateId();
+                p2.setMedicine(new Medicine("Medicine2", 5));
+                p2.setQuantity(2);
+                p2.setStartDate(LocalDateTime.now().minusDays(3).minusHours(1));
+                p2.setEndDate(LocalDateTime.now().plusDays(1));
+                p2.setPeriodicity("17-Hours");
+                p2.setNotes(":)");
+                gd.getCurrentUser().addPrescription(p2, getApplicationContext());
+            }
         }
 
         toolbar = findViewById(R.id.toolbar);
@@ -193,7 +222,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public String friendlyDateTimeFormat(LocalDateTime dateTime){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy ");
         return dateTime.format(formatter);
     }
 

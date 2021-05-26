@@ -1,6 +1,8 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -8,9 +10,9 @@ import android.widget.TextView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -32,6 +34,10 @@ public class ScheduleActivity extends BaseActivity {
     int counter = -1;
     Date now;
     TextView scheduleDate;
+    String pickedDate;
+    int mYear;
+    int mMonth;
+    int mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +83,7 @@ public class ScheduleActivity extends BaseActivity {
         for (List l : map.values()){
             l.sort(Comparator.comparing(Alarm::getDateTime));
         }
-        for (String x: map.keySet()){
-            logThis(x);
-            for (Alarm a2: map.get(x)){
-                logThis(a2.getDateTime());
-            }
-            logThis("\n");
 
-        }
         adapter = new ScheduleAdapter(this, R.layout.caretaker_alarm_list_item, shownAlarms, prescriptionMap);
         listView.setAdapter(adapter);
 
@@ -116,6 +115,10 @@ public class ScheduleActivity extends BaseActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        });
+
+        scheduleDate.setOnClickListener(v -> {
+            datePicker();
         });
     }
 
@@ -170,8 +173,36 @@ public class ScheduleActivity extends BaseActivity {
 
     }
 
-    public Date toDate(LocalDateTime dateTime){
-        return Date.from(dateTime.atZone(ZoneId.systemDefault())
-                .toInstant());
+    private void datePicker(){
+
+        // Get Current Date
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                        mYear = year;
+                        mMonth = monthOfYear+1;
+                        mDay = dayOfMonth;
+
+                        pickedDate= toCalendarString(LocalDateTime.of(mYear,mMonth,mDay,0,0));
+                        if (map.containsKey(pickedDate)){
+                            shownAlarms.clear();
+                            shownAlarms.addAll(map.get(pickedDate));
+                            scheduleDate.setText(pickedDate);
+                            refreshList();
+                        }
+                        else{
+                            makeToast("No records found on that day");
+                        }
+                    }
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
     }
 }
