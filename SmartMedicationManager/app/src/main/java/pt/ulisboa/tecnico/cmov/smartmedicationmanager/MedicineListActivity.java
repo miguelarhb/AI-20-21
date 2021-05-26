@@ -126,7 +126,6 @@ public class MedicineListActivity extends BaseActivity {
     }
 
     public void deleteMedicine(Medicine m) {
-        gd.getActivePatient().getMedicines().remove(m);
         Call<Void> call = medicineApi.deleteMedicine(gd.getCurrentUser().getUsername(), m.getName());
 
         call.enqueue(new Callback<Void>() {
@@ -134,6 +133,7 @@ public class MedicineListActivity extends BaseActivity {
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if(response.code() == 200) {
                     makeToast("Deleted Medicine");
+                    gd.getActivePatient().getMedicines().remove(m);
                 } else if (response.code() == 400) {
                     makeToast("Fail Delete Medicine");
                 }
