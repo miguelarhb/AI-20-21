@@ -7,6 +7,7 @@ import android.widget.ListView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters.PrescriptionAdapter;
@@ -28,7 +29,9 @@ public class PrescriptionListActivity extends BaseActivity {
 
         FloatingActionButton fab = findViewById(R.id.fabAddPrescription);
 
+        //remove these two, setPrescriptions(response), refreshlist
         schedule.addAll(gd.getActivePatient().getPrescriptions());
+        schedule.sort(Comparator.comparing(Prescription::getEndDate));
 
         adapter=new PrescriptionAdapter(this, R.layout.prescription_list_item, schedule);
         listView.setAdapter(adapter);
@@ -44,6 +47,7 @@ public class PrescriptionListActivity extends BaseActivity {
     public void refreshList() {
         schedule.clear();
         schedule.addAll(gd.getActivePatient().getPrescriptions());
+        schedule.sort(Comparator.comparing(Prescription::getEndDate));
         adapter.notifyDataSetChanged();
 
     }
