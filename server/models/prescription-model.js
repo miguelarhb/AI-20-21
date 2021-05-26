@@ -8,8 +8,7 @@ const prescriptionSchema = new Schema({
         require: true
     },
     item: {
-        type: mongoose.Types.ObjectId,
-        ref: Item,
+        type: String,
         require: true
     },
     quantity: {

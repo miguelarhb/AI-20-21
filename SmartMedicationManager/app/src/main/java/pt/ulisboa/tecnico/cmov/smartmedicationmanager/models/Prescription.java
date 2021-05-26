@@ -22,7 +22,8 @@ public class Prescription {
     @SerializedName("name")
     private String id;
 
-    @SerializedName("item")
+    private String item; //medicine name
+
     private Medicine medicine;
 
     private int quantity;
@@ -44,9 +45,18 @@ public class Prescription {
         this.quantity = quantity;
         this.periodicity = periodicity;
         this.startDate = startDate;
+        this.item = medicine.getName();
     }
 
     public Prescription() {
+    }
+
+    public String getItem() {
+        return item;
+    }
+
+    public void setItem(String item) {
+        this.item = item;
     }
 
     public Medicine getMedicine() {
@@ -54,6 +64,7 @@ public class Prescription {
     }
 
     public void setMedicine(Medicine medicine) {
+        this.item = medicine.getName();
         this.medicine = medicine;
     }
 

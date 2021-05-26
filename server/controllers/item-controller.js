@@ -42,7 +42,6 @@ const addItem = (req, res) => {
 const deleteItem = (req, res) => {
     const deleteItemName = req.query.name
     const query = { username: req.query.user }
-    var i = 0
     User.findOne(query)
         .then((userFound) => {
             userFound.items.forEach((itemID) => {
@@ -64,6 +63,10 @@ const deleteItem = (req, res) => {
                                     console.log('Item - Save Failure in User error: ' + err)
                                 })
                         }
+                    })
+                    .catch((err) => {
+                        res.status(400).send()
+                        console.log('Item - Not Found error: ' + err)
                     })
             })
         })
