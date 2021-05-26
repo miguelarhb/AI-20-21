@@ -84,7 +84,7 @@ public class AddPrescriptionActivity extends BaseActivity {
             endDatetv.setText(friendlyDateTimeFormat(end));
         }
         else{
-            p = gd.getActivePatient().getSchedule().get(mode);
+            p = gd.getActivePatient().getPrescriptions().get(mode);
             medSpinner.setSelection(gd.getActivePatient().getMedicines().indexOf(p.getMedicine()));
             quantityTxt.setText(String.valueOf(p.getQuantity()));
             start = p.getStartDate();

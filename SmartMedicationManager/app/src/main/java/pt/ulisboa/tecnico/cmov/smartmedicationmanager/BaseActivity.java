@@ -35,8 +35,8 @@ public class BaseActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    static final String BASE_URL = "http://192.168.1.52:3000/";
-    //static final String BASE_URL = "http://192.168.1.11:3000/";
+    //static final String BASE_URL = "http://192.168.1.52:3000/";
+    static final String BASE_URL = "http://192.168.1.11:3000/";
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -115,17 +115,28 @@ public class BaseActivity extends AppCompatActivity {
                 gd.getActivePatient().addMedicine(med);
             }
         }
-
-        if (gd.getCurrentUser().getSchedule().size()==0){
+        logThis("ba" +gd.getCurrentUser().getPrescriptions().size());
+        if (gd.getCurrentUser().getPrescriptions().size()==0){
+            logThis("test prec");
             Prescription p = new Prescription();
             p.generateId();
             p.setMedicine(new Medicine("Medicine1", 20));
             p.setQuantity(1);
-            p.setStartDate(LocalDateTime.now());
-            p.setEndDate(LocalDateTime.now().plusDays(8));
+            p.setStartDate(LocalDateTime.now().minusDays(1).plusHours(1));
+            p.setEndDate(LocalDateTime.now().plusDays(6));
             p.setPeriodicity("1-Days");
-            p.setNotes("Most not die");
+            p.setNotes("Must not die");
             gd.getCurrentUser().addPrescription(p, getApplicationContext());
+            //
+            Prescription p2 = new Prescription();
+            p2.generateId();
+            p2.setMedicine(new Medicine("Medicine2", 5));
+            p2.setQuantity(2);
+            p2.setStartDate(LocalDateTime.now().minusDays(3).minusHours(1));
+            p2.setEndDate(LocalDateTime.now().plusDays(1));
+            p2.setPeriodicity("17-Hours");
+            p2.setNotes(":)");
+            gd.getCurrentUser().addPrescription(p2, getApplicationContext());
         }
 
         if (!gd.userHasCaretaker()){

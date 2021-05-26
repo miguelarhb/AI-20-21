@@ -37,7 +37,7 @@ public class AlarmActivity extends BaseActivity {
         LocalDateTime date = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
 
         //TODO remove later, call server
-        if (gd.getCurrentUser().getSchedule().size() == 0) {
+        if (gd.getCurrentUser().getPrescriptions().size() == 0) {
             logThis("created fake past prescription");
             Prescription p = new Prescription();
             p.setId(id);
@@ -47,10 +47,10 @@ public class AlarmActivity extends BaseActivity {
             p.setEndDate(LocalDateTime.now().plusSeconds(30));
             p.setPeriodicity("test");
             p.setNotes("");
-            gd.getCurrentUser().getSchedule().add(p);
+            gd.getCurrentUser().getPrescriptions().add(p);
 
         }
-        Prescription p = gd.getCurrentUser().getSchedule().stream().
+        Prescription p = gd.getCurrentUser().getPrescriptions().stream().
                 filter(o -> o.getId().equals(id)).
                 findAny().orElse(null);
         periodicity = p.getPeriodicity();

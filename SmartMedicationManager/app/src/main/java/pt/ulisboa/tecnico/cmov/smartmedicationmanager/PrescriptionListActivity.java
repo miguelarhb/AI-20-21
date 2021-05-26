@@ -28,7 +28,7 @@ public class PrescriptionListActivity extends BaseActivity {
 
         FloatingActionButton fab = findViewById(R.id.fabAddPrescription);
 
-        schedule.addAll(gd.getActivePatient().getSchedule());
+        schedule.addAll(gd.getActivePatient().getPrescriptions());
 
         adapter=new PrescriptionAdapter(this, R.layout.prescription_list_item, schedule);
         listView.setAdapter(adapter);
@@ -43,7 +43,7 @@ public class PrescriptionListActivity extends BaseActivity {
 
     public void refreshList() {
         schedule.clear();
-        schedule.addAll(gd.getActivePatient().getSchedule());
+        schedule.addAll(gd.getActivePatient().getPrescriptions());
         adapter.notifyDataSetChanged();
 
     }
@@ -57,7 +57,7 @@ public class PrescriptionListActivity extends BaseActivity {
     }
 
     public void editPrescription(Prescription p) {
-        int index = gd.getActivePatient().getSchedule().indexOf(p);
+        int index = gd.getActivePatient().getPrescriptions().indexOf(p);
         Intent intent = new Intent(this, AddPrescriptionActivity.class);
         intent.putExtra("mode", index);
         startActivity(intent);
