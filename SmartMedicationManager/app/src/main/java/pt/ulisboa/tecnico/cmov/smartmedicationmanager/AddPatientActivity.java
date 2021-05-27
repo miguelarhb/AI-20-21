@@ -50,25 +50,18 @@ public class AddPatientActivity extends BaseActivity {
 
         pendingRequestsList.setAdapter(adapter);
 
-        submitBt.setEnabled(false);
-
-        checkBt.setOnClickListener(v -> {
+        submitBt.setOnClickListener(v -> {
             username = usernameText.getText().toString();
-
-            if (true) {
-                serverCheck.setText("Valid user");
-                submitBt.setEnabled(true);
+            if (good){
+                //update my temp patients
+                //update destination user requests
+                gd.getCurrentUser().getTemporaryPatients().add(new User(username));
+                finish();
             }
             else{
-                serverCheck.setText("User not found");
-                submitBt.setEnabled(false);
+                makeToast();
             }
 
-        });
-
-        submitBt.setOnClickListener(v -> {
-            gd.getCurrentUser().addPatient(new User(username));
-            finish();
 
 
         });

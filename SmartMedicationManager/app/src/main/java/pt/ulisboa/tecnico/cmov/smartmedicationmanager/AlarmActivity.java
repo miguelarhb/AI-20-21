@@ -14,7 +14,6 @@ import java.time.ZoneId;
 import java.util.Date;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Alarm;
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.services.AlarmService;
 
@@ -36,18 +35,8 @@ public class AlarmActivity extends BaseActivity {
         Instant instant = Instant.ofEpochMilli(timeMs);
         LocalDateTime date = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-        //TODO remove later, call server
         if (gd.getCurrentUser().getPrescriptions().size() == 0) {
-            logThis("created fake past prescription");
-            Prescription p = new Prescription();
-            p.setId(id);
-            p.setMedicine(new Medicine("Good med", 20));
-            p.setQuantity(1);
-            p.setStartDate(LocalDateTime.now());
-            p.setEndDate(LocalDateTime.now().plusSeconds(30));
-            p.setPeriodicity("test");
-            p.setNotes("");
-            gd.getCurrentUser().getPrescriptions().add(p);
+            getMedicinesAndPrescriptions(gd.getCurrentUser().getUsername(), true);
 
         }
         Prescription p = gd.getCurrentUser().getPrescriptions().stream().
@@ -90,6 +79,7 @@ public class AlarmActivity extends BaseActivity {
             tvDoor.setTextColor(Color.GREEN);
             btDismiss.setEnabled(true);
             a.setTaken(true);
+            takeAlarmServer(p);
             p.getMedicine().setQuantity(p.getMedicine().getQuantity()-1);
         });
 

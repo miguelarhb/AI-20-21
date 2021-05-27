@@ -154,7 +154,7 @@ public class AddPrescriptionActivity extends BaseActivity {
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if(response.code() == 200) {
                     makeToast("New Prescription Added");
-                    gd.getActivePatient().addPrescription(p, getApplicationContext());
+                    addPrescriptionServer(p);
                 } else if (response.code() == 400) {
                     makeToast("Failed Add Prescription");
                 }
@@ -176,7 +176,7 @@ public class AddPrescriptionActivity extends BaseActivity {
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if(response.code() == 200) {
                     makeToast("Prescription Edited");
-                    gd.getActivePatient().updatePrescription(mode, p, getApplicationContext());
+                    updatePrescriptionServer(mode, p);
                 } else if (response.code() == 400) {
                     makeToast("Failed Editing Prescription");
                 }

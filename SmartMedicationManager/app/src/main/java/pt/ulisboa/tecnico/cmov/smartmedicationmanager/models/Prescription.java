@@ -14,6 +14,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.UUID;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters.AlarmReceiver;
@@ -215,5 +216,29 @@ public class Prescription {
         ms=0;
         return ms;
 
+    }
+
+    public void updateAlarms() {
+
+        ListIterator<Alarm> iterator = alarms.listIterator();
+        while (iterator.hasNext()){
+            if (iterator.next().getDateTime().isAfter(LocalDateTime.now())) {
+                iterator.remove();
+            }
+        }
+
+        long firstAlarm = this.getStartDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long lastThreshold = this.getEndDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long nextAlarm = firstAlarm;
+        long interval = getInterval();
+
+        while (nextAlarm <= lastThreshold) {
+            Instant instant = Instant.ofEpochMilli(nextAlarm);
+            LocalDateTime date = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+            Alarm al = new Alarm();
+            al.setDateTime(date);
+            al.setTaken(false);
+            nextAlarm += interval;
+        }
     }
 }

@@ -13,22 +13,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.AlarmApi;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.MedicineApi;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.PrescriptionApi;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.UserApi;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.data.GlobalData;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Alarm;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -49,11 +56,12 @@ public class BaseActivity extends AppCompatActivity {
     MedicineApi medicineApi = retrofit.create(MedicineApi.class);
     PrescriptionApi prescriptionApi = retrofit.create(PrescriptionApi.class);
     UserApi userApi = retrofit.create(UserApi.class);
+    AlarmApi alarmApi = retrofit.create(AlarmApi.class);
 
     static String SHARED_PREFERENCES_FILE = "smcprefs";
-    static int CAMERA_PERMISSION_CODE=100;
+    static int CAMERA_PERMISSION_CODE = 100;
     public static final String ALARM_ACTION_INTENT = "smc.alarms";
-    static int ALARM_CODE=300;
+    static int ALARM_CODE = 300;
 
     public int menu_layout = R.menu.mainmenu_patient;
 
@@ -68,7 +76,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater=getMenuInflater();
+        MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(menu_layout, menu);
         return true;
     }
@@ -89,13 +97,15 @@ public class BaseActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    public void loadToolbar(){
-        if (gd==null){
+
+    public void loadToolbar() {
+        if (gd == null) {
             gd = (GlobalData) getApplicationContext();
         }
 
-        if (gd.getCurrentUser()==null){
+        if (gd.getCurrentUser() == null) {
             logThis("wat");
+            gd.setCurrentUser(new User(getSharedPreferenceString("username")));
         }
 
 //        String loggedInUser = getSharedPreferenceString("username");
@@ -111,9 +121,9 @@ public class BaseActivity extends AppCompatActivity {
 //        }
 
         //TODO remove later (test data)
-        if (getSharedPreferenceBoolean("MODE")){
+        if (getSharedPreferenceBoolean("MODE")) {
 
-            if (false){
+            if (false) {
                 gd.getCurrentUser().addPatient(new User("Pedro"));
                 gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
                 gd.getCurrentUser().addPatient(new User("Ricardo"));
@@ -133,7 +143,7 @@ public class BaseActivity extends AppCompatActivity {
                 p.setEndDate(LocalDateTime.now().plusDays(6));
                 p.setPeriodicity("1-Days");
                 p.setNotes("Must not die");
-                gd.getActivePatient().addPrescription(p, getApplicationContext());
+                addPrescriptionServer(p);
                 //
                 Prescription p2 = new Prescription();
                 p2.generateId();
@@ -143,15 +153,14 @@ public class BaseActivity extends AppCompatActivity {
                 p2.setEndDate(LocalDateTime.now().plusDays(1));
                 p2.setPeriodicity("17-Hours");
                 p2.setNotes(":)");
-                gd.getActivePatient().addPrescription(p2, getApplicationContext());
+                addPrescriptionServer(p);
 
 
             }
 
-        }
-        else{
+        } else {
             //patient test data
-            if (!gd.userHasCaretaker()){
+            if (!gd.userHasCaretaker()) {
                 gd.getCurrentUser().setCaretaker(new User("Carlos"));
 
                 Medicine med = new Medicine();
@@ -194,47 +203,254 @@ public class BaseActivity extends AppCompatActivity {
             }
         });
 
-        if (getSharedPreferenceBoolean("MODE")){
+        if (getSharedPreferenceBoolean("MODE")) {
             menu_layout = R.menu.mainmenu_caretaker;
-        }
-        else{
+        } else {
             menu_layout = R.menu.mainmenu_patient;
         }
         invalidateOptionsMenu();
     }
-    public void makeToast(Object s){
+
+    public void makeToast(Object s) {
         Toast.makeText(this, String.valueOf(s), Toast.LENGTH_SHORT).show();
     }
 
-    public void logThis(Object s){
+    public void logThis(Object s) {
         Log.d("fds", String.valueOf(s));
     }
 
     public void writeSharedPreferencesBoolean(String key, Boolean value) {
-        SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFERENCES_FILE,Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE).edit();
         editor.putBoolean(key, value);
         editor.apply();
     }
-    public Boolean getSharedPreferenceBoolean(String key){
+
+    public Boolean getSharedPreferenceBoolean(String key) {
         SharedPreferences sharedPref = getSharedPreferences(SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE);
         Boolean b = sharedPref.getBoolean(key, false);
         return b;
     }
 
     public void writeSharedPreferencesString(String key, String value) {
-        SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFERENCES_FILE,Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE).edit();
         editor.putString(key, value);
         editor.apply();
     }
-    public String getSharedPreferenceString(String key){
+
+    public String getSharedPreferenceString(String key) {
         SharedPreferences sharedPref = getSharedPreferences(SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE);
         String v = sharedPref.getString(key, "");
         return v;
     }
 
-    public String friendlyDateTimeFormat(LocalDateTime dateTime){
+    public String friendlyDateTimeFormat(LocalDateTime dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy ");
         return dateTime.format(formatter);
     }
 
+    public void addPrescriptionServer(Prescription p) {
+        p.generateAlarms();
+        gd.getActivePatient().getPrescriptions().add(p);
+        Call<Void> call = alarmApi.createAlarm(gd.getActivePatient().getUsername(), p.getId(), p.getAlarms());
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.code() == 200) {
+                    p.setAlarm(getApplicationContext());
+                } else if (response.code() == 400) {
+                    makeToast("Error adding alarms");
+                    p.getAlarms().clear();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+                p.getAlarms().clear();
+            }
+        });
+    }
+
+    public void updatePrescriptionServer(int index, Prescription p) {
+        gd.getActivePatient().getPrescriptions().set(index, p);
+
+        //delete
+        Call<Void> call = alarmApi.deleteAlarm(gd.getActivePatient().getUsername(), p.getId());
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.code() == 200) {
+                    p.cancelAlarm(getApplicationContext());
+
+                } else if (response.code() == 400) {
+                    makeToast("Error deleting alarms");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+
+        //add
+        p.updateAlarms();
+
+        Call<Void> call2 = alarmApi.createAlarm(gd.getActivePatient().getUsername(), p.getId(), p.getAlarms());
+
+        call2.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.code() == 200) {
+                    p.setAlarm(getApplicationContext());
+                } else if (response.code() == 400) {
+                    makeToast("Error updating alarms");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+    }
+
+    public void deletePrescriptionServer(Prescription p) {
+        gd.getActivePatient().getPrescriptions().remove(p);
+
+        Call<Void> call = alarmApi.deleteAlarm(gd.getActivePatient().getUsername(), p.getId());
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.code() == 200) {
+                    p.cancelAlarm(getApplicationContext());
+
+                } else if (response.code() == 400) {
+                    makeToast("Error deleting alarms");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+    }
+
+    public void takeAlarmServer(Prescription p){
+
+        //delete
+        Call<Void> call = alarmApi.deleteAlarm(gd.getCurrentUser().getUsername(), p.getId());
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.code() == 200) {
+
+                } else if (response.code() == 400) {
+                    makeToast("Error deleting alarms");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+
+        Call<Void> call2 = alarmApi.createAlarm(gd.getCurrentUser().getUsername(), p.getId(), p.getAlarms());
+
+        call2.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.code() == 200) {
+                    p.setAlarm(getApplicationContext());
+                } else if (response.code() == 400) {
+                    makeToast("Error updating alarms");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+    }
+
+    public void getMedicinesAndPrescriptions(String username, Boolean patient){
+
+        //medicines
+        Call<ArrayList<Medicine>> call = medicineApi.getAllMedicine(username);
+
+        call.enqueue(new Callback<ArrayList<Medicine>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<Medicine>> call, @NonNull Response<ArrayList<Medicine>> response) {
+                if(response.code() == 200) {
+                    if (patient){
+                        gd.getCurrentUser().setMedicines(response.body());
+                    }
+                    else{
+                        gd.getActivePatient().setMedicines(response.body());
+                    }
+
+                } else if (response.code() == 400) {
+                    makeToast("Fail Getting Medicine");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<Medicine>> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+
+        //prescriptions
+        Call<ArrayList<Prescription>> call2 = prescriptionApi.getAllPrescription(username);
+
+        call2.enqueue(new Callback<ArrayList<Prescription>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<Prescription>> call, @NonNull Response<ArrayList<Prescription>> response) {
+                if(response.code() == 200) {
+                    if (patient){
+                        gd.getCurrentUser().setPrescriptions(response.body());
+                    }
+                    else{
+                        gd.getActivePatient().setPrescriptions(response.body());
+                    }
+                } else if (response.code() == 400) {
+                    makeToast("Fail Getting Prescription");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<Prescription>> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+    }
+
+    public void getAlarmsFromServer(String username, Prescription p){
+
+        Call<ArrayList<Alarm>> call = alarmApi.getAllAlarm(username, p.getId());
+
+        call.enqueue(new Callback<ArrayList<Alarm>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<Alarm>> call, @NonNull Response<ArrayList<Alarm>> response) {
+                if(response.code() == 200) {
+                    p.setAlarms(response.body());
+
+                } else if (response.code() == 400) {
+                    makeToast("Fail Getting Medicine");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<Alarm>> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+    }
 }

@@ -11,13 +11,13 @@ public class User {
 
     private String password;
 
-    private User caretaker;
-
-    private List<User> patients = new ArrayList<>();
-
     private List<Medicine> medicines = new ArrayList<>();
 
     private List<Prescription> prescriptions = new ArrayList<>();
+
+    private User caretaker;
+
+    private List<User> patients = new ArrayList<>();
 
     private List<User> requests = new ArrayList<>();
 
@@ -118,13 +118,14 @@ public class User {
 
     public void deletePrescription(Prescription prescription, Context context){
         prescription.cancelAlarm(context);
-        this.prescriptions.remove(prescription);
         prescription.getAlarms().clear();
+        this.prescriptions.remove(prescription);
     }
 
     public void updatePrescription(int index, Prescription prescription, Context context){
         this.prescriptions.set(index, prescription);
-        prescription.generateAlarms();
+        prescription.updateAlarms();
         prescription.setAlarm(context);
+
     }
 }

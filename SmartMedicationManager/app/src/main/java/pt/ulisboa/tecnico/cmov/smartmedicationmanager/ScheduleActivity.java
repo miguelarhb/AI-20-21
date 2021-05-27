@@ -39,6 +39,8 @@ public class ScheduleActivity extends BaseActivity {
     int mMonth;
     int mDay;
 
+    String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,14 +59,19 @@ public class ScheduleActivity extends BaseActivity {
         List<Prescription> source;
 
         if (patient){
+            username = gd.getCurrentUser().getUsername();
+            getMedicinesAndPrescriptions(gd.getCurrentUser().getUsername(), true);
             source = gd.getCurrentUser().getPrescriptions();
         }
         else{
+            username = gd.getActivePatient().getUsername();
+            getMedicinesAndPrescriptions(gd.getActivePatient().getUsername(), false);
             source = gd.getActivePatient().getPrescriptions();
         }
 
         String dateString;
         for (Prescription p: source){
+            getAlarmsFromServer(username, p);
             for (Alarm a : p.getAlarms()){
                 dateString = toCalendarString(a.getDateTime());
                 if (map.get(dateString)==null){

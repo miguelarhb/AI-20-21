@@ -48,6 +48,7 @@ public class ManagePatientsActivity extends BaseActivity {
                         gd.getCurrentUser().addPatient(gd.getCurrentUser());
                         gd.setActivePatient(gd.getCurrentUser());
                         refreshList();
+                        //add to patientlist server
                     });
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
                     (dialog, which) -> {
