@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.data.GlobalData;
@@ -78,6 +79,31 @@ public class LoginActivity extends BaseActivity {
                     Toast.makeText(LoginActivity.this, "Welcome " + username, Toast.LENGTH_SHORT).show();
                     gd.setCurrentUser(new User(username));
                     writeSharedPreferencesString("username", username);
+
+                    Call<ArrayList<String>> call2 = userApi.getAllPatient(username);
+
+                    call2.enqueue(new Callback<ArrayList<String>>() {
+                        @Override
+                        public void onResponse(@NonNull Call<ArrayList<String>> call, @NonNull Response<ArrayList<String>> response) {
+                            if(response.code() == 200) {
+                                if (response.body().size()>0){
+                                    logThis("here");
+                                    writeSharedPreferencesBoolean("MODE", true);
+                                }
+                                else{
+                                    writeSharedPreferencesBoolean("MODE",false);
+                                }
+                            } else if (response.code() == 400) {
+                                makeToast("Error");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<ArrayList<String>> call, @NonNull Throwable t) {
+                            makeToast(t.getMessage());
+                        }
+                    });
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();

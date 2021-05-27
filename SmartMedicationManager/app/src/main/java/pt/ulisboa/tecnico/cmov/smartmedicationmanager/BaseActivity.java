@@ -105,18 +105,6 @@ public class BaseActivity extends AppCompatActivity {
             gd.setCurrentUser(new User(getSharedPreferenceString("username")));
         }
 
-//        String loggedInUser = getSharedPreferenceString("username");
-//        if (loggedInUser.equals("")){
-//            gd.setCurrentUser(null);
-//            Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
-//            startActivity(intent);
-//        }
-//        else{
-//            if (gd.getCurrentUser()==null) {
-//                gd.setCurrentUser(new User(loggedInUser));
-//            }
-//        }
-
         //TODO remove later (test data)
         if (getSharedPreferenceBoolean("MODE")) {
 
@@ -155,7 +143,7 @@ public class BaseActivity extends AppCompatActivity {
 
         } else {
             //patient test data
-            if (!gd.userHasCaretaker()) {
+            if (false) {
                 gd.getCurrentUser().setCaretaker(new User("Carlos"));
 
                 Medicine med = new Medicine();

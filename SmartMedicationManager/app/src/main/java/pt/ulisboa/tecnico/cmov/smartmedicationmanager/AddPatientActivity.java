@@ -7,11 +7,16 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters.PendingPatientAdapter;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddPatientActivity extends BaseActivity {
     EditText usernameText;
@@ -45,6 +50,28 @@ public class AddPatientActivity extends BaseActivity {
 
         pendingRequestsList = findViewById(R.id.sentRequestsList);
 
+        Call<ArrayList<String>> call3 = userApi.getAllRequestCaretaker(gd.getCurrentUser().getUsername());
+
+        call3.enqueue(new Callback<ArrayList<String>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<String>> call, @NonNull Response<ArrayList<String>> response) {
+                if(response.code() == 200) {
+                    gd.getCurrentUser().getTemporaryPatients().clear();
+                    for (String s: response.body()){
+                        gd.getCurrentUser().getTemporaryPatients().add(new User(s));
+                    }
+                    refreshList();
+                } else if (response.code() == 400) {
+                    makeToast("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<String>> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+
         pendingRequests.addAll(gd.getCurrentUser().getTemporaryPatients());
         adapter = new PendingPatientAdapter(this, R.layout.pending_patient_request, pendingRequests);
 
@@ -52,17 +79,43 @@ public class AddPatientActivity extends BaseActivity {
 
         submitBt.setOnClickListener(v -> {
             username = usernameText.getText().toString();
-            if (true){
-                //update my temp patients
-                //update destination user requests
-                gd.getCurrentUser().getTemporaryPatients().add(new User(username));
-                finish();
-            }
-            else{
-                makeToast("errir");
-            }
 
+            Call<Void> call = userApi.addRequestCaretaker(gd.getCurrentUser().getUsername(), username);
 
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                    if(response.code() == 200) {
+                        makeToast("Request sent to patient");
+                        gd.getCurrentUser().getTemporaryPatients().add(new User(username));
+                        refreshList();
+                    } else if (response.code() == 400) {
+                        makeToast("Error");
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                    makeToast(t.getMessage());
+                }
+            });
+
+            Call<Void> call2 = userApi.addRequestPatient(username, gd.getCurrentUser().getUsername());
+
+            call2.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                    if(response.code() == 200) {
+                    } else if (response.code() == 400) {
+                        makeToast("Error");
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                    makeToast(t.getMessage());
+                }
+            });
 
         });
 

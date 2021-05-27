@@ -3,11 +3,16 @@ package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters.RequestAdapter;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RequestsActivity extends BaseActivity {
 
@@ -22,6 +27,28 @@ public class RequestsActivity extends BaseActivity {
         loadToolbar();
 
         requestsList = findViewById(R.id.requestsList);
+
+        Call<ArrayList<String>> call = userApi.getAllRequestPatient(gd.getCurrentUser().getUsername());
+
+        call.enqueue(new Callback<ArrayList<String>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<String>> call, @NonNull Response<ArrayList<String>> response) {
+                if(response.code() == 200) {
+                    gd.getCurrentUser().getRequests().clear();
+                    for (String s: response.body()){
+                        gd.getCurrentUser().getRequests().add(new User(s));
+                    }
+                    refreshList();
+                } else if (response.code() == 400) {
+                    makeToast("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<String>> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
 
         requests.addAll(gd.getCurrentUser().getRequests());
         adapter = new RequestAdapter(this, R.layout.request_list_item, requests);
@@ -46,18 +73,116 @@ public class RequestsActivity extends BaseActivity {
     }
 
     public void accept(User u) {
-        gd.getCurrentUser().getRequests().remove(u);
-        gd.getCurrentUser().setCaretaker(u);
-        //u.getTemporary.remove(this)
-        //u.addPatient(this)
-        //TODO
-        refreshList();
+
+        Call<Void> call = userApi.deleteRequestCaretaker(u.getUsername(), gd.getCurrentUser().getUsername());
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.code() == 200) {
+                } else if (response.code() == 400) {
+                    makeToast("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+
+        Call<Void> call2 = userApi.deleteRequestPatient(gd.getCurrentUser().getUsername(), u.getUsername());
+
+        call2.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.code() == 200) {
+                } else if (response.code() == 400) {
+                    makeToast("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+
+        Call<Void> call3 = userApi.addPatient(u.getUsername(), gd.getCurrentUser().getUsername());
+
+        call3.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.code() == 200) {
+                } else if (response.code() == 400) {
+                    makeToast("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+
+        Call<Void> call4 = userApi.addCaretaker(gd.getCurrentUser().getUsername(), u.getUsername());
+
+        call4.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.code() == 200) {
+                    gd.getCurrentUser().getRequests().remove(u);
+                    gd.getCurrentUser().setCaretaker(u);
+                    refreshList();
+                    makeToast("Success");
+                } else if (response.code() == 400) {
+                    makeToast("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
     }
 
     public void decline(User u) {
-        gd.getCurrentUser().getRequests().remove(u);
-        //u.getTemporary.remove(this)
-        //TODO
-        refreshList();
+
+        Call<Void> call = userApi.deleteRequestCaretaker(u.getUsername(), gd.getCurrentUser().getUsername());
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.code() == 200) {
+                } else if (response.code() == 400) {
+                    makeToast("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+
+        Call<Void> call2 = userApi.deleteRequestPatient(gd.getCurrentUser().getUsername(), u.getUsername());
+
+        call2.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.code() == 200) {
+                    gd.getCurrentUser().getRequests().remove(u);
+                    refreshList();
+                } else if (response.code() == 400) {
+                    makeToast("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
     }
 }

@@ -108,9 +108,11 @@ const getCaretaker = (req, res) => {
 }
 
 const addPatient = (req, res) => {
-    const queryUser = { username: req.query.name }
-    const queryPatient = { username: req.query.patient }
-    if (req.query.name == req.query.patient) {
+    const userReceived = req.query.name
+    const patientReceived = req.query.patient
+    const queryUser = { username: userReceived }
+    const queryPatient = { username: patientReceived }
+    if (userReceived.normalize() === patientReceived.normalize()) {
         User.findOne(queryUser)
             .then((userFound) => {
                 userFound.patients.push(userFound.id)
@@ -145,7 +147,7 @@ const addPatient = (req, res) => {
                             })
                     })
                     .catch((err) => {
-                        console.log('No Caretaker Found Error: ' + err)
+                        console.log('No Patient Found Error: ' + err)
                         res.status(400).send()
                     })
             })

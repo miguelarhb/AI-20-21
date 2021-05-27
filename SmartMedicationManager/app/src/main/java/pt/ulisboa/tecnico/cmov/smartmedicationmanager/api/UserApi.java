@@ -19,38 +19,38 @@ public interface UserApi {
     Call<User> loginUserPost(@Body HashMap<String, String> map);
 
     @POST("user/addPatient")
-    Call<Void> addPatient(@Query("user") String username, @Query("patient") String usernamePatient);
+    Call<Void> addPatient(@Query("name") String username, @Query("patient") String usernamePatient);
 
     @POST("user/addCaretaker")
-    Call<Void> addCaretaker(@Query("user") String username, @Query("caretaker") String usernameCaretaker);
+    Call<Void> addCaretaker(@Query("name") String username, @Query("caretaker") String usernameCaretaker);
 
     @POST("user/addRequestCaretaker")
-    Call<Void> addRequestCaretaker(@Query("user") String username, @Query("caretaker") String usernameCaretaker);
+    Call<Void> addRequestCaretaker(@Query("name") String username, @Query("caretaker") String usernameCaretaker);
 
     @POST("user/addRequestPatient")
-    Call<Void> addRequestPatient(@Query("user") String username, @Query("patient") String usernamePatient);
+    Call<Void> addRequestPatient(@Query("name") String username, @Query("patient") String usernamePatient);
 
     @DELETE("user/deletePatient")
-    Call<Void> deletePatient(@Query("user") String username, @Query("patient") String usernamePatient);
+    Call<Void> deletePatient(@Query("name") String username, @Query("patient") String usernamePatient);
 
     @DELETE("user/deleteCaretaker")
-    Call<Void> deleteCaretaker(@Query("user") String username);
+    Call<Void> deleteCaretaker(@Query("name") String username);
 
     @DELETE("user/deleteRequestCaretaker")
-    Call<Void> deleteRequestCaretaker(@Query("user") String username, @Query("caretaker") String usernameCaretaker);
+    Call<Void> deleteRequestCaretaker(@Query("name") String username, @Query("caretaker") String usernameCaretaker);
 
     @DELETE("user/deleteRequestPatient")
-    Call<Void> deleteRequestPatient(@Query("user") String username, @Query("patient") String usernamePatient);
+    Call<Void> deleteRequestPatient(@Query("name") String username, @Query("patient") String usernamePatient);
 
     @GET("user/getAllPatient")
-    Call<ArrayList<String>> getAllPatient(@Query("user") String username);
+    Call<ArrayList<String>> getAllPatient(@Query("name") String username);
 
     @GET("user/getCaretaker")
-    Call<ArrayList<String>> getCaretaker(@Query("user") String username);
+    Call<String> getCaretaker(@Query("name") String username);
 
     @GET("user/getAllRequestCaretaker")
-    Call<ArrayList<String>> getAllRequestCaretaker(@Query("user") String username);
+    Call<ArrayList<String>> getAllRequestCaretaker(@Query("name") String username);
 
     @GET("user/getAllRequestPatient")
-    Call<ArrayList<String>> getAllRequestPatient(@Query("user") String username);
+    Call<ArrayList<String>> getAllRequestPatient(@Query("name") String username);
 }

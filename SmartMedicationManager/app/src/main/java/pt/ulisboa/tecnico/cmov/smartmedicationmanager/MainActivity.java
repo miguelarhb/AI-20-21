@@ -6,10 +6,17 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
+import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends BaseActivity {
     int activityLayout;
@@ -40,6 +47,31 @@ public class MainActivity extends BaseActivity {
         TextView welcome = findViewById(R.id.welcome);
 
         if (getSharedPreferenceBoolean("MODE")){
+
+            Call<ArrayList<String>> call = userApi.getAllPatient(gd.getCurrentUser().getUsername());
+
+            call.enqueue(new Callback<ArrayList<String>>() {
+                @Override
+                public void onResponse(@NonNull Call<ArrayList<String>> call, @NonNull Response<ArrayList<String>> response) {
+                    if(response.code() == 200) {
+                        gd.getCurrentUser().getPatients().clear();
+                        for (String s : response.body()){
+                            gd.getCurrentUser().addPatient(new User(s));
+                        }
+                        if (gd.getCurrentUser().getPatients().size()>0){
+                            gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
+                        }
+                    } else if (response.code() == 400) {
+                        makeToast("Error");
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ArrayList<String>> call, @NonNull Throwable t) {
+                    makeToast(t.getMessage());
+                }
+            });
+
             ImageButton medicineBt = findViewById(R.id.btMedicineC);
             ImageButton prescriptionsBt = findViewById(R.id.btPrescriptionsC);
             ImageButton alarmsBt = findViewById(R.id.btAlarmsC);
@@ -78,6 +110,25 @@ public class MainActivity extends BaseActivity {
 
         }
         else{
+
+            Call<String> call = userApi.getCaretaker(gd.getCurrentUser().getUsername());
+
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                    if(response.code() == 200) {
+                        gd.getCurrentUser().setCaretaker(new User(response.body()));
+                    } else if (response.code() == 400) {
+                        makeToast("Error");
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                    makeToast(t.getMessage());
+                }
+            });
+
             ImageButton scheduleBt = findViewById(R.id.btScheduleP);
             ImageButton prescriptionsBt = findViewById(R.id.buttonPrescriptionsP);
             ImageButton medicationBt = findViewById(R.id.btnMedicationP);
