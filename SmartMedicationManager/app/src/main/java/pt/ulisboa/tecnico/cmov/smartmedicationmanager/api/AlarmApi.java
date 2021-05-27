@@ -15,5 +15,12 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface AlarmApi {
+    @POST("alarm/add")
+    Call<Void> createAlarm(@Query("user") String username, @Query("name") String prescriptionName, @Body Alarm alarm);
 
+    @GET("alarm/all")
+    Call<ArrayList<Alarm>> getAllAlarm(@Query("user") String username, @Query("name") String prescriptionName);
+
+    @DELETE("alarm/delete")
+    Call<Void> deleteAlarm(@Query("user") String username, @Query("name") String prescriptionName);
 }

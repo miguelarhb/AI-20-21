@@ -48,29 +48,37 @@ const addAlarm = (req, res) => {
 }
 
 const deleteAlarm = (req, res) => {
-    /*
-    const deleteAlarmName = req.query.name
+    const deletePrescriptionAlarmName = req.query.name
     const query = { username: req.query.user }
     User.findOne(query)
         .then((userFound) => {
-            userFound.schedule.forEach((alarmID) => {
-                Alarm.findById(alarmID)
-                    .then((alarmFound) => {
-                        if (alarmFound.name == deleteAlarmName) {
-                            Alarm.findByIdAndDelete(alarmID)
-                            var filtered = userFound.schedule.filter((value) => {
-                                return value != alarmID;
+            userFound.schedule.forEach((prescriptionID) => {
+                Prescription.findById(prescriptionID)
+                    .then((prescriptionFound) => {
+                        if (prescriptionFound.name == deletePrescriptionAlarmName) {
+                            prescriptionFound.alarms.forEach((alarmID) => {
+                                Alarm.findByIdAndDelete(alarmID)
+                                    .then(() => {
+                                        var filtered = prescriptionFound.alarms.filter((value) => {
+                                            return value != alarmID;
+                                        })
+                                        prescriptionFound.alarms = filtered
+                                        prescriptionFound.save()
+                                            .then(() => {
+                                                res.status(200).send()
+                                                console.log("Alarm deleted")
+                                            })
+                                            .catch((err) => {
+                                                res.status(400).send()
+                                                console.log('Delete Failure in Alarm Prescription error: ' + err)
+                                            })
+                                    })
+                                    .catch((err) => {
+                                        res.status(400).send()
+                                        console.log('Delete Failure Alarm Not FOund error: ' + err)
+                                    })
+
                             })
-                            userFound.schedule = filtered
-                            userFound.save()
-                                .then(() => {
-                                    res.status(200).send()
-                                    console.log("Alarm deleted")
-                                })
-                                .catch((err) => {
-                                    res.status(400).send()
-                                    console.log('Alarm - Save Failure in User error: ' + err)
-                                })
                         }
                     })
                     .catch((err) => {
@@ -83,8 +91,6 @@ const deleteAlarm = (req, res) => {
             res.status(400).send()
             console.log('Alarm - No User error: ' + err)
         })
-        */
-    res.send()
 }
 
 const allAlarm = (req, res) => {
