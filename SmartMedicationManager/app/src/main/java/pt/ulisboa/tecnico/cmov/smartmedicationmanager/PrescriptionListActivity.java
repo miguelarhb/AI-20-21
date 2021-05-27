@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -25,25 +26,52 @@ public class PrescriptionListActivity extends BaseActivity {
     PrescriptionAdapter adapter;
     ListView listView;
 
+    boolean patient;
+    int prescription_list_item_layout;
+
+    String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prescription_list);
         loadToolbar();
 
+        patient = getIntent().getBooleanExtra("patient", false);
+
         listView = findViewById(R.id.scheduleList);
 
         FloatingActionButton fab = findViewById(R.id.fabAddPrescription);
 
+        if (patient){
+            username = gd.getCurrentUser().getUsername();
+            fab.setVisibility(View.GONE);
+            prescription_list_item_layout=R.layout.prescription_list_item_patient;
+        }
+        else{
+            username = gd.getActivePatient().getUsername();
+            prescription_list_item_layout=R.layout.prescription_list_item;
+        }
+
         updateMedicinesFromServer();
 
-        Call<ArrayList<Prescription>> call = prescriptionApi.getAllPrescription(gd.getActivePatient().getUsername());
+
+
+        adapter=new PrescriptionAdapter(this, prescription_list_item_layout, schedule);
+        listView.setAdapter(adapter);
+
+        Call<ArrayList<Prescription>> call = prescriptionApi.getAllPrescription(username);
 
         call.enqueue(new Callback<ArrayList<Prescription>>() {
             @Override
             public void onResponse(@NonNull Call<ArrayList<Prescription>> call, @NonNull Response<ArrayList<Prescription>> response) {
                 if(response.code() == 200) {
-                    gd.getActivePatient().setPrescriptions(response.body());
+                    if (patient){
+                        gd.getCurrentUser().setPrescriptions(response.body());
+                    }
+                    else{
+                        gd.getActivePatient().setPrescriptions(response.body());
+                    }
                     refreshList();
                 } else if (response.code() == 400) {
                     makeToast("Fail Getting Prescription");
@@ -56,10 +84,6 @@ public class PrescriptionListActivity extends BaseActivity {
             }
         });
 
-        adapter=new PrescriptionAdapter(this, R.layout.prescription_list_item, schedule);
-        listView.setAdapter(adapter);
-
-
         fab.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddPrescriptionActivity.class);
             intent.putExtra("mode", -1);
@@ -68,13 +92,20 @@ public class PrescriptionListActivity extends BaseActivity {
     }
 
     private void updateMedicinesFromServer() {
-        Call<ArrayList<Medicine>> call = medicineApi.getAllMedicine(gd.getActivePatient().getUsername());
+
+        Call<ArrayList<Medicine>> call = medicineApi.getAllMedicine(username);
 
         call.enqueue(new Callback<ArrayList<Medicine>>() {
             @Override
             public void onResponse(@NonNull Call<ArrayList<Medicine>> call, @NonNull Response<ArrayList<Medicine>> response) {
                 if(response.code() == 200) {
-                    gd.getActivePatient().setMedicines(response.body());
+                    if (patient){
+                        gd.getCurrentUser().setMedicines(response.body());
+                    }
+                    else{
+                        gd.getActivePatient().setMedicines(response.body());
+                    }
+
                 } else if (response.code() == 400) {
                     makeToast("Fail Getting Medicine");
                 }
@@ -89,7 +120,12 @@ public class PrescriptionListActivity extends BaseActivity {
 
     public void refreshList() {
         schedule.clear();
-        schedule.addAll(gd.getActivePatient().getPrescriptions());
+        if (patient){
+            schedule.addAll(gd.getCurrentUser().getPrescriptions());
+        }
+        else{
+            schedule.addAll(gd.getActivePatient().getPrescriptions());
+        }
         schedule.sort(Comparator.comparing(Prescription::getEndDate));
         adapter.notifyDataSetChanged();
 

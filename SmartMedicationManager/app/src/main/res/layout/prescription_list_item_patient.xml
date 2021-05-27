@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:descendantFocusability="blocksDescendants">
+
+    <RelativeLayout
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/nord_dark_white"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
+
+        <ImageView
+            android:id="@+id/iconitem"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:background="@color/nord_night_clear" />
+
+        <LinearLayout
+            android:layout_toStartOf="@id/editPrescButton"
+            android:layout_toEndOf="@+id/iconitem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/medicineName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/textProperties"
+                android:text="@string/med_name" />
+
+            <TextView
+                android:id="@+id/quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/textProperties"
+                android:text="@string/quantity" />
+
+            <TextView
+                android:id="@+id/periodicity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/textProperties"
+                android:text="@string/period" />
+
+            <TextView
+                android:id="@+id/untilEndDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/textProperties"
+                android:text="@string/next_taking" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</LinearLayout>

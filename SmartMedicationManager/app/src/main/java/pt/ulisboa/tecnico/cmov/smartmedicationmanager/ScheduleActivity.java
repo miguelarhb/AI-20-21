@@ -87,6 +87,10 @@ public class ScheduleActivity extends BaseActivity {
         adapter = new ScheduleAdapter(this, R.layout.caretaker_alarm_list_item, shownAlarms, prescriptionMap);
         listView.setAdapter(adapter);
 
+        if (prescriptionMap.size()==0) {
+            scheduleDate.setText("No items");
+        }
+
         try {
             iterateMap();
         } catch (ParseException e) {
