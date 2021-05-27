@@ -52,14 +52,14 @@ public class AddPatientActivity extends BaseActivity {
 
         submitBt.setOnClickListener(v -> {
             username = usernameText.getText().toString();
-            if (good){
+            if (true){
                 //update my temp patients
                 //update destination user requests
                 gd.getCurrentUser().getTemporaryPatients().add(new User(username));
                 finish();
             }
             else{
-                makeToast();
+                makeToast("errir");
             }
 
 

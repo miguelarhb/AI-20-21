@@ -147,6 +147,7 @@ public class AddPrescriptionActivity extends BaseActivity {
 
     private void addPrescription() {
         String patient = gd.getActivePatient().getUsername();
+        p.generateAlarms();
         Call<Void> call = prescriptionApi.createPrescription(patient, p);
 
         call.enqueue(new Callback<Void>() {
@@ -154,7 +155,8 @@ public class AddPrescriptionActivity extends BaseActivity {
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if(response.code() == 200) {
                     makeToast("New Prescription Added");
-                    addPrescriptionServer(p);
+                    gd.getActivePatient().getPrescriptions().add(p);
+                    p.setAlarm(getApplicationContext());
                 } else if (response.code() == 400) {
                     makeToast("Failed Add Prescription");
                 }
@@ -169,6 +171,8 @@ public class AddPrescriptionActivity extends BaseActivity {
 
     private void editPrescription() {
         String patient = gd.getActivePatient().getUsername();
+        p.cancelAlarm(getApplicationContext());
+        p.updateAlarms();
         Call<Void> call = prescriptionApi.editPrescription(patient, p.getId() , p);
 
         call.enqueue(new Callback<Void>() {
@@ -176,7 +180,8 @@ public class AddPrescriptionActivity extends BaseActivity {
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if(response.code() == 200) {
                     makeToast("Prescription Edited");
-                    updatePrescriptionServer(mode, p);
+                    gd.getActivePatient().getPrescriptions().set(mode, p);
+                    p.setAlarm(getApplicationContext());
                 } else if (response.code() == 400) {
                     makeToast("Failed Editing Prescription");
                 }

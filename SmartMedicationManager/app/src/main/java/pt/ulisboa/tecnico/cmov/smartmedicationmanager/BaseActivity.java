@@ -143,7 +143,6 @@ public class BaseActivity extends AppCompatActivity {
                 p.setEndDate(LocalDateTime.now().plusDays(6));
                 p.setPeriodicity("1-Days");
                 p.setNotes("Must not die");
-                addPrescriptionServer(p);
                 //
                 Prescription p2 = new Prescription();
                 p2.generateId();
@@ -153,7 +152,6 @@ public class BaseActivity extends AppCompatActivity {
                 p2.setEndDate(LocalDateTime.now().plusDays(1));
                 p2.setPeriodicity("17-Hours");
                 p2.setNotes(":)");
-                addPrescriptionServer(p);
 
 
             }
@@ -246,138 +244,6 @@ public class BaseActivity extends AppCompatActivity {
     public String friendlyDateTimeFormat(LocalDateTime dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy ");
         return dateTime.format(formatter);
-    }
-
-    public void addPrescriptionServer(Prescription p) {
-        p.generateAlarms();
-        gd.getActivePatient().getPrescriptions().add(p);
-        Call<Void> call = alarmApi.createAlarm(gd.getActivePatient().getUsername(), p.getId(), p.getAlarms());
-
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if (response.code() == 200) {
-                    p.setAlarm(getApplicationContext());
-                } else if (response.code() == 400) {
-                    makeToast("Error adding alarms");
-                    p.getAlarms().clear();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
-                p.getAlarms().clear();
-            }
-        });
-    }
-
-    public void updatePrescriptionServer(int index, Prescription p) {
-        gd.getActivePatient().getPrescriptions().set(index, p);
-
-        //delete
-        Call<Void> call = alarmApi.deleteAlarm(gd.getActivePatient().getUsername(), p.getId());
-
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if (response.code() == 200) {
-                    p.cancelAlarm(getApplicationContext());
-
-                } else if (response.code() == 400) {
-                    makeToast("Error deleting alarms");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
-            }
-        });
-
-        //add
-        p.updateAlarms();
-
-        Call<Void> call2 = alarmApi.createAlarm(gd.getActivePatient().getUsername(), p.getId(), p.getAlarms());
-
-        call2.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if (response.code() == 200) {
-                    p.setAlarm(getApplicationContext());
-                } else if (response.code() == 400) {
-                    makeToast("Error updating alarms");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
-            }
-        });
-    }
-
-    public void deletePrescriptionServer(Prescription p) {
-        gd.getActivePatient().getPrescriptions().remove(p);
-
-        Call<Void> call = alarmApi.deleteAlarm(gd.getActivePatient().getUsername(), p.getId());
-
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if (response.code() == 200) {
-                    p.cancelAlarm(getApplicationContext());
-
-                } else if (response.code() == 400) {
-                    makeToast("Error deleting alarms");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
-            }
-        });
-    }
-
-    public void takeAlarmServer(Prescription p){
-
-        //delete
-        Call<Void> call = alarmApi.deleteAlarm(gd.getCurrentUser().getUsername(), p.getId());
-
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if (response.code() == 200) {
-
-                } else if (response.code() == 400) {
-                    makeToast("Error deleting alarms");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
-            }
-        });
-
-        Call<Void> call2 = alarmApi.createAlarm(gd.getCurrentUser().getUsername(), p.getId(), p.getAlarms());
-
-        call2.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if (response.code() == 200) {
-                    p.setAlarm(getApplicationContext());
-                } else if (response.code() == 400) {
-                    makeToast("Error updating alarms");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
-            }
-        });
     }
 
     public void getMedicinesAndPrescriptions(String username, Boolean patient){

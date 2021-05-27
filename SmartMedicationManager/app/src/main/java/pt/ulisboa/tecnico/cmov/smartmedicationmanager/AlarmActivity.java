@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -16,6 +18,9 @@ import java.util.Date;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Alarm;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.services.AlarmService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AlarmActivity extends BaseActivity {
     String id;
@@ -79,8 +84,9 @@ public class AlarmActivity extends BaseActivity {
             tvDoor.setTextColor(Color.GREEN);
             btDismiss.setEnabled(true);
             a.setTaken(true);
-            takeAlarmServer(p);
             p.getMedicine().setQuantity(p.getMedicine().getQuantity()-1);
+            updatePrescription(p);
+            p.setAlarm(getApplicationContext());
         });
 
         btDismiss.setOnClickListener(v -> {
@@ -117,5 +123,28 @@ public class AlarmActivity extends BaseActivity {
 //            finish();
 //
 //        });
+    }
+
+    private void updatePrescription(Prescription p) {
+
+        String username = gd.getCurrentUser().getUsername();
+
+        Call<Void> call = prescriptionApi.editPrescription(username, p.getId() , p);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.code() == 200) {
+                    makeToast("Sent to server");
+                } else if (response.code() == 400) {
+                    makeToast("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
     }
 }
