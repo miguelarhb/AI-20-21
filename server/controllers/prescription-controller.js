@@ -51,18 +51,24 @@ const deletePrescription = (req, res) => {
                     .then((prescriptionFound) => {
                         if (prescriptionFound.name == deletePrescriptionName) {
                             Prescription.findByIdAndDelete(prescriptionID)
-                            var filtered = userFound.schedule.filter((value) => {
-                                return value != prescriptionID;
-                            })
-                            userFound.schedule = filtered
-                            userFound.save()
                                 .then(() => {
-                                    res.status(200).send()
-                                    console.log("Prescription deleted")
+                                    var filtered = userFound.schedule.filter((value) => {
+                                        return value != prescriptionID;
+                                    })
+                                    userFound.schedule = filtered
+                                    userFound.save()
+                                        .then(() => {
+                                            res.status(200).send()
+                                            console.log("Prescription deleted")
+                                        })
+                                        .catch((err) => {
+                                            res.status(400).send()
+                                            console.log('Prescription - Save Failure in User error: ' + err)
+                                        })
                                 })
                                 .catch((err) => {
                                     res.status(400).send()
-                                    console.log('Prescription - Save Failure in User error: ' + err)
+                                    console.log('Prescription - Not Deleted error: ' + err)
                                 })
                         }
                     })
