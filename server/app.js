@@ -23,7 +23,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/user', require('./routes/user-route'));
 app.use('/prescription', require('./routes/prescription-route'));
 app.use('/item', require('./routes/item-route'));
-app.use('/alarm', require('./routes/alarm-route'));
 
 const server = http.createServer(app)
 

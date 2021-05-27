@@ -11,7 +11,14 @@ const prescriptionSchema = new Schema({
         require: true
     },
     alarms: [{
-        type: String
+        time: {
+            type: String,
+            require: true
+        },
+        taken: {
+            type: Boolean,
+            require: true
+        }
     }],
     quantity: {
         type: Number,

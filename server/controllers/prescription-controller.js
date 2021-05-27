@@ -10,7 +10,8 @@ const addPrescription = (req, res) => {
         periodicity: req.body.periodicity,
         start: req.body.start,
         end: req.body.end,
-        notes: req.body.notes
+        notes: req.body.notes,
+        alarms: req.body.alarms
     })
 
     const query = { username: req.query.user }
@@ -51,16 +52,6 @@ const deletePrescription = (req, res) => {
                 Prescription.findById(prescriptionID)
                     .then((prescriptionFound) => {
                         if (prescriptionFound.name == deletePrescriptionName) {
-                            if (prescriptionFound.alarms.length != 0) {
-                                prescriptionFound.alarms.forEach((alarm) => {
-                                    Alarm.findByIdAndDelete(alarm.id)
-                                        .then(() => {})
-                                        .catch(() => {
-                                            res.status(400).send()
-                                            console.log('Prescription alarms failed delete error: ' + err)
-                                        })
-                                })
-                            }
                             Prescription.findByIdAndDelete(prescriptionID)
                                 .then(() => {
                                     var filtered = userFound.schedule.filter((value) => {
@@ -111,6 +102,7 @@ const editPrescription = (req, res) => {
                             prescriptionFound.start = req.body.start
                             prescriptionFound.end = req.body.end
                             prescriptionFound.notes = req.body.notes
+                            prescriptionFound.alarms = req.body.alarms
                             prescriptionFound.save()
                                 .then(() => {
                                     res.status(200).send()
