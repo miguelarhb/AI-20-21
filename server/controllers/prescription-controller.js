@@ -1,4 +1,5 @@
 const Prescription = require('../models/prescription-model')
+const Alarm = require('../models/alarm-model')
 const User = require('../models/user-model')
 
 const addPrescription = (req, res) => {
@@ -50,6 +51,16 @@ const deletePrescription = (req, res) => {
                 Prescription.findById(prescriptionID)
                     .then((prescriptionFound) => {
                         if (prescriptionFound.name == deletePrescriptionName) {
+                            if (prescriptionFound.alarms.length != 0) {
+                                prescriptionFound.alarms.forEach((alarm) => {
+                                    Alarm.findByIdAndDelete(alarm.id)
+                                        .then(() => {})
+                                        .catch(() => {
+                                            res.status(400).send()
+                                            console.log('Prescription alarms failed delete error: ' + err)
+                                        })
+                                })
+                            }
                             Prescription.findByIdAndDelete(prescriptionID)
                                 .then(() => {
                                     var filtered = userFound.schedule.filter((value) => {

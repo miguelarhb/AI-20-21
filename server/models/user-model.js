@@ -19,7 +19,9 @@ const userSchema = new Schema({
     schedule: [{
         type: String
     }],
-    patient: [String],
+    patients: [String],
+    requestPatient: [String],
+    requestCaretaker: [String],
     caretaker: String
 })
 
