@@ -35,7 +35,7 @@
         android:layout_marginTop="40dp">
 
         <ImageButton
-            android:id="@+id/btMedicine"
+            android:id="@+id/btMedicineC"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginStart="20dp"
@@ -54,21 +54,21 @@
             style="@style/textProperties"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btMedicine"
-            android:layout_alignEnd="@+id/btMedicine"
-            android:layout_alignStart="@+id/btMedicine"
+            android:layout_below="@+id/btMedicineC"
+            android:layout_alignEnd="@+id/btMedicineC"
+            android:layout_alignStart="@+id/btMedicineC"
             android:gravity="center_horizontal"
             />
 
         <ImageButton
-            android:id="@+id/btPrescriptions"
+            android:id="@+id/btPrescriptionsC"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
-            android:layout_toEndOf="@id/btMedicine"
+            android:layout_toEndOf="@id/btMedicineC"
             android:background="@color/nord_purple"
             android:elevation="5dp"
             android:padding="20dp"
@@ -81,9 +81,9 @@
             style="@style/textProperties"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btPrescriptions"
-            android:layout_alignEnd="@+id/btPrescriptions"
-            android:layout_alignStart="@+id/btPrescriptions"
+            android:layout_below="@+id/btPrescriptionsC"
+            android:layout_alignEnd="@+id/btPrescriptionsC"
+            android:layout_alignStart="@+id/btPrescriptionsC"
             android:gravity="center_horizontal"
             />
 
@@ -96,7 +96,7 @@
         android:layout_below="@+id/aboveRow">
 
         <ImageButton
-            android:id="@+id/btAlarms"
+            android:id="@+id/btnScheduleC"
             android:background="@color/nord_red"
             android:padding="20dp"
             android:layout_margin="20dp"
@@ -104,22 +104,22 @@
             android:layout_height="120dp"
             android:scaleType="centerInside"
             android:elevation="5dp"
-            app:srcCompat="@drawable/bell" />
+            app:srcCompat="@drawable/calendar" />
 
         <TextView
             android:id="@+id/txtAlarm"
-            android:text="@string/alarms"
+            android:text="@string/schedule"
             style="@style/textProperties"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btAlarms"
-            android:layout_alignEnd="@+id/btAlarms"
-            android:layout_alignStart="@+id/btAlarms"
+            android:layout_below="@+id/btnScheduleC"
+            android:layout_alignEnd="@+id/btnScheduleC"
+            android:layout_alignStart="@+id/btnScheduleC"
             android:gravity="center_horizontal"
             />
 
         <ImageButton
-            android:id="@+id/btSchedule"
+            android:id="@+id/btAlarmsC"
             android:background="@color/nord_green"
             android:layout_margin="20dp"
             android:padding="20dp"
@@ -127,18 +127,18 @@
             android:layout_height="120dp"
             android:scaleType="centerInside"
             android:elevation="5dp"
-            app:srcCompat="@drawable/calendar"
-            android:layout_toEndOf="@+id/btAlarms"/>
+            app:srcCompat="@drawable/bell"
+            android:layout_toEndOf="@+id/btnScheduleC"/>
 
         <TextView
             android:id="@+id/txtHistory"
-            android:text="@string/schedule"
+            android:text="@string/alarms"
             style="@style/textProperties"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btSchedule"
-            android:layout_alignEnd="@+id/btSchedule"
-            android:layout_alignStart="@+id/btSchedule"
+            android:layout_below="@+id/btAlarmsC"
+            android:layout_alignEnd="@+id/btAlarmsC"
+            android:layout_alignStart="@+id/btAlarmsC"
             android:gravity="center_horizontal"
             />
 

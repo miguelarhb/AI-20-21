@@ -41,7 +41,7 @@
             android:id="@+id/firstRow">
 
             <ImageButton
-                android:id="@+id/btnMedication"
+                android:id="@+id/btnMedicationP"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
@@ -56,33 +56,33 @@
                 style="@style/textProperties"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/btnMedication"
-                android:layout_alignStart="@+id/btnMedication"
-                android:layout_alignEnd="@+id/btnMedication"
+                android:layout_below="@+id/btnMedicationP"
+                android:layout_alignStart="@+id/btnMedicationP"
+                android:layout_alignEnd="@+id/btnMedicationP"
                 android:gravity="center_horizontal"
                 android:text="@string/medicine" />
 
             <ImageButton
-                android:id="@+id/buttonSchedule"
+                android:id="@+id/buttonPrescriptionsP"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:padding="20dp"
                 android:layout_margin="20dp"
                 android:scaleType="centerInside"
                 android:elevation="5dp"
-                app:srcCompat="@drawable/calendar"
-                android:layout_toEndOf="@+id/btnMedication"
+                app:srcCompat="@drawable/prescription"
+                android:layout_toEndOf="@+id/btnMedicationP"
                 android:background="@color/nord_purple"/>
 
             <TextView
                 android:id="@+id/txtSchedule"
-                android:text="@string/schedule"
+                android:text="@string/prescriptions"
                 style="@style/textProperties"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/buttonSchedule"
-                android:layout_alignEnd="@+id/buttonSchedule"
-                android:layout_alignStart="@+id/buttonSchedule"
+                android:layout_below="@+id/buttonPrescriptionsP"
+                android:layout_alignEnd="@+id/buttonPrescriptionsP"
+                android:layout_alignStart="@+id/buttonPrescriptionsP"
                 android:gravity="center_horizontal"
                 />
 
@@ -97,31 +97,31 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/buttonHelp"
+                android:id="@+id/btScheduleP"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:padding="20dp"
                 android:layout_margin="20dp"
                 android:scaleType="centerInside"
                 android:elevation="5dp"
-                app:srcCompat="@drawable/information"
+                app:srcCompat="@drawable/calendar"
                 android:background="@color/nord_red" />
 
             <TextView
                 android:id="@+id/txtHelp"
-                android:text="@string/help"
+                android:text="@string/schedule"
                 style="@style/textProperties"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/buttonHelp"
-                android:layout_alignEnd="@+id/buttonHelp"
-                android:layout_alignStart="@+id/buttonHelp"
+                android:layout_below="@+id/btScheduleP"
+                android:layout_alignEnd="@+id/btScheduleP"
+                android:layout_alignStart="@+id/btScheduleP"
                 android:gravity="center_horizontal"
                 />
 
 
             <ImageButton
-                android:id="@+id/btnRequests"
+                android:id="@+id/btnRequestsP"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
@@ -130,16 +130,16 @@
                 android:padding="20dp"
                 android:scaleType="centerInside"
                 app:srcCompat="@drawable/interview"
-                android:layout_toEndOf="@id/buttonHelp"/>
+                android:layout_toEndOf="@id/btScheduleP"/>
 
             <TextView
                 android:id="@+id/txtMed"
                 style="@style/textProperties"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/btnRequests"
-                android:layout_alignStart="@+id/btnRequests"
-                android:layout_alignEnd="@+id/btnRequests"
+                android:layout_below="@+id/btnRequestsP"
+                android:layout_alignStart="@+id/btnRequestsP"
+                android:layout_alignEnd="@+id/btnRequestsP"
                 android:gravity="center_horizontal"
                 android:text="@string/requests" />
         </RelativeLayout>

@@ -169,7 +169,7 @@ public class BaseActivity extends AppCompatActivity {
                 p.setEndDate(LocalDateTime.now().plusDays(6));
                 p.setPeriodicity("1-Days");
                 p.setNotes("Must not die");
-                gd.getCurrentUser().addPrescription(p, getApplicationContext());
+                //gd.getCurrentUser().addPrescription(p, getApplicationContext());
                 //
                 Prescription p2 = new Prescription();
                 p2.generateId();
@@ -179,7 +179,7 @@ public class BaseActivity extends AppCompatActivity {
                 p2.setEndDate(LocalDateTime.now().plusDays(1));
                 p2.setPeriodicity("17-Hours");
                 p2.setNotes(":)");
-                gd.getCurrentUser().addPrescription(p2, getApplicationContext());
+                //gd.getCurrentUser().addPrescription(p2, getApplicationContext());
             }
         }
 

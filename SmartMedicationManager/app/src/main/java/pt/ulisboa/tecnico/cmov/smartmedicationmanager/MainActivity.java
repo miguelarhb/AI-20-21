@@ -40,10 +40,10 @@ public class MainActivity extends BaseActivity {
         TextView welcome = findViewById(R.id.welcome);
 
         if (getSharedPreferenceBoolean("MODE")){
-            ImageButton medicineBt = findViewById(R.id.btMedicine);
-            ImageButton prescriptionsBt = findViewById(R.id.btPrescriptions);
-            ImageButton alarmsBt = findViewById(R.id.btAlarms);
-            ImageButton scheduleBt = findViewById(R.id.btSchedule);
+            ImageButton medicineBt = findViewById(R.id.btMedicineC);
+            ImageButton prescriptionsBt = findViewById(R.id.btPrescriptionsC);
+            ImageButton alarmsBt = findViewById(R.id.btAlarmsC);
+            ImageButton scheduleBt = findViewById(R.id.btnScheduleC);
             if (gd.userHasPatients()){
                 welcome.setText("Managing Patient "+gd.getActivePatient().getUsername());
 
@@ -78,10 +78,10 @@ public class MainActivity extends BaseActivity {
 
         }
         else{
-            ImageButton scheduleBt = findViewById(R.id.buttonSchedule);
-            ImageButton helpBt = findViewById(R.id.buttonHelp);
-            ImageButton medicationBt = findViewById(R.id.btnMedication);
-            ImageButton requestsBt = findViewById(R.id.btnRequests);
+            ImageButton scheduleBt = findViewById(R.id.btScheduleP);
+            ImageButton prescriptionsBt = findViewById(R.id.buttonPrescriptionsP);
+            ImageButton medicationBt = findViewById(R.id.btnMedicationP);
+            ImageButton requestsBt = findViewById(R.id.btnRequestsP);
             Button testAlarmBt = findViewById(R.id.btTestAlarm);
 
 
@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity {
             else{
                 welcome.setText("No assigned caretaker. Ask someone to assign you or switch to advanced mode.");
                 scheduleBt.setEnabled(false);
-                helpBt.setEnabled(false);
+                prescriptionsBt.setEnabled(false);
                 medicationBt.setEnabled(false);
                 testAlarmBt.setEnabled(false);
 
@@ -111,8 +111,10 @@ public class MainActivity extends BaseActivity {
 
             });
 
-            helpBt.setOnClickListener(v -> {
-                makeToast("Help");
+            prescriptionsBt.setOnClickListener(v -> {
+                intent = new Intent(this, PrescriptionListActivity.class);
+                intent.putExtra("patient",true);
+                startActivity(intent);
 
             });
 
