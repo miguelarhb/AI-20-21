@@ -24,12 +24,10 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.AlarmApi;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.MedicineApi;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.PrescriptionApi;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.api.UserApi;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.data.GlobalData;
-import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Alarm;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
@@ -56,7 +54,6 @@ public class BaseActivity extends AppCompatActivity {
     MedicineApi medicineApi = retrofit.create(MedicineApi.class);
     PrescriptionApi prescriptionApi = retrofit.create(PrescriptionApi.class);
     UserApi userApi = retrofit.create(UserApi.class);
-    AlarmApi alarmApi = retrofit.create(AlarmApi.class);
 
     static String SHARED_PREFERENCES_FILE = "smcprefs";
     static int CAMERA_PERMISSION_CODE = 100;
@@ -293,28 +290,6 @@ public class BaseActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<Prescription>> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
-            }
-        });
-    }
-
-    public void getAlarmsFromServer(String username, Prescription p){
-
-        Call<ArrayList<Alarm>> call = alarmApi.getAllAlarm(username, p.getId());
-
-        call.enqueue(new Callback<ArrayList<Alarm>>() {
-            @Override
-            public void onResponse(@NonNull Call<ArrayList<Alarm>> call, @NonNull Response<ArrayList<Alarm>> response) {
-                if(response.code() == 200) {
-                    p.setAlarms(response.body());
-
-                } else if (response.code() == 400) {
-                    makeToast("Fail Getting Medicine");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ArrayList<Alarm>> call, @NonNull Throwable t) {
                 makeToast(t.getMessage());
             }
         });

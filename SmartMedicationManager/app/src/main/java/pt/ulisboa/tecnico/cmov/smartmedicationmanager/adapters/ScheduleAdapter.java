@@ -57,7 +57,6 @@ public class ScheduleAdapter extends ArrayAdapter<Alarm> {
         name.setText(p.getMedicine().getName());
         qt.setText(String.valueOf(p.getQuantity()));
         date.setText(activity.friendlyDateTimeFormat(a.getDateTime()));
-
         if (a.getDateTime().isBefore(LocalDateTime.now())){
            if (a.isTaken()){
                status.setText("Taken");

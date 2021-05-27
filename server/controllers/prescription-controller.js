@@ -1,5 +1,4 @@
 const Prescription = require('../models/prescription-model')
-const Alarm = require('../models/alarm-model')
 const User = require('../models/user-model')
 
 const addPrescription = (req, res) => {

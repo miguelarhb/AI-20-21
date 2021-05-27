@@ -147,6 +147,7 @@ public class Prescription {
             Alarm al = new Alarm();
             al.setDateTime(date);
             al.setTaken(false);
+            alarms.add(al);
             nextAlarm += interval;
         }
     }
@@ -238,6 +239,7 @@ public class Prescription {
             Alarm al = new Alarm();
             al.setDateTime(date);
             al.setTaken(false);
+            alarms.add(al);
             nextAlarm += interval;
         }
     }

@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.cmov.smartmedicationmanager.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +69,6 @@ public class MedicineAdapter extends ArrayAdapter<Medicine> {
             expDateTxt.setTextColor(Color.RED);
         }
         else if (expDate.isBefore(now.plusMonths(1))){
-            Log.d("fds", expDate.toString());
             expDateTxt.setTextColor(Color.YELLOW);
         }
         else {

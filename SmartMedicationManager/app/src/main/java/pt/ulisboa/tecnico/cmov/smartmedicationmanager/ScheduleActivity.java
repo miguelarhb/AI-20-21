@@ -71,7 +71,6 @@ public class ScheduleActivity extends BaseActivity {
 
         String dateString;
         for (Prescription p: source){
-            getAlarmsFromServer(username, p);
             for (Alarm a : p.getAlarms()){
                 dateString = toCalendarString(a.getDateTime());
                 if (map.get(dateString)==null){
