@@ -45,22 +45,26 @@
         android:text="@string/off" />
 
     <TextView
-        android:id="@+id/logoutTxt"
-        style="@style/textTitleProperties"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView3"
-        android:layout_margin="30dp"
-        android:text="@string/logout" />
-
-    <TextView
         android:id="@+id/logoutDescriptionTxt"
         style="@style/textProperties"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:text="@string/logout_description" />
+
+    <Button
+        android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/logoutTxt"
-        android:layout_alignStart="@+id/logoutTxt"
-        android:layout_marginEnd="30dp"
-        android:text="@string/logout_description" />
+        android:layout_toEndOf="@+id/logoutDescriptionTxt"
+        android:layout_below="@+id/textView3"
+        android:padding="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/logout"
+        />
+
 
 </RelativeLayout>
