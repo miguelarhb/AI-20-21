@@ -110,30 +110,50 @@ const getCaretaker = (req, res) => {
 const addPatient = (req, res) => {
     const queryUser = { username: req.query.name }
     const queryPatient = { username: req.query.patient }
-    User.findOne(queryUser)
-        .then((userFound) => {
-            User.findOne(queryPatient)
-                .then((patientFound) => {
-                    userFound.patients.push(patientFound.id)
-                    userFound.save()
-                        .then(() => {
-                            res.status(200).send()
-                            console.log('Added Patient')
-                        })
-                        .catch((err) => {
-                            console.log('User Save Error: ' + err)
-                            res.status(400).send()
-                        })
-                })
-                .catch((err) => {
-                    console.log('No Caretaker Found Error: ' + err)
-                    res.status(400).send()
-                })
-        })
-        .catch((err) => {
-            console.log('No User Found Error: ' + err)
-            res.status(400).send()
-        })
+    if (req.query.name == req.query.patient) {
+        User.findOne(queryUser)
+            .then((userFound) => {
+                userFound.patients.push(userFound.id)
+                userFound.save()
+                    .then(() => {
+                        res.status(200).send()
+                        console.log('Added Patient')
+                    })
+                    .catch((err) => {
+                        console.log('User Save Error: ' + err)
+                        res.status(400).send()
+                    })
+            })
+            .catch((err) => {
+                console.log('No User Found Error: ' + err)
+                res.status(400).send()
+            })
+    } else {
+        User.findOne(queryUser)
+            .then((userFound) => {
+                User.findOne(queryPatient)
+                    .then((patientFound) => {
+                        userFound.patients.push(patientFound.id)
+                        userFound.save()
+                            .then(() => {
+                                res.status(200).send()
+                                console.log('Added Patient')
+                            })
+                            .catch((err) => {
+                                console.log('User Save Error: ' + err)
+                                res.status(400).send()
+                            })
+                    })
+                    .catch((err) => {
+                        console.log('No Caretaker Found Error: ' + err)
+                        res.status(400).send()
+                    })
+            })
+            .catch((err) => {
+                console.log('No User Found Error: ' + err)
+                res.status(400).send()
+            })
+    }
 }
 
 const deletePatient = (req, res) => {
