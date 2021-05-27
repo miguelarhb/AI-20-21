@@ -41,6 +41,17 @@ public class MedicineListActivity extends BaseActivity {
         FloatingActionButton fab = findViewById(R.id.fabAddItem);
 
         if (patient){
+            fab.setVisibility(View.GONE);
+            medicine_list_item_layout=R.layout.medicine_list_item_patient;
+        }
+        else{
+            medicine_list_item_layout=R.layout.medicine_list_item;
+        }
+
+        adapter=new MedicineAdapter(this, medicine_list_item_layout, items);
+        listView.setAdapter(adapter);
+
+        if (patient){
             Call<ArrayList<Medicine>> call = medicineApi.getAllMedicine(gd.getCurrentUser().getUsername());
 
             call.enqueue(new Callback<ArrayList<Medicine>>() {
@@ -59,9 +70,6 @@ public class MedicineListActivity extends BaseActivity {
                     makeToast(t.getMessage());
                 }
             });
-
-            fab.setVisibility(View.GONE);
-            medicine_list_item_layout=R.layout.medicine_list_item_patient;
         }
         else{
             Call<ArrayList<Medicine>> call = medicineApi.getAllMedicine(gd.getActivePatient().getUsername());
@@ -82,11 +90,9 @@ public class MedicineListActivity extends BaseActivity {
                     makeToast(t.getMessage());
                 }
             });
-            medicine_list_item_layout=R.layout.medicine_list_item;
         }
 
-        adapter=new MedicineAdapter(this, medicine_list_item_layout, items);
-        listView.setAdapter(adapter);
+
 
         fab.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddMedicineActivity.class);
@@ -131,6 +137,7 @@ public class MedicineListActivity extends BaseActivity {
                 if(response.code() == 200) {
                     makeToast("Deleted Medicine");
                     gd.getActivePatient().getMedicines().remove(m);
+                    refreshList();
                 } else if (response.code() == 400) {
                     makeToast("Fail Delete Medicine");
                 }
@@ -142,6 +149,6 @@ public class MedicineListActivity extends BaseActivity {
             }
         });
 
-        refreshList();
+
     }
 }

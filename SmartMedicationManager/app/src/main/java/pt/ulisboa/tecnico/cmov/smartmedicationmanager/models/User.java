@@ -98,6 +98,12 @@ public class User {
     }
 
     public void setPrescriptions(List<Prescription> prescriptions) {
+        for (Prescription p : prescriptions){
+            Medicine matchingObject = getMedicines().stream().
+                    filter(m -> m.getName().equals(p.getItem())).
+                    findAny().orElse(null);
+            p.setMedicine(matchingObject);
+        }
         this.prescriptions = prescriptions;
     }
 

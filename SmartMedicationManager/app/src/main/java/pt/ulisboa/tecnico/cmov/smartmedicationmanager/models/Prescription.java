@@ -11,6 +11,7 @@ import com.google.gson.annotations.SerializedName;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,10 +32,10 @@ public class Prescription {
     private String periodicity;
 
     @SerializedName("start")
-    private LocalDateTime startDate;
+    private String startDate;
 
     @SerializedName("end")
-    private LocalDateTime endDate;
+    private String endDate;
 
     private String notes;
 
@@ -44,8 +45,6 @@ public class Prescription {
         this.medicine = medicine;
         this.quantity = quantity;
         this.periodicity = periodicity;
-        this.startDate = startDate;
-        this.item = medicine.getName();
     }
 
     public Prescription() {
@@ -85,19 +84,23 @@ public class Prescription {
     }
 
     public LocalDateTime getStartDate() {
-        return startDate;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy ");
+        return LocalDateTime.parse(startDate, formatter);
     }
 
     public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy ");
+        this.startDate = startDate.format(formatter);
     }
 
     public LocalDateTime getEndDate() {
-        return endDate;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy ");
+        return LocalDateTime.parse(endDate, formatter);
     }
 
     public void setEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy ");
+        this.endDate = endDate.format(formatter);
     }
 
     public String getId() {
@@ -132,15 +135,17 @@ public class Prescription {
 
     public void generateAlarms(){
         this.alarms.clear();
-        long firstAlarm = this.startDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        long lastThreshold = this.endDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long firstAlarm = this.getStartDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long lastThreshold = this.getEndDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         long nextAlarm = firstAlarm;
         long interval = getInterval();
 
         while (nextAlarm <= lastThreshold) {
             Instant instant = Instant.ofEpochMilli(nextAlarm);
             LocalDateTime date = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
-            this.alarms.add(new Alarm(date, false));
+            Alarm al = new Alarm();
+            al.setDateTime(date);
+            al.setTaken(false);
             nextAlarm += interval;
         }
     }

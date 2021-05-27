@@ -38,8 +38,8 @@ public class BaseActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    static final String BASE_URL = "http://192.168.1.52:3000/";
-    //static final String BASE_URL = "http://192.168.1.11:3000/";
+    //static final String BASE_URL = "http://192.168.1.52:3000/";
+    static final String BASE_URL = "http://192.168.1.11:3000/";
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -94,6 +94,10 @@ public class BaseActivity extends AppCompatActivity {
             gd = (GlobalData) getApplicationContext();
         }
 
+        if (gd.getCurrentUser()==null){
+            logThis("wat");
+        }
+
 //        String loggedInUser = getSharedPreferenceString("username");
 //        if (loggedInUser.equals("")){
 //            gd.setCurrentUser(null);
@@ -109,7 +113,7 @@ public class BaseActivity extends AppCompatActivity {
         //TODO remove later (test data)
         if (getSharedPreferenceBoolean("MODE")){
 
-            if (gd.getCurrentUser().getPatients().size()==0){
+            if (false){
                 gd.getCurrentUser().addPatient(new User("Pedro"));
                 gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
                 gd.getCurrentUser().addPatient(new User("Ricardo"));

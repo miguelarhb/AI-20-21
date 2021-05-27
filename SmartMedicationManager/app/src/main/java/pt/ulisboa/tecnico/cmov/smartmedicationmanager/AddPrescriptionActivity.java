@@ -12,6 +12,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.annotation.NonNull;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,10 +23,14 @@ import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Medicine;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddPrescriptionActivity extends BaseActivity {
 
     Prescription p;
+    int mode;
 
     int mYear;
     int mMonth;
@@ -74,7 +80,7 @@ public class AddPrescriptionActivity extends BaseActivity {
         periodSpinner.setAdapter(adapter2);
 
         Intent intent = getIntent();
-        int mode = intent.getIntExtra("mode", -1);
+        mode = intent.getIntExtra("mode", -1);
         if (mode==-1){
             p = new Prescription();
             p.generateId();
@@ -124,10 +130,10 @@ public class AddPrescriptionActivity extends BaseActivity {
             p.setPeriodicity(periodNumber.getText().toString()+"-"+periodSpinner.getSelectedItem().toString());
             p.setNotes(notes.getText().toString());
             if (mode==-1){
-                gd.getActivePatient().addPrescription(p, getApplicationContext());
+                addPrescription();
             }
             else{
-                gd.getActivePatient().updatePrescription(mode, p, getApplicationContext());
+                editPrescription();
             }
             this.finish();
 
@@ -138,6 +144,51 @@ public class AddPrescriptionActivity extends BaseActivity {
 
 
     }
+
+    private void addPrescription() {
+        String patient = gd.getActivePatient().getUsername();
+        Call<Void> call = prescriptionApi.createPrescription(patient, p);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.code() == 200) {
+                    makeToast("New Prescription Added");
+                    gd.getActivePatient().addPrescription(p, getApplicationContext());
+                } else if (response.code() == 400) {
+                    makeToast("Failed Add Prescription");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+    }
+
+    private void editPrescription() {
+        String patient = gd.getActivePatient().getUsername();
+        Call<Void> call = prescriptionApi.editPrescription(patient, p.getId() , p);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.code() == 200) {
+                    makeToast("Prescription Edited");
+                    gd.getActivePatient().updatePrescription(mode, p, getApplicationContext());
+                } else if (response.code() == 400) {
+                    makeToast("Failed Editing Prescription");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                makeToast(t.getMessage());
+            }
+        });
+    }
+
     private void datePicker(TextView dateTv, int date){
 
         // Get Current Date

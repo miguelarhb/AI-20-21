@@ -1,27 +1,26 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager.api;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.Prescription;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.POST;
-import retrofit2.http.GET;
-import retrofit2.http.PUT;
 import retrofit2.http.DELETE;
-import retrofit2.http.Path;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Query;
 
 public interface PrescriptionApi {
-    @POST("prescription/{user}/add")
-    Call<Void> createPrescription(@Path("user") String username, @Body HashMap<String, String> map);
+    @POST("prescription/add")
+    Call<Void> createPrescription(@Query("user") String username, @Body Prescription prescription);
 
-    @GET("prescription/{user}/all")
-    Call<ArrayList<Prescription>> getAllPrescription(@Path("user") String username);
+    @GET("prescription/all")
+    Call<ArrayList<Prescription>> getAllPrescription(@Query("user") String username);
 
-    @DELETE("prescription/{user}/delete/{name}")
-    Call<Void> deletePrescription(@Path("user") String username, @Path("name") String prescriptionId);
+    @DELETE("prescription/delete")
+    Call<Void> deletePrescription(@Query("user") String username, @Query("name") String prescriptionName);
 
-    @PUT("prescription/{user}/edit/{name}")
-    Call<Prescription> editPrescription(@Path("user") String username, @Path("name") String prescriptionId, @Body HashMap<String, String> map);
+    @PUT("prescription/edit")
+    Call<Void> editPrescription(@Query("user") String username, @Query("name") String prescriptionId, @Body Prescription prescription);
 }

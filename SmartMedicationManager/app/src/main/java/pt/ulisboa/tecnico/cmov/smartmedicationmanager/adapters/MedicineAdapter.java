@@ -47,7 +47,7 @@ public class MedicineAdapter extends ArrayAdapter<Medicine> {
             view = inflater.inflate(resource, null);
         }
 
-        Medicine m = getItem(position);
+        Medicine m = medicines.get(position);
 
         ImageView image = view.findViewById(R.id.iconitem);
         TextView name = view.findViewById(R.id.medicineName);
@@ -74,7 +74,7 @@ public class MedicineAdapter extends ArrayAdapter<Medicine> {
             expDateTxt.setTextColor(Color.YELLOW);
         }
         else {
-            expDateTxt.setTextColor(Color.GREEN);
+            expDateTxt.setTextColor(Color.parseColor("#2E3440"));
         }
 
         if (this.resource==R.layout.medicine_list_item){

@@ -3,25 +3,26 @@ package pt.ulisboa.tecnico.cmov.smartmedicationmanager.models;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Alarm {
 
     @SerializedName("time")
-    private LocalDateTime dateTime;
+    private String dateTime;
 
     private boolean taken;
 
-    public Alarm(LocalDateTime dateTime, boolean taken) {
-        this.dateTime = dateTime;
-        this.taken = taken;
+    public Alarm() {
     }
 
     public LocalDateTime getDateTime() {
-        return dateTime;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy ");
+        return LocalDateTime.parse(dateTime, formatter);
     }
 
     public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy ");
+        this.dateTime = dateTime.format(formatter);
     }
 
     public boolean isTaken() {
