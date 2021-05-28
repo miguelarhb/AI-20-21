@@ -38,11 +38,11 @@
                 android:inputType="textPersonName" />
 
             <Button
-                android:id="@+id/addPatientCheckBt"
+                android:id="@+id/addPatientSubmitBt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:text="@string/check" />
+                android:layout_marginLeft="30dp"
+                android:text="@string/submit" />
 
         </LinearLayout>
 
@@ -55,20 +55,11 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp" />
 
-        <Button
-            android:id="@+id/addPatientSubmitBt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/addPatientTextViewCheck"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
-            android:text="@string/submit" />
-
         <ListView
             android:id="@+id/sentRequestsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/addPatientSubmitBt"
+            android:layout_below="@+id/patientCheck"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="10dp"
