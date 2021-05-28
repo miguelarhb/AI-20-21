@@ -47,7 +47,10 @@ public class ManagePatientsActivity extends BaseActivity {
                         gd.getCurrentUser().addPatient(new User(s));
                     }
                     if (gd.getCurrentUser().getPatients().size()>0){
-                        gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
+                        if (gd.getActivePatient()==null){
+                            gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
+                        }
+
                     }
                     refreshList();
                 } else if (response.code() == 400) {
@@ -62,6 +65,11 @@ public class ManagePatientsActivity extends BaseActivity {
         });
 
         patients.addAll(gd.getCurrentUser().getPatients());
+        for (User user: patients){
+            if (user.getUsername().equals(gd.getCurrentUser().getUsername())){
+                selfAssignBt.setEnabled(false);
+            }
+        }
         adapter = new PatientListAdapter(this, R.layout.patient_list_item, patients, gd);
 
         patientList.setAdapter(adapter);
@@ -129,8 +137,10 @@ public class ManagePatientsActivity extends BaseActivity {
 
                 if (gd.userHasPatients()){
                     selfAssignBt.setEnabled(true);
-                    if (gd.getCurrentUser().getPatients().contains(gd.getCurrentUser())){
-                        selfAssignBt.setEnabled(false);
+                    for (User user: patients){
+                        if (user.getUsername().equals(gd.getCurrentUser().getUsername())){
+                            selfAssignBt.setEnabled(false);
+                        }
                     }
                 }
                 else{

@@ -29,16 +29,16 @@ public interface UserApi {
     @POST("user/addRequestPatient")
     Call<Void> addRequestPatient(@Query("name") String username, @Query("patient") String usernamePatient);
 
-    @DELETE("user/deletePatient")
+    @DELETE("user/removePatient")
     Call<Void> deletePatient(@Query("name") String username, @Query("patient") String usernamePatient);
 
     @DELETE("user/deleteCaretaker")
     Call<Void> deleteCaretaker(@Query("name") String username);
 
-    @DELETE("user/deleteRequestCaretaker")
+    @DELETE("user/removeRequestCaretaker")
     Call<Void> deleteRequestCaretaker(@Query("name") String username, @Query("caretaker") String usernameCaretaker);
 
-    @DELETE("user/deleteRequestPatient")
+    @DELETE("user/removeRequestPatient")
     Call<Void> deleteRequestPatient(@Query("name") String username, @Query("patient") String usernamePatient);
 
     @GET("user/getAllPatient")

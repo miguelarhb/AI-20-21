@@ -91,17 +91,22 @@ const getCaretaker = (req, res) => {
     const queryUser = { username: req.query.name }
     User.findOne(queryUser)
         .then((userFound) => {
-            User.findById(userFound.caretaker)
+            if (typeof userFound.caretaker == "undefined") {
+                res.status(204).send()
+                console.log('Sent No Caretaker')
+            }
+            else{
+                User.findById(userFound.caretaker)
                 .then((caretakerFound) => {
-                    const jsonName = JSON.stringify(caretakerFound.username)
-                    res.status(200).send(jsonName)
+                    res.status(200).send(JSON.stringify(caretakerFound.username))
                     console.log('Sent Caretaker')
-                    console.log(caretakerFound.username)
                 })
                 .catch((err) => {
                     console.log('No Caretaker Found Error: ' + err)
                     res.status(400).send()
                 })
+            }
+            
         })
         .catch((err) => {
             console.log('No User Found Error: ' + err)
@@ -256,14 +261,14 @@ const addRequestPatient = (req, res) => {
 }
 
 const removeRequestPatient = (req, res) => {
+    const patientName = req.query.patient
     const queryUser = { username: req.query.name }
-    const queryPatient = { username: req.query.patient }
     User.findOne(queryUser)
         .then((userFound) => {
             userFound.requestPatient.forEach((patientID) => {
                 User.findById(patientID)
                     .then((patient) => {
-                        if (patient.username == queryPatient) {
+                        if (patient.username == patientName) {
                             var filtered = userFound.requestPatient.filter((value) => {
                                 return value != patientID;
                             })
@@ -348,20 +353,18 @@ const addRequestCaretaker = (req, res) => {
 }
 
 const removeRequestCaretaker = (req, res) => {
+    const caretakerName = req.query.caretaker 
     const queryUser = { username: req.query.name }
-    const queryCaretaker = { username: req.query.caretaker }
     User.findOne(queryUser)
         .then((userFound) => {
             userFound.requestCaretaker.forEach((caretakerID) => {
                 User.findById(caretakerID)
                     .then((caretaker) => {
-                        if (caretaker.username == queryCaretaker) {
-                            
+                        if (caretaker.username == caretakerName) {
                             var filtered = userFound.requestCaretaker.filter((value) => {
                                 return value != caretakerID;
                             })
-                            console.log(filtered)
-                            userFound.requestPatient = filtered
+                            userFound.requestCaretaker = filtered
                             userFound.save()
                                 .then(() => {
                                     res.status(200).send()

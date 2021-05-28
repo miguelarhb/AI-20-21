@@ -58,9 +58,6 @@ public class MainActivity extends BaseActivity {
                         for (String s : response.body()){
                             gd.getCurrentUser().addPatient(new User(s));
                         }
-                        if (gd.getCurrentUser().getPatients().size()>0){
-                            gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
-                        }
                     } else if (response.code() == 400) {
                         makeToast("Error");
                     }

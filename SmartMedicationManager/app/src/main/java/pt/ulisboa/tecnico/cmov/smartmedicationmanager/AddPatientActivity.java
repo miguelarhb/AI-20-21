@@ -87,25 +87,9 @@ public class AddPatientActivity extends BaseActivity {
                         makeToast("Request sent to patient");
                         gd.getCurrentUser().getTemporaryPatients().add(new User(username));
                         refreshList();
+                        request2();
                     } else if (response.code() == 400) {
-                        makeToast("Error");
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                    if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
-                }
-            });
-
-            Call<Void> call2 = userApi.addRequestPatient(username, gd.getCurrentUser().getUsername());
-
-            call2.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                    if(response.code() == 200) {
-                    } else if (response.code() == 400) {
-                        makeToast("Error");
+                        makeToast("Username does not exist");
                     }
                 }
 
@@ -136,7 +120,62 @@ public class AddPatientActivity extends BaseActivity {
     }
 
     public void remove(User u) {
-        gd.getCurrentUser().getTemporaryPatients().remove(u);
-        refreshList();
+
+        Call<Void> call2 = userApi.deleteRequestCaretaker(gd.getCurrentUser().getUsername(), u.getUsername());
+
+        call2.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.code() == 200) {
+                    gd.getCurrentUser().getTemporaryPatients().remove(u);
+                    refreshList();
+                    removeFromPatient(u);
+                } else if (response.code() == 400) {
+                    makeToast("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
+            }
+        });
+
+    }
+    public void request2(){
+        Call<Void> call2 = userApi.addRequestPatient(username, gd.getCurrentUser().getUsername());
+
+        call2.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.code() == 200) {
+                } else if (response.code() == 400) {
+                    makeToast("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
+            }
+        });
+    }
+    public void removeFromPatient(User u){
+        Call<Void> call2 = userApi.deleteRequestPatient(u.getUsername(), gd.getCurrentUser().getUsername());
+
+        call2.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.code() == 200) {
+                } else if (response.code() == 400) {
+                    makeToast("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
+            }
+        });
     }
 }

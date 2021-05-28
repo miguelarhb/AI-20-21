@@ -45,6 +45,7 @@ public class BaseActivity extends AppCompatActivity {
 
     //static final String BASE_URL = "http://192.168.1.52:3000/";
     static final String BASE_URL = "http://192.168.1.11:3000/";
+    //static final String BASE_URL = "http://192.168.103.103:3000/";
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -321,14 +322,20 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if(response.code() == 200) {
+                    logThis("assign");
                     gd.getCurrentUser().setCaretaker(new User(response.body()));
                 } else if (response.code() == 400) {
+                    logThis("caretaker error");
+                } else if (response.code() == 204) {
+                    logThis("no assigned caretaker");
                 }
+
                 getData();
             }
 
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                logThis("fail caretaker");
                 if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
             }
         });

@@ -37,7 +37,7 @@
             android:layout_centerHorizontal="true"
             android:orientation="horizontal"
             android:layout_below="@+id/welcome"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="45dp"
             android:id="@+id/firstRow">
 
             <ImageButton
