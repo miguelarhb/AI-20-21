@@ -75,6 +75,9 @@ public class LoginActivity extends BaseActivity {
                     Toast.makeText(LoginActivity.this, "Welcome " + username, Toast.LENGTH_SHORT).show();
                     gd.setCurrentUser(new User(username));
                     writeSharedPreferencesString("username", username);
+                    getUserMode(username);
+                    getCaretaker();
+                    getData();
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -88,8 +91,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<String> call, Throwable t) {
-                logThis("failedlogin");
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                makeToast("Login failed");
             }
         });
     }
@@ -110,7 +112,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                makeToast("Create user failed");
             }
         });
     }

@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(@NonNull Call<ArrayList<String>> call, @NonNull Throwable t) {
-                    if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                    if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
                 }
             });
 
@@ -110,24 +110,6 @@ public class MainActivity extends BaseActivity {
 
         }
         else{
-
-            Call<String> call = userApi.getCaretaker(gd.getCurrentUser().getUsername());
-
-            call.enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                    if(response.code() == 200) {
-                        gd.getCurrentUser().setCaretaker(new User(response.body()));
-                    } else if (response.code() == 400) {
-                        makeToast("Error");
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                    if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
-                }
-            });
 
             ImageButton scheduleBt = findViewById(R.id.btScheduleP);
             ImageButton prescriptionsBt = findViewById(R.id.buttonPrescriptionsP);

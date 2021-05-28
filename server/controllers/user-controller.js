@@ -93,8 +93,10 @@ const getCaretaker = (req, res) => {
         .then((userFound) => {
             User.findById(userFound.caretaker)
                 .then((caretakerFound) => {
-                    res.status(200).send(caretakerFound.username)
+                    const jsonName = JSON.stringify(caretakerFound.username)
+                    res.status(200).send(jsonName)
                     console.log('Sent Caretaker')
+                    console.log(caretakerFound.username)
                 })
                 .catch((err) => {
                     console.log('No Caretaker Found Error: ' + err)
@@ -199,6 +201,10 @@ const getAllPatient = (req, res) => {
     const queryUser = { username: req.query.name }
     User.findOne(queryUser)
         .then((userFound) => {
+            if (userFound.patients.length == 0) {
+                res.status(200).send(list)
+                console.log('Sent All Patient')
+            }
             userFound.patients.forEach((patientID) => {
                 User.findById(patientID)
                     .then((patient) => {

@@ -52,4 +52,7 @@ public interface UserApi {
 
     @GET("user/getAllRequestPatient")
     Call<ArrayList<String>> getAllRequestPatient(@Query("name") String username);
+
+    @POST("user/acceptRequestPatient")
+    Call<Void> acceptRequestPatient(@Query("name") String username, @Query("caretaker") String caretaker);
 }

@@ -46,7 +46,7 @@ public class RequestsActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<String>> call, @NonNull Throwable t) {
-                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
             }
         });
 
@@ -74,7 +74,7 @@ public class RequestsActivity extends BaseActivity {
 
     public void accept(User u) {
 
-        Call<Void> onlyCall = userApi.acceptRequestPatient(u.getUsername(), gd.getCurrentUser().getUsername());
+        Call<Void> onlyCall = userApi.acceptRequestPatient(gd.getCurrentUser().getUsername(), u.getUsername());
 
         onlyCall.enqueue(new Callback<Void>() {
             @Override
@@ -91,10 +91,10 @@ public class RequestsActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
             }
         });
-        
+
     }
 
     public void decline(User u) {
@@ -112,7 +112,7 @@ public class RequestsActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
             }
         });
 
@@ -132,7 +132,7 @@ public class RequestsActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
             }
         });
     }
