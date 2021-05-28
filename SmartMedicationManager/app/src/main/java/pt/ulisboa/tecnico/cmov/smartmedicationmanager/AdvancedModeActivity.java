@@ -2,8 +2,8 @@ package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
@@ -18,7 +18,7 @@ public class AdvancedModeActivity extends BaseActivity {
         loadToolbar();
 
         switchCompat = findViewById(R.id.advancedModeSwitch);
-        TextView logoutTxt = findViewById(R.id.logoutTxt);
+        Button logoutTxt = findViewById(R.id.btnLogout);
 
         if (getSharedPreferenceBoolean("MODE")){
             switchCompat.setChecked(true);

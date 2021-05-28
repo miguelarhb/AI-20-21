@@ -406,6 +406,61 @@ const getAllRequestCaretaker = (req, res) => {
         })
 }
 
+const acceptRequestPatient = (req, res) => {
+    const userName = req.query.name
+    const caretakerName = req.query.caretaker
+    const queryUser = { username: userName }
+    const queryCaretaker = { username: caretakerName }
+    User.findOne(queryUser)
+        .then((userFound) => {
+            User.findOne(queryCaretaker)
+                .then((caretakerFound) => {
+                    userFound.requestPatient.forEach((patientRequestFoundID) => {
+                        if (patientRequestFoundID == caretakerFound.id) {
+                            var filtered = userFound.requestPatient.filter((value) => {
+                                return value != patientRequestFoundID;
+                            })
+                            userFound.requestPatient = filtered
+                            userFound.caretaker = caretakerFound.id
+                            userFound.save()
+                                .then(() => {
+                                    caretakerFound.requestCaretaker.forEach((caretakerRequestFoundID) => {
+                                        if (caretakerRequestFoundID == userFound.id) {
+                                            var filtered2 = caretakerFound.requestCaretaker.filter((value) => {
+                                                return value != caretakerRequestFoundID;
+                                            })
+                                            caretakerFound.requestCaretaker = filtered2
+                                            caretakerFound.patients.push(userFound.id)
+                                            caretakerFound.save()
+                                                .then(() => {
+                                                    res.status(200).send()
+                                                    console.log('Accepted')
+                                                })
+                                                .catch((err) => {
+                                                    console.log('Caretaker Save Error: ' + err)
+                                                    res.status(400).send()
+                                                })
+                                        }
+                                    })
+                                })
+                                .catch((err) => {
+                                    console.log('User Save Error: ' + err)
+                                    res.status(400).send()
+                                })
+                        }
+                    })
+                })
+                .catch((err) => {
+                    console.log('No Caretaker Found Error: ' + err)
+                    res.status(400).send()
+                })
+        })
+        .catch((err) => {
+            console.log('No User Found Error: ' + err)
+            res.status(400).send()
+        })
+}
+
 module.exports = {
     createUser,
     loginUser,
@@ -420,5 +475,6 @@ module.exports = {
     getCaretaker,
     getAllPatient,
     getAllRequestPatient,
-    getAllRequestCaretaker
+    getAllRequestCaretaker,
+    acceptRequestPatient
 }

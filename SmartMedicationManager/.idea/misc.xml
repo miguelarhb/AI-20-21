@@ -19,9 +19,15 @@
         <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/activity_main_patient.xml" value="0.3171875" />
         <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/activity_manage_patients.xml" value="0.3171875" />
         <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/activity_medicine_list.xml" value="0.2554347826086957" />
+        <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/activity_schedule.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/activity_schedule_list.xml" value="0.3171875" />
+        <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/caretaker_alarm_list_item.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/medicine_list_item.xml" value="0.19041188386225524" />
+        <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/medicine_list_item_patient.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/patient_list_item.xml" value="0.3171875" />
+        <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/prescription_list_item.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/prescription_list_item_patient.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/request_list_item.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/schedule_list_item.xml" value="0.37817028985507245" />
         <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/layout/toolbar.xml" value="0.37817028985507245" />
         <entry key="..\:/Users/Miguel Baptista/Documents/MEIC/1Ano_2Semestre/AI/AI-20-21/SmartMedicationManager/app/src/main/res/menu/mainmenu_caretaker.xml" value="0.38697916666666665" />
