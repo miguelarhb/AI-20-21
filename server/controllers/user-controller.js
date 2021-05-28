@@ -350,7 +350,7 @@ const removeRequestCaretaker = (req, res) => {
                 User.findById(caretakerID)
                     .then((caretaker) => {
                         if (caretaker.username == queryCaretaker) {
-                            
+
                             var filtered = userFound.requestCaretaker.filter((value) => {
                                 return value != caretakerID;
                             })
