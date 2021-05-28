@@ -21,6 +21,9 @@ router.post('/addPatient*', userController.addPatient)
 // POST
 router.post('/addCaretaker*', userController.addCaretaker)
 
+// POST
+router.post('/acceptRequestPatient*', userController.acceptRequestPatient)
+
 // DELETE
 router.delete('/removeCaretaker*', userController.deleteCaretaker)
 
@@ -44,6 +47,5 @@ router.get('/getAllRequestPatient*', userController.getAllRequestPatient)
 
 // GET
 router.get('/getAllRequestCaretaker*', userController.getAllRequestCaretaker)
-
 
 module.exports = router
