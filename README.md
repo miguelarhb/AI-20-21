@@ -3,7 +3,7 @@
 
 ## Android Mobile App - MEDIFY
 
-### In order to test server/README.md & SmartMedicationManager/README.md
+### In order to test please read server/README.md & SmartMedicationManager/README.md
 
 #### Features:
 
@@ -42,3 +42,10 @@
         - Software sensor emulation at the moment
     - Images in Medicine / Prescriptions
     - Improve security with HTTPS
+    
+##### Authors
+
+Miguel Baptista 86481
+
+João Nogueira 98775
+
