@@ -1,6 +1,7 @@
 const Item = require('../models/item-model')
 const Prescription = require('../models/prescription-model')
 const User = require('../models/user-model')
+const Prescription = require('../models/prescription-model')
 
 const addItem = (req, res) => {
     const newItem = new Item({

@@ -15,7 +15,7 @@ public class RescheduleAlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        //TODO
+        //complicated/impossible
 
         return START_STICKY;
     }

@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -58,9 +59,6 @@ public class MainActivity extends BaseActivity {
                         for (String s : response.body()){
                             gd.getCurrentUser().addPatient(new User(s));
                         }
-                        if (gd.getCurrentUser().getPatients().size()>0){
-                            gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
-                        }
                     } else if (response.code() == 400) {
                         makeToast("Error");
                     }
@@ -68,7 +66,7 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(@NonNull Call<ArrayList<String>> call, @NonNull Throwable t) {
-                    if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                    if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
                 }
             });
 
@@ -111,24 +109,6 @@ public class MainActivity extends BaseActivity {
         }
         else{
 
-            Call<String> call = userApi.getCaretaker(gd.getCurrentUser().getUsername());
-
-            call.enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                    if(response.code() == 200) {
-                        gd.getCurrentUser().setCaretaker(new User(response.body()));
-                    } else if (response.code() == 400) {
-                        makeToast("Error");
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                    if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
-                }
-            });
-
             ImageButton scheduleBt = findViewById(R.id.btScheduleP);
             ImageButton prescriptionsBt = findViewById(R.id.buttonPrescriptionsP);
             ImageButton medicationBt = findViewById(R.id.btnMedicationP);
@@ -138,13 +118,6 @@ public class MainActivity extends BaseActivity {
 
             if (gd.userHasCaretaker()){
                 welcome.setText("Assigned caretaker: "+gd.getCurrentUser().getCaretaker().getUsername());
-                //todo ask data from server and create alarms
-                for (Prescription p : gd.getCurrentUser().getPrescriptions()){
-                    if (!p.getPeriodicity().equals("test")){
-                        //makeToast("updating alarm");
-                        //p.setAlarm(getApplicationContext(), gd.getCurrentUser().getSchedule().indexOf(p));
-                    }
-                }
             }
             else{
                 welcome.setText("No assigned caretaker. Ask someone to assign you or switch to advanced mode.");
@@ -181,7 +154,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
 
             });
-
+            testAlarmBt.setVisibility(View.GONE);
             testAlarmBt.setOnClickListener(v -> {
                 if (true){
                     Prescription p = new Prescription();

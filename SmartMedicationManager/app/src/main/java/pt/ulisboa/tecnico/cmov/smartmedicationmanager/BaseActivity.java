@@ -20,7 +20,6 @@ import androidx.appcompat.widget.Toolbar;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -43,6 +42,7 @@ public class BaseActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
+    //ASSIGN PERSONAL IP HERE "http://<ip>:3000/"
     //static final String BASE_URL = "http://192.168.1.52:3000/";
     static final String BASE_URL = "http://192.168.1.11:3000/";
 
@@ -103,78 +103,6 @@ public class BaseActivity extends AppCompatActivity {
         if (gd.getCurrentUser() == null) {
             logThis("wat");
             gd.setCurrentUser(new User(getSharedPreferenceString("username")));
-        }
-
-        getUserMode(gd.getCurrentUser().getUsername());
-
-        //TODO remove later (test data)
-        if (getSharedPreferenceBoolean("MODE")) {
-
-            if (false) {
-                gd.getCurrentUser().addPatient(new User("Pedro"));
-                gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
-                gd.getCurrentUser().addPatient(new User("Ricardo"));
-
-                Medicine med = new Medicine();
-                med.setName("med1");
-                med.setQuantity(1);
-                med.setExpirationDate(new Date());
-                med.setNotes("notes");
-                //gd.getActivePatient().addMedicine(med);
-
-                Prescription p = new Prescription();
-                p.generateId();
-                p.setMedicine(new Medicine("Medicine1", 20));
-                p.setQuantity(1);
-                p.setStartDate(LocalDateTime.now().minusDays(1).plusHours(1));
-                p.setEndDate(LocalDateTime.now().plusDays(6));
-                p.setPeriodicity("1-Days");
-                p.setNotes("Must not die");
-                //
-                Prescription p2 = new Prescription();
-                p2.generateId();
-                p2.setMedicine(new Medicine("Medicine2", 5));
-                p2.setQuantity(2);
-                p2.setStartDate(LocalDateTime.now().minusDays(3).minusHours(1));
-                p2.setEndDate(LocalDateTime.now().plusDays(1));
-                p2.setPeriodicity("17-Hours");
-                p2.setNotes(":)");
-
-
-            }
-
-        } else {
-            //patient test data
-            if (false) {
-                gd.getCurrentUser().setCaretaker(new User("Carlos"));
-
-                Medicine med = new Medicine();
-                med.setName("med1");
-                med.setQuantity(1);
-                med.setExpirationDate(new Date());
-                med.setNotes("notes");
-                //gd.getCurrentUser().addMedicine(med);
-
-                Prescription p = new Prescription();
-                p.generateId();
-                p.setMedicine(new Medicine("Medicine1", 20));
-                p.setQuantity(1);
-                p.setStartDate(LocalDateTime.now().minusDays(1).plusHours(1));
-                p.setEndDate(LocalDateTime.now().plusDays(6));
-                p.setPeriodicity("1-Days");
-                p.setNotes("Must not die");
-                //gd.getCurrentUser().addPrescription(p, getApplicationContext());
-                //
-                Prescription p2 = new Prescription();
-                p2.generateId();
-                p2.setMedicine(new Medicine("Medicine2", 5));
-                p2.setQuantity(2);
-                p2.setStartDate(LocalDateTime.now().minusDays(3).minusHours(1));
-                p2.setEndDate(LocalDateTime.now().plusDays(1));
-                p2.setPeriodicity("17-Hours");
-                p2.setNotes(":)");
-                //gd.getCurrentUser().addPrescription(p2, getApplicationContext());
-            }
         }
 
         toolbar = findViewById(R.id.toolbar);
@@ -256,7 +184,7 @@ public class BaseActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<Medicine>> call, @NonNull Throwable t) {
-                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
             }
         });
 
@@ -269,6 +197,12 @@ public class BaseActivity extends AppCompatActivity {
                 if(response.code() == 200) {
                     if (patient){
                         gd.getCurrentUser().setPrescriptions(response.body());
+                        for (Prescription p: gd.getCurrentUser().getPrescriptions()){
+                            if (!p.getPeriodicity().equals("test")){
+                                p.setAlarm(BaseActivity.this);
+                            }
+
+                        }
                     }
                     else{
                         gd.getActivePatient().setPrescriptions(response.body());
@@ -280,37 +214,77 @@ public class BaseActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<Prescription>> call, @NonNull Throwable t) {
-                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
             }
         });
     }
 
     public void getUserMode(String username){
         Call<ArrayList<String>> call2 = userApi.getAllPatient(username);
-        logThis(1);
         call2.enqueue(new Callback<ArrayList<String>>() {
             @Override
             public void onResponse(@NonNull Call<ArrayList<String>> call, @NonNull Response<ArrayList<String>> response) {
                 if(response.code() == 200) {
-                    logThis("here");
                     if (response.body().size()>0){
-                        logThis("here2");
+                        gd.getCurrentUser().getPatients().clear();
+                        for (String s : response.body()){
+                            gd.getCurrentUser().getPatients().add(new User(s));
+                        }
+                        gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
                         writeSharedPreferencesBoolean("MODE", true);
                     }
                     else{
                         writeSharedPreferencesBoolean("MODE",false);
                     }
                 } else if (response.code() == 400) {
-                    logThis(2);
                     makeToast("Error");
                 }
+                getCaretaker();
             }
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<String>> call, @NonNull Throwable t) {
-                logThis(3);
-                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
             }
         });
+    }
+    public void getCaretaker(){
+        Call<String> call = userApi.getCaretaker(gd.getCurrentUser().getUsername());
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                if(response.code() == 200) {
+                    logThis("assign");
+                    gd.getCurrentUser().setCaretaker(new User(response.body()));
+                } else if (response.code() == 400) {
+                    logThis("caretaker error");
+                } else if (response.code() == 204) {
+                    logThis("no assigned caretaker");
+                }
+
+                getData();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                logThis("fail caretaker");
+                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
+            }
+        });
+    }
+    public void getData(){
+        if (getSharedPreferenceBoolean("MODE")){
+
+            getMedicinesAndPrescriptions(gd.getActivePatient().getUsername(), false);
+
+        }
+        else{
+            getMedicinesAndPrescriptions(gd.getCurrentUser().getUsername(), true);
+        }
+        Intent intent = new Intent(BaseActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
     }
 }

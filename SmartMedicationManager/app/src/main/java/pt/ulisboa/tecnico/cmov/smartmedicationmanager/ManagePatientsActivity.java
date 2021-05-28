@@ -44,11 +44,13 @@ public class ManagePatientsActivity extends BaseActivity {
                 if(response.code() == 200) {
                     gd.getCurrentUser().getPatients().clear();
                     for (String s : response.body()){
-                        logThis("patient->>>"+s);
                         gd.getCurrentUser().addPatient(new User(s));
                     }
                     if (gd.getCurrentUser().getPatients().size()>0){
-                        gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
+                        if (gd.getActivePatient()==null){
+                            gd.setActivePatient(gd.getCurrentUser().getPatients().get(0));
+                        }
+
                     }
                     refreshList();
                 } else if (response.code() == 400) {
@@ -58,11 +60,16 @@ public class ManagePatientsActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<String>> call, @NonNull Throwable t) {
-                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
             }
         });
 
         patients.addAll(gd.getCurrentUser().getPatients());
+        for (User user: patients){
+            if (user.getUsername().equals(gd.getCurrentUser().getUsername())){
+                selfAssignBt.setEnabled(false);
+            }
+        }
         adapter = new PatientListAdapter(this, R.layout.patient_list_item, patients, gd);
 
         patientList.setAdapter(adapter);
@@ -93,7 +100,7 @@ public class ManagePatientsActivity extends BaseActivity {
 
                             @Override
                             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
                             }
                         });
                     });
@@ -130,8 +137,10 @@ public class ManagePatientsActivity extends BaseActivity {
 
                 if (gd.userHasPatients()){
                     selfAssignBt.setEnabled(true);
-                    if (gd.getCurrentUser().getPatients().contains(gd.getCurrentUser())){
-                        selfAssignBt.setEnabled(false);
+                    for (User user: patients){
+                        if (user.getUsername().equals(gd.getCurrentUser().getUsername())){
+                            selfAssignBt.setEnabled(false);
+                        }
                     }
                 }
                 else{
@@ -164,7 +173,7 @@ public class ManagePatientsActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
             }
         });
 

@@ -1,14 +1,11 @@
 package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-
-import java.util.HashMap;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.data.GlobalData;
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.models.User;
@@ -44,7 +41,7 @@ public class LoginActivity extends BaseActivity {
         EditText usernameTxt = findViewById(R.id.usernameTxt);
         EditText passwordTxt = findViewById(R.id.passwordTxt);
 
-        // TODO remove later (na entrega)
+        // TODO remove later
         usernameTxt.setText("Paulo");
         passwordTxt.setText("123456");
 
@@ -55,7 +52,6 @@ public class LoginActivity extends BaseActivity {
         });
 
         createBtn.setOnClickListener(view -> {
-            HashMap<String, String> map = new HashMap<>();
 
             username = usernameTxt.getText().toString();
             String password = passwordTxt.getText().toString();
@@ -75,10 +71,9 @@ public class LoginActivity extends BaseActivity {
                     Toast.makeText(LoginActivity.this, "Welcome " + username, Toast.LENGTH_SHORT).show();
                     gd.setCurrentUser(new User(username));
                     writeSharedPreferencesString("username", username);
+                    getUserMode(username);
 
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+
                 } else if (response.code() == 404) {
                     Toast.makeText(LoginActivity.this, "No User Found", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 400) {
@@ -88,8 +83,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<String> call, Throwable t) {
-                logThis("failedlogin");
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                makeToast("Login failed");
             }
         });
     }
@@ -110,7 +104,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                makeToast("Create user failed");
             }
         });
     }

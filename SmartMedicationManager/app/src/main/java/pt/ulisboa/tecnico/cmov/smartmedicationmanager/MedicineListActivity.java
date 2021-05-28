@@ -67,7 +67,7 @@ public class MedicineListActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(@NonNull Call<ArrayList<Medicine>> call, @NonNull Throwable t) {
-                    if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                    if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
                 }
             });
         }
@@ -87,7 +87,7 @@ public class MedicineListActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(@NonNull Call<ArrayList<Medicine>> call, @NonNull Throwable t) {
-                    if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                    if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
                 }
             });
         }
@@ -129,7 +129,7 @@ public class MedicineListActivity extends BaseActivity {
     }
 
     public void deleteMedicine(Medicine m) {
-        Call<Void> call = medicineApi.deleteMedicine(gd.getCurrentUser().getUsername(), m.getName());
+        Call<Void> call = medicineApi.deleteMedicine(gd.getActivePatient().getUsername(), m.getName());
 
         call.enqueue(new Callback<Void>() {
             @Override
@@ -145,7 +145,7 @@ public class MedicineListActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+                if (!t.getMessage().equals("timeout")) { logThis(t.getMessage()); }
             }
         });
 
