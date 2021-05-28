@@ -1,5 +1,6 @@
 const Item = require('../models/item-model')
 const User = require('../models/user-model')
+const Prescription = require('../models/prescription-model')
 
 const addItem = (req, res) => {
     const newItem = new Item({
@@ -48,20 +49,69 @@ const deleteItem = (req, res) => {
                 Item.findById(itemID)
                     .then((itemFound) => {
                         if (itemFound.name == deleteItemName) {
-                            Item.findByIdAndDelete(itemID)
-                            var filtered = userFound.items.filter((value) => {
-                                return value != itemID;
-                            })
-                            userFound.items = filtered
-                            userFound.save()
-                                .then(() => {
-                                    res.status(200).send()
-                                    console.log("Item deleted")
+                            console.log("1")
+                            if (userFound.schedule.length != 0) {
+                                console.log("2")
+                                userFound.schedule.forEach((prescriptionID) => {
+                                    Prescription.findById(prescriptionID)
+                                        .then((prescriptionFound) => {
+                                            if (prescriptionFound.item == deleteItemName) {
+                                                console.log("3")
+                                                Prescription.findByIdAndDelete(prescriptionID)
+                                                    .then(() => {
+                                                        var filtered = userFound.schedule.filter((value) => {
+                                                            return value != prescriptionID;
+                                                        })
+                                                        userFound.schedule = filtered
+                                                        Item.findByIdAndDelete(itemID)
+                                                            .then(() => {
+                                                                filtered = userFound.items.filter((value) => {
+                                                                    return value != itemID;
+                                                                })
+                                                                userFound.items = filtered
+                                                                userFound.save()
+                                                                    .then(() => {
+                                                                        res.status(200).send()
+                                                                        console.log("Item deleted")
+                                                                    })
+                                                                    .catch((err) => {
+                                                                        res.status(400).send()
+                                                                        console.log('Item - Save Failure in User error: ' + err)
+                                                                    })
+                                                            })
+                                                            .catch((err) => {
+                                                                res.status(400).send()
+                                                                console.log('Item - Not Deleted error: ' + err)
+                                                            })
+                                                    })
+                                                    .catch((err) => {
+                                                        res.status(400).send()
+                                                        console.log('Prescription - Not Deleted error: ' + err)
+                                                    })
+                                            }
+                                        })
+                                        .catch((err) => {
+                                            res.status(400).send()
+                                            console.log('Prescription - Not Found error: ' + err)
+                                        })
                                 })
-                                .catch((err) => {
-                                    res.status(400).send()
-                                    console.log('Item - Save Failure in User error: ' + err)
+                            } else {
+                                Item.findByIdAndDelete(itemID)
+                                filtered = userFound.items.filter((value) => {
+                                    return value != itemID;
                                 })
+                                userFound.items = filtered
+                                userFound.save()
+                                    .then(() => {
+                                        res.status(200).send()
+                                        console.log("Item deleted")
+                                    })
+                                    .catch((err) => {
+                                        res.status(400).send()
+                                        console.log('Item - Save Failure in User error: ' + err)
+                                    })
+
+                            }
                         }
                     })
                     .catch((err) => {

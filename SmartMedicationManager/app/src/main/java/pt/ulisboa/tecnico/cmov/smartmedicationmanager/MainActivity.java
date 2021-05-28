@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.cmov.smartmedicationmanager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -117,13 +118,6 @@ public class MainActivity extends BaseActivity {
 
             if (gd.userHasCaretaker()){
                 welcome.setText("Assigned caretaker: "+gd.getCurrentUser().getCaretaker().getUsername());
-                //todo ask data from server and create alarms
-                for (Prescription p : gd.getCurrentUser().getPrescriptions()){
-                    if (!p.getPeriodicity().equals("test")){
-                        //makeToast("updating alarm");
-                        //p.setAlarm(getApplicationContext(), gd.getCurrentUser().getSchedule().indexOf(p));
-                    }
-                }
             }
             else{
                 welcome.setText("No assigned caretaker. Ask someone to assign you or switch to advanced mode.");
@@ -160,7 +154,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
 
             });
-
+            testAlarmBt.setVisibility(View.GONE);
             testAlarmBt.setOnClickListener(v -> {
                 if (true){
                     Prescription p = new Prescription();

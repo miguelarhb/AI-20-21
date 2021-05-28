@@ -129,7 +129,7 @@ public class MedicineListActivity extends BaseActivity {
     }
 
     public void deleteMedicine(Medicine m) {
-        Call<Void> call = medicineApi.deleteMedicine(gd.getCurrentUser().getUsername(), m.getName());
+        Call<Void> call = medicineApi.deleteMedicine(gd.getActivePatient().getUsername(), m.getName());
 
         call.enqueue(new Callback<Void>() {
             @Override

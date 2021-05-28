@@ -90,7 +90,6 @@ public class AlarmActivity extends BaseActivity {
         });
 
         btDismiss.setOnClickListener(v -> {
-            p.setAlarm(getApplicationContext());
             finish();
         });
 
