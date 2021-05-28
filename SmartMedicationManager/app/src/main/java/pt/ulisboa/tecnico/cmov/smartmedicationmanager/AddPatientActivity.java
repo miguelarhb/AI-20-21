@@ -21,7 +21,6 @@ import retrofit2.Response;
 public class AddPatientActivity extends BaseActivity {
     EditText usernameText;
     TextView serverCheck;
-    Button checkBt;
     Button submitBt;
 
     String username;
@@ -45,7 +44,6 @@ public class AddPatientActivity extends BaseActivity {
 
         usernameText = findViewById(R.id.addPatientEditText);
         serverCheck = findViewById(R.id.addPatientTextViewCheck);
-        checkBt = findViewById(R.id.addPatientCheckBt);
         submitBt = findViewById(R.id.addPatientSubmitBt);
 
         pendingRequestsList = findViewById(R.id.sentRequestsList);

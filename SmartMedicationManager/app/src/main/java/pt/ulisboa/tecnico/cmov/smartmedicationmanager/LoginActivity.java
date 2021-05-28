@@ -76,8 +76,6 @@ public class LoginActivity extends BaseActivity {
                     gd.setCurrentUser(new User(username));
                     writeSharedPreferencesString("username", username);
                     getUserMode(username);
-                    getCaretaker();
-                    getData();
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);

@@ -305,6 +305,7 @@ public class BaseActivity extends AppCompatActivity {
                 } else if (response.code() == 400) {
                     makeToast("Error");
                 }
+                getCaretaker();
             }
 
             @Override
@@ -323,6 +324,7 @@ public class BaseActivity extends AppCompatActivity {
                     gd.getCurrentUser().setCaretaker(new User(response.body()));
                 } else if (response.code() == 400) {
                 }
+                getData();
             }
 
             @Override
@@ -333,7 +335,9 @@ public class BaseActivity extends AppCompatActivity {
     }
     public void getData(){
         if (getSharedPreferenceBoolean("MODE")){
+
             getMedicinesAndPrescriptions(gd.getActivePatient().getUsername(), false);
+
         }
         else{
             getMedicinesAndPrescriptions(gd.getCurrentUser().getUsername(), true);
