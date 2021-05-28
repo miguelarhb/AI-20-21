@@ -25,7 +25,7 @@ const loginUser = (req, res) => {
         .then((result) => {
             if (result != null) {
                 console.log('User Login')
-                res.status(200).send(JSON.stringify(result))
+                res.status(200).send("true")
             } else {
                 console.log('Wrong Password')
                 res.status(400).send()
@@ -202,7 +202,7 @@ const getAllPatient = (req, res) => {
             userFound.patients.forEach((patientID) => {
                 User.findById(patientID)
                     .then((patient) => {
-                        list.push(patient.name)
+                        list.push(patient.username)
                         if (userFound.patients.length == list.length) {
                             res.status(200).send(list)
                             console.log('Sent All Patient')
@@ -294,7 +294,7 @@ const getAllRequestPatient = (req, res) => {
             userFound.requestPatient.forEach((patientID) => {
                 User.findById(patientID)
                     .then((patient) => {
-                        list.push(patient.name)
+                        list.push(patient.username)
                         if (userFound.requestPatient.length == list.length) {
                             res.status(200).send(list)
                             console.log('Sent All Request Patient')
@@ -350,9 +350,11 @@ const removeRequestCaretaker = (req, res) => {
                 User.findById(caretakerID)
                     .then((caretaker) => {
                         if (caretaker.username == queryCaretaker) {
+                            
                             var filtered = userFound.requestCaretaker.filter((value) => {
                                 return value != caretakerID;
                             })
+                            console.log(filtered)
                             userFound.requestPatient = filtered
                             userFound.save()
                                 .then(() => {
@@ -386,7 +388,7 @@ const getAllRequestCaretaker = (req, res) => {
             userFound.requestCaretaker.forEach((caretakerID) => {
                 User.findById(caretakerID)
                     .then((caretaker) => {
-                        list.push(caretaker.name)
+                        list.push(caretaker.username)
                         if (userFound.requestCaretaker.length == list.length) {
                             res.status(200).send(list)
                             console.log('Sent All Request Caretaker')

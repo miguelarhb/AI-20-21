@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import pt.ulisboa.tecnico.cmov.smartmedicationmanager.data.GlobalData;
@@ -50,59 +49,32 @@ public class LoginActivity extends BaseActivity {
         passwordTxt.setText("123456");
 
         loginBtn.setOnClickListener(view -> {
-            HashMap<String, String> map = new HashMap<>();
             username = usernameTxt.getText().toString();
-            map.put("username", username);
-            map.put("password", passwordTxt.getText().toString());
-
-            loginUser(map);
+            String password = passwordTxt.getText().toString();
+            loginUser(new User(username, password));
         });
 
         createBtn.setOnClickListener(view -> {
             HashMap<String, String> map = new HashMap<>();
 
-            map.put("username", usernameTxt.getText().toString());
-            map.put("password", passwordTxt.getText().toString());
+            username = usernameTxt.getText().toString();
+            String password = passwordTxt.getText().toString();
 
-            createUser(map);
+            createUser(new User(username,password));
         });
     }
 
-    private void loginUser(HashMap<String, String> map) {
+    private void loginUser(User u) {
 
-        Call<User> call = userApi.loginUserPost(map);
+        Call<String> call = userApi.loginUserPost(u);
 
-        call.enqueue(new Callback<User>() {
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.code() == 200) {
                     Toast.makeText(LoginActivity.this, "Welcome " + username, Toast.LENGTH_SHORT).show();
                     gd.setCurrentUser(new User(username));
                     writeSharedPreferencesString("username", username);
-
-                    Call<ArrayList<String>> call2 = userApi.getAllPatient(username);
-
-                    call2.enqueue(new Callback<ArrayList<String>>() {
-                        @Override
-                        public void onResponse(@NonNull Call<ArrayList<String>> call, @NonNull Response<ArrayList<String>> response) {
-                            if(response.code() == 200) {
-                                if (response.body().size()>0){
-                                    logThis("here");
-                                    writeSharedPreferencesBoolean("MODE", true);
-                                }
-                                else{
-                                    writeSharedPreferencesBoolean("MODE",false);
-                                }
-                            } else if (response.code() == 400) {
-                                makeToast("Error");
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<ArrayList<String>> call, @NonNull Throwable t) {
-                            makeToast(t.getMessage());
-                        }
-                    });
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -115,15 +87,16 @@ public class LoginActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<User> call, Throwable t) {
+            public void onFailure(@NonNull Call<String> call, Throwable t) {
+                logThis("failedlogin");
                 Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void createUser(HashMap<String, String> map) {
+    private void createUser(User u) {
 
-        Call<Void> call = userApi.createUserPost(map);
+        Call<Void> call = userApi.createUserPost(u);
 
         call.enqueue(new Callback<Void>() {
             @Override

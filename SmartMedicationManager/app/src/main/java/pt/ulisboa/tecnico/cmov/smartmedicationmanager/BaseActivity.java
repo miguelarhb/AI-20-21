@@ -105,6 +105,8 @@ public class BaseActivity extends AppCompatActivity {
             gd.setCurrentUser(new User(getSharedPreferenceString("username")));
         }
 
+        getUserMode(gd.getCurrentUser().getUsername());
+
         //TODO remove later (test data)
         if (getSharedPreferenceBoolean("MODE")) {
 
@@ -254,7 +256,7 @@ public class BaseActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<Medicine>> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
+                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
             }
         });
 
@@ -278,7 +280,36 @@ public class BaseActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<Prescription>> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
+                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
+            }
+        });
+    }
+
+    public void getUserMode(String username){
+        Call<ArrayList<String>> call2 = userApi.getAllPatient(username);
+        logThis(1);
+        call2.enqueue(new Callback<ArrayList<String>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<String>> call, @NonNull Response<ArrayList<String>> response) {
+                if(response.code() == 200) {
+                    logThis("here");
+                    if (response.body().size()>0){
+                        logThis("here2");
+                        writeSharedPreferencesBoolean("MODE", true);
+                    }
+                    else{
+                        writeSharedPreferencesBoolean("MODE",false);
+                    }
+                } else if (response.code() == 400) {
+                    logThis(2);
+                    makeToast("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<String>> call, @NonNull Throwable t) {
+                logThis(3);
+                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
             }
         });
     }

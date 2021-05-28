@@ -164,7 +164,7 @@ public class AddPrescriptionActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
+                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
             }
         });
     }
@@ -189,7 +189,7 @@ public class AddPrescriptionActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
+                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
             }
         });
     }

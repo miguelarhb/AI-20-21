@@ -44,6 +44,7 @@ public class ManagePatientsActivity extends BaseActivity {
                 if(response.code() == 200) {
                     gd.getCurrentUser().getPatients().clear();
                     for (String s : response.body()){
+                        logThis("patient->>>"+s);
                         gd.getCurrentUser().addPatient(new User(s));
                     }
                     if (gd.getCurrentUser().getPatients().size()>0){
@@ -57,7 +58,7 @@ public class ManagePatientsActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<String>> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
+                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
             }
         });
 
@@ -92,7 +93,7 @@ public class ManagePatientsActivity extends BaseActivity {
 
                             @Override
                             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                                makeToast(t.getMessage());
+                                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
                             }
                         });
                     });
@@ -163,7 +164,7 @@ public class ManagePatientsActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
+                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
             }
         });
 

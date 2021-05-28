@@ -80,7 +80,7 @@ public class PrescriptionListActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<Prescription>> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
+                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
             }
         });
 
@@ -113,7 +113,7 @@ public class PrescriptionListActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<Medicine>> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
+                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
             }
         });
     }
@@ -165,7 +165,7 @@ public class PrescriptionListActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
+                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
             }
         });
     }

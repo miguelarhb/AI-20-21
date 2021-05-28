@@ -46,7 +46,7 @@ public class RequestsActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<String>> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
+                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
             }
         });
 
@@ -74,60 +74,9 @@ public class RequestsActivity extends BaseActivity {
 
     public void accept(User u) {
 
-        Call<Void> call = userApi.deleteRequestCaretaker(u.getUsername(), gd.getCurrentUser().getUsername());
+        Call<Void> onlyCall = userApi.acceptRequestPatient(u.getUsername(), gd.getCurrentUser().getUsername());
 
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if(response.code() == 200) {
-                } else if (response.code() == 400) {
-                    makeToast("Error");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
-            }
-        });
-
-        Call<Void> call2 = userApi.deleteRequestPatient(gd.getCurrentUser().getUsername(), u.getUsername());
-
-        call2.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if(response.code() == 200) {
-                } else if (response.code() == 400) {
-                    makeToast("Error");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
-            }
-        });
-
-        Call<Void> call3 = userApi.addPatient(u.getUsername(), gd.getCurrentUser().getUsername());
-
-        call3.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if(response.code() == 200) {
-                } else if (response.code() == 400) {
-                    makeToast("Error");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
-            }
-        });
-
-        Call<Void> call4 = userApi.addCaretaker(gd.getCurrentUser().getUsername(), u.getUsername());
-
-        call4.enqueue(new Callback<Void>() {
+        onlyCall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if(response.code() == 200) {
@@ -142,9 +91,10 @@ public class RequestsActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
+                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
             }
         });
+        
     }
 
     public void decline(User u) {
@@ -162,7 +112,7 @@ public class RequestsActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
+                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
             }
         });
 
@@ -174,6 +124,7 @@ public class RequestsActivity extends BaseActivity {
                 if(response.code() == 200) {
                     gd.getCurrentUser().getRequests().remove(u);
                     refreshList();
+                    makeToast("Declined");
                 } else if (response.code() == 400) {
                     makeToast("Error");
                 }
@@ -181,7 +132,7 @@ public class RequestsActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                makeToast(t.getMessage());
+                if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
             }
         });
     }

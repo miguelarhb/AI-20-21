@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(@NonNull Call<ArrayList<String>> call, @NonNull Throwable t) {
-                    makeToast(t.getMessage());
+                    if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
                 }
             });
 
@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity {
 
             }
             else{
-                welcome.setText("No patients assigned. Please access the Manage Patients setting to set yourself or someone else as patient.\n\nWelcome "+gd.getCurrentUser().getUsername());
+                welcome.setText("No patients assigned. Please access the Manage Patients setting to set yourself or someone else as patient.");
                 medicineBt.setEnabled(false);
                 scheduleBt.setEnabled(false);
                 alarmsBt.setEnabled(false);
@@ -125,7 +125,7 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                    makeToast(t.getMessage());
+                    if (!t.getMessage().equals("timeout")) { makeToast(t.getMessage()); }
                 }
             });
 
